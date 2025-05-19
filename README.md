@@ -26,9 +26,9 @@ Capacitar empreendedores por meio de uma plataforma...
 - RESTful APIs  
 - HTTPS / JWT
 
-- ## 🧑‍💻 Equipe
+## 👨‍👩‍👦 Equipe
 
-- **Fernando Amorim**
-- **Pedro Trovo**
-- **João Rossi**
-- **Fabio Azevedo**
+- [**Fabio Azevedo**](https://github.com/FabioPojects)  
+- [**Fernando Amorim**](https://github.com/FernandoAmoriim)  
+- [**João Rossi**](https://github.com/JoaoRossii)  
+- [**Pedro Trovo**](https://github.com/PedroTrovoSouza)

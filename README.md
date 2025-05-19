@@ -20,7 +20,7 @@ Capacitar empreendedores por meio de uma plataforma...
 ## 🛠️ **Tecnologias Utilizadas**
 
 - Spring Boot  
-- PostgreSQL  
+- MySql  
 - Docker  
 - Kafka  
 - RESTful APIs  

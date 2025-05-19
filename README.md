@@ -25,3 +25,10 @@ Capacitar empreendedores por meio de uma plataforma...
 - Kafka  
 - RESTful APIs  
 - HTTPS / JWT
+
+- ## 🧑‍💻 Equipe
+
+- **Fernando Amorim**
+- **Pedro Trovo**
+- **João Rossi**
+- **Fabio Azevedo**

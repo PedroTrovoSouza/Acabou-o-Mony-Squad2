@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Getter
@@ -15,18 +16,23 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Pedido {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    long id_pedido;
+    private Long idPedido;
 
     private double valorTotal;
+
+    @Temporal(TemporalType.TIMESTAMP)
     private Date dataPedido;
 
-    @OneToMany
-    private Produto produto;
+    @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL)
+    private List<Produto> produtos;
 
-    @OneToMany
+    @ManyToOne
+    @JoinColumn(name = "cartao_id")
     private Cartao cartao;
 
+    @Enumerated(EnumType.STRING)
     private StatusPedido status;
 }

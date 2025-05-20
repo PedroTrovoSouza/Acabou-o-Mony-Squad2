@@ -33,4 +33,7 @@ public class Conta {
     private BigDecimal limiteCredito;
 
     private Boolean isAtiva;
+
+    @ManyToOne
+    private Cliente cliente;
 }

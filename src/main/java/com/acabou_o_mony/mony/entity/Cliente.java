@@ -1,6 +1,7 @@
 package com.acabou_o_mony.mony.entity;
 
 import com.acabou_o_mony.mony.enums.Genero;
+import com.acabou_o_mony.mony.enums.PerfilEconomico;
 import com.acabou_o_mony.mony.enums.TipoRazaoSocial;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -26,12 +27,22 @@ public class Cliente {
 
     private TipoRazaoSocial razaoSocial;
 
-    private String perfilEconomico;
+    private PerfilEconomico perfilEconomico;
 
     private LocalDate dataNascimento;
 
     private Genero genero;
 
-    @OneToMany
-    private List<Conta> contas;
+    public Cliente(String cpfOuCnpj, TipoRazaoSocial razaoSocial, LocalDate dataNascimento, Genero genero) {
+        this.cpfOuCnpj = cpfOuCnpj;
+        this.razaoSocial = razaoSocial;
+        this.dataNascimento = dataNascimento;
+        this.genero = genero;
+    }
+
+    public Cliente(LocalDate dataNascimento, Genero genero) {
+        this.dataNascimento = dataNascimento;
+        this.genero = genero;
+    }
+
 }

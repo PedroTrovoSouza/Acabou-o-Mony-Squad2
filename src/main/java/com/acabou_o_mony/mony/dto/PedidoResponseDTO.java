@@ -1,32 +1,20 @@
-package com.acabou_o_mony.mony.entity;
+package com.acabou_o_mony.mony.dto;
 
+import com.acabou_o_mony.mony.entity.Produto;
 import com.acabou_o_mony.mony.enums.StatusPedido;
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 import java.util.Date;
 
-@Entity
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Pedido {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    long id_pedido;
-
+public class PedidoResponseDTO {
     private double valorTotal;
     private Date dataPedido;
-
-    @OneToMany
     private Produto produto;
-
-    @OneToMany
-    private Cartao cartao;
-
-    private StatusPedido status;
+    private StatusPedido statusPedido;
 }

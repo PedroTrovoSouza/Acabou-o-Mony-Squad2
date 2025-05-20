@@ -1,4 +1,33 @@
 package com.acabou_o_mony.mony.entity;
 
+import com.acabou_o_mony.mony.enums.CategoriaProduto;
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+
+@Getter
+@Setter
+@NoArgsConstructor
+@Entity
 public class Produto {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String nome;
+
+    @Enumerated(EnumType.STRING)
+    CategoriaProduto categoriaProduto;
+
+    private Double preco;
+
+    private String qtd_estoque;
+
+
+
+
+
 }

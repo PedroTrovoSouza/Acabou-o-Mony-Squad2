@@ -12,3 +12,4 @@ public interface MapperPedido {
     PedidoResponseDTO toPedidoResponseDTO(Pedido entity);
 }
 
+}

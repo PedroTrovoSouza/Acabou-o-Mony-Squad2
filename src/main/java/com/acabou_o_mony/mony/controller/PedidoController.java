@@ -1,15 +1,13 @@
 package com.acabou_o_mony.mony.controller;
 
-import com.acabou_o_mony.mony.dto.PedidoResponseDTO;
+import com.acabou_o_mony.mony.dto.PedidoCartaoProdutoDTO;
+import com.acabou_o_mony.mony.dto.PedidoRequestDTO;
+import com.acabou_o_mony.mony.entity.Pedido;
 import com.acabou_o_mony.mony.service.PedidoService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.actuate.autoconfigure.observation.ObservationProperties;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/pedido")
@@ -23,9 +21,19 @@ public class PedidoController {
         try {
             return ResponseEntity.status(200).body(pedidoService.buscarPedido(id));
         }catch (RuntimeException e){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+            return ResponseEntity.status(404).body(e.getMessage());
         }
     }
-}
+
+    @PostMapping("/cadastrar")
+    public ResponseEntity<?> postPedido(@RequestBody PedidoCartaoProdutoDTO novoPedido) {
+        try {
+            PedidoCartaoProdutoDTO pedidoCriado = pedidoService.cadastrarPedido(novoPedido);
+            return ResponseEntity.status(HttpStatus.CREATED).body(pedidoCriado);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Erro ao cadastrar pedido");
+        }
+    }
+
 }
 

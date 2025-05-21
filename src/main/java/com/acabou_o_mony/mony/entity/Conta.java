@@ -36,4 +36,17 @@ public class Conta {
 
     @ManyToOne
     private Cliente cliente;
+
+    public Conta(String agencia, TipoConta tipoConta, Boolean isDebito, Boolean isCredito, Cliente cliente) {
+        this.agencia = agencia;
+        this.tipoConta = tipoConta;
+        this.isDebito = isDebito;
+        this.isCredito = isCredito;
+        this.cliente = cliente;
+    }
+
+    public Conta(String agencia, TipoConta tipoConta) {
+        this.agencia = agencia;
+        this.tipoConta = tipoConta;
+    }
 }

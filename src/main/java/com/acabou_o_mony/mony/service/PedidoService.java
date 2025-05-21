@@ -10,7 +10,6 @@ import com.acabou_o_mony.mony.mapper.MapperPedido;
 import com.acabou_o_mony.mony.repository.CartaoRepository;
 import com.acabou_o_mony.mony.repository.PedidoRepository;
 import com.acabou_o_mony.mony.repository.ProdutoRepository;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+import java.util.Optional;
 
 @Repository
 public interface ProdutoRepository extends JpaRepository<Produto, Long> {
@@ -31,4 +32,6 @@ public interface ProdutoRepository extends JpaRepository<Produto, Long> {
     @Transactional
     @Query("UPDATE Produto u set u.qtd_estoque = :qtd_estoque WHERE u.id = :id")
     int atualizarQtdEstoque(Long id , int qtd_estoque);
+
+    Optional<Produto> findByNumero(String nome);
 }

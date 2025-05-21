@@ -3,8 +3,6 @@ package com.acabou_o_mony.mony.mapper;
 
 import com.acabou_o_mony.mony.dto.produto.CadastroProdutoDTO;
 import com.acabou_o_mony.mony.dto.produto.ListagemProdutoDTO;
-import com.acabou_o_mony.mony.dto.produto.ProdutoRequestDTO;
-import com.acabou_o_mony.mony.dto.produto.ProdutoResponseDTO;
 import com.acabou_o_mony.mony.entity.Produto;
 import org.mapstruct.Mapper;
 

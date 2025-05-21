@@ -31,7 +31,4 @@ public class Transacao {
 
     @OneToOne
     private Cartao cartao;
-
-    @OneToOne
-    private Conta conta;
 }

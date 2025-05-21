@@ -24,4 +24,4 @@ public interface MapperPedido {
 
     PedidoCartaoProdutoDTO toPedidoCartaoProdutoDTO(Pedido entity);
 }
-
+}

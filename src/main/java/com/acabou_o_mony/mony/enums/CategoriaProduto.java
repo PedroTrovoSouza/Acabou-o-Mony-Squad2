@@ -1,6 +1,6 @@
 package com.acabou_o_mony.mony.enums;
 
-public enum Categoria {
+public enum CategoriaProduto {
     ELETRONICOS("Eletrônicos"),
     ROUPAS_ACESSORIOS("Roupas e Acessórios"),
     ALIMENTOS_BEBIDAS("Alimentos e Bebidas"),
@@ -14,12 +14,12 @@ public enum Categoria {
 
     private String descricao;
 
-    Categoria(String descricao) {
+    CategoriaProduto(String descricao) {
         this.descricao = descricao;
     }
 
-    public static Categoria fromString(String text) {
-        for (Categoria categoria : Categoria.values()) {
+    public static CategoriaProduto fromString(String text) {
+        for (CategoriaProduto categoria : CategoriaProduto.values()) {
             if (categoria.descricao.equalsIgnoreCase(text)) {
                 return categoria;
             }

@@ -29,7 +29,6 @@ public class TransacaoMapper {
 
         Conta conta = new Conta();
         conta.setId(dto.getContaId());
-        transacao.setConta(conta);
 
         return transacao;
     }
@@ -61,10 +60,6 @@ public class TransacaoMapper {
                 cartaoDTO.setContaId(cartao.getConta().getId());
             }
             dto.setCartao(cartaoDTO);
-        }
-
-        if (transacao.getConta() != null) {
-            dto.setContaId(transacao.getConta().getId());
         }
 
         return dto;

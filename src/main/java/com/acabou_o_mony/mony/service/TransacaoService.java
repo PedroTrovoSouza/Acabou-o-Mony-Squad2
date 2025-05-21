@@ -1,11 +1,17 @@
 package com.acabou_o_mony.mony.service;
 
+import com.acabou_o_mony.mony.entity.Cartao;
+import com.acabou_o_mony.mony.entity.Conta;
 import com.acabou_o_mony.mony.entity.Transacao;
+import com.acabou_o_mony.mony.enums.Status;
 import com.acabou_o_mony.mony.repository.TransacaoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
+@Service
 public class TransacaoService {
 
     @Autowired
@@ -16,9 +22,24 @@ public class TransacaoService {
             throw new RuntimeException("Impossível seguir com cadastro, dados inválidos");
         }
 
-        Transacao transacaoSalva = repository.save(transacao);
+        Cartao cartao = transacao.getCartao();
 
-        return transacaoSalva;
+        if (cartao == null || cartao.getConta() == null) {
+            throw new RuntimeException("Cartão ou conta não informados corretamente.");
+        }
+
+        Conta conta = cartao.getConta();
+        BigDecimal saldoAtual = conta.getSaldo();
+        BigDecimal valorTransacao = BigDecimal.valueOf(transacao.getValor());
+
+        if (valorTransacao.compareTo(BigDecimal.ZERO) <= 0 || valorTransacao.compareTo(saldoAtual) > 0) {
+            transacao.setStatus(Status.FALHA);
+        } else {
+            transacao.setStatus(Status.SUCESSO);
+            conta.setSaldo(saldoAtual.subtract(valorTransacao));
+        }
+
+        return repository.save(transacao);
     }
 
     public List<Transacao> listarTodasTransacoes() {

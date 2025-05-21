@@ -26,8 +26,9 @@ public class Pedido {
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataPedido;
 
-    @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL)
-    private List<Produto> produtos;
+    @ManyToOne
+    @JoinColumn(name = "produto_id")
+    private Produto produto;
 
     @ManyToOne
     @JoinColumn(name = "cartao_id")

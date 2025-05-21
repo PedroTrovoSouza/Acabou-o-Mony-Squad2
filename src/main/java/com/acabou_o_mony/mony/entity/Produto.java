@@ -1,5 +1,6 @@
 package com.acabou_o_mony.mony.entity;
 
+
 import com.acabou_o_mony.mony.dto.produto.CadastroProdutoDTO;
 import com.acabou_o_mony.mony.enums.CategoriaProduto;
 import jakarta.persistence.*;
@@ -8,10 +9,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-
+@Entity
 @Getter
 @Setter
+@AllArgsConstructor
 @NoArgsConstructor
+
 @AllArgsConstructor
 @Entity
 public class Produto {
@@ -21,6 +24,8 @@ public class Produto {
     private Long id;
 
     private String nome;
+    private double preco;
+}
 
     @Enumerated(EnumType.STRING)
     CategoriaProduto categoria;

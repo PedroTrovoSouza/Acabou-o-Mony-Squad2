@@ -5,15 +5,14 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import java.util.Date;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class PedidoResponseDTO {
-    private double valorTotal;
-    private Date dataPedido;
-    private String nomeProduto;
-    private StatusPedido statusPedido;
+public class PedidoCartaoProdutoDTO {
+    double valorTotal;
+    String numeroCartao;
+    String nomeProduto;
+    StatusPedido status = StatusPedido.FINALIZADO;
 }

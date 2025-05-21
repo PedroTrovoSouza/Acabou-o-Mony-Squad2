@@ -74,5 +74,4 @@ public class ClienteService {
         PessoaJuridica cliente = buscarEmpresaPorCnpj(cnpj);
         juridicaRepository.deleteById(cliente.getId());
     }
-
 }

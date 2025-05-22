@@ -22,9 +22,6 @@ public class ProdutoService {
     @Autowired
     MapperProduto mapperProduto;
 
-    @Autowired
-    ProdutoService produtoService;
-
     @Transactional
     public ListagemProdutoDTO saveProduto(CadastroProdutoDTO produtoDTO) {
         if (produtoRepository.existsByNome(produtoDTO.nome())) {

@@ -42,7 +42,7 @@ public class PedidoController {
     public ResponseEntity<?> deletePedido(@PathVariable long id){
         try {
             Optional<Pedido> pedidoDelete = pedidoService.deletePedido(id);
-            return ResponseEntity.status(200).build();
+            return ResponseEntity.status(204).build();
         }catch (RuntimeException e){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }

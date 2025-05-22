@@ -26,9 +26,6 @@ public class Pedido {
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataPedido;
 
-    @NotNull
-    private long numero;
-
     @ManyToOne
     @JoinColumn(name = "produto_id")
     private Produto produto;

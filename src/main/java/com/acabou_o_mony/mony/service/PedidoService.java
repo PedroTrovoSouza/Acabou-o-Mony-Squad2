@@ -10,6 +10,8 @@ import com.acabou_o_mony.mony.repository.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class PedidoService {
 
@@ -50,17 +52,17 @@ public class PedidoService {
 
         Pedido salvo = pedidoRepository.save(pedido);
 
-        return mapperPedido.toPedidoCartaoProdutoDTO(salvo);
+        return mapperPedido.toPedidoCartaoProdutoDTO(pedido);
     }
 
-    public Pedido deletePedido(long numero){
-        Pedido pedidoEncontrado = pedidoRepository.findByNumero(numero);
+    public Optional<Pedido> deletePedido(long id){
+        Optional<Pedido> pedidoEncontrado = pedidoRepository.findById(id);
 
         if (pedidoEncontrado == null){
             throw new RuntimeException("Pedido não encontrado");
         }
 
-        pedidoRepository.delete(pedidoEncontrado);
+        pedidoRepository.delete(pedidoEncontrado.get());
         return pedidoEncontrado;
     }
 }

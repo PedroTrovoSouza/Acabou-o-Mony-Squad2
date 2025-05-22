@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @RestController
 @RequestMapping("/pedido")
 public class PedidoController {
@@ -36,14 +38,13 @@ public class PedidoController {
         }
     }
 
-    @DeleteMapping("/cancelar/{numero}")
-    public ResponseEntity<?> deletePedido(@PathVariable long numero){
+    @DeleteMapping("/cancelar/{id}")
+    public ResponseEntity<?> deletePedido(@PathVariable long id){
         try {
-            Pedido pedidoDelete = pedidoService.deletePedido(numero);
+            Optional<Pedido> pedidoDelete = pedidoService.deletePedido(id);
             return ResponseEntity.status(200).build();
         }catch (RuntimeException e){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
-
 }

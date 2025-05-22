@@ -24,4 +24,10 @@ public class PessoaJuridica extends Cliente{
         this.cnpj = cnpj;
         this.dataFundacao = dataFundacao;
     }
+
+    public PessoaJuridica(Long id, String nome, String cnpj, LocalDate dataFundacao) {
+        super(id, nome);
+        this.cnpj = cnpj;
+        this.dataFundacao = dataFundacao;
+    }
 }

@@ -81,31 +81,35 @@ public class ContaService {
             conta.setAgencia(contaAlterada.getAgencia());
             conta.setTipoConta(contaAlterada.getTipoConta());
 
-            if (contaRepository.existsByTipoContaAndCliente(conta.getTipoConta(), conta.getCliente())){
+            if (contaRepository.existsByTipoContaAndClienteAndIdNot(conta.getTipoConta(), conta.getCliente(), conta.getId())){
                 throw new ContaConflitoException("Esse Cliente já possui uma conta desse tipo.");
             }
 
-            if (conta.getTipoConta() == TipoConta.CONTA_CORRENTE){
+        switch (conta.getTipoConta()) {
+            case CONTA_CORRENTE -> {
                 conta.setIsDebito(contaAlterada.getIsDebito());
                 conta.setIsCredito(contaAlterada.getIsCredito());
-                if (conta.getCliente() instanceof PessoaFisica pessoaFisica){
+                if (conta.getCliente() instanceof PessoaFisica pessoaFisica) {
                     conta.setLimiteCredito(pessoaFisica.getPerfilEconomico().limite);
-                }else {
+                } else {
                     conta.setLimiteCredito(BigDecimal.valueOf(10_000.00));
                 }
-            }else if(conta.getTipoConta() == TipoConta.CONTA_POUPANCA){
+            }
+            case CONTA_POUPANCA -> {
                 conta.setIsDebito(true);
                 conta.setIsCredito(false);
                 conta.setLimiteCredito(BigDecimal.ZERO);
-            } else if (conta.getTipoConta() == TipoConta.CONTA_SALARIO) {
-                if (conta.getCliente() instanceof PessoaFisica){
+            }
+            case CONTA_SALARIO -> {
+                if (conta.getCliente() instanceof PessoaFisica) {
                     conta.setIsDebito(false);
                     conta.setIsCredito(false);
                     conta.setLimiteCredito(BigDecimal.ZERO);
-                }else {
+                } else {
                     throw new ContaSalarioNaoPermitidaParaPJException("Pessoa Jurídica não pode abrir conta salário.");
                 }
             }
+        }
             return contaRepository.save(conta);
     }
 

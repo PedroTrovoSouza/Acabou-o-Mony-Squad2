@@ -3,6 +3,7 @@ package com.acabou_o_mony.mony.controller;
 import com.acabou_o_mony.mony.entity.*;
 import com.acabou_o_mony.mony.enums.Status;
 import com.acabou_o_mony.mony.repository.CartaoRepository;
+import com.acabou_o_mony.mony.repository.PessoaFisicaRepository;
 import com.acabou_o_mony.mony.repository.TransacaoRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -34,7 +35,7 @@ class TransacaoControllerTest {
     private CartaoRepository cartaoRepository;
 
     @Autowired
-    private ClienteRepository clienteRepository;
+    private PessoaFisicaRepository pessoaFisicaRepository;
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -51,9 +52,9 @@ class TransacaoControllerTest {
 
         cartaoRepository.save(cartao);
 
-        Cliente clienteFisico = new PessoaFisica();
+        PessoaFisica clienteFisico = new PessoaFisica();
 
-        clienteRepository.save(clienteFisico);
+        pessoaFisicaRepository.save(clienteFisico);
         Transacao transacao = new Transacao();
         transacao.setTipo_transacao("COMPRA");
         transacao.setValor(100.0);

@@ -28,7 +28,7 @@ public class ContaService {
         return contaRepository.findAll();
     }
 
-    public Conta salvarContaComValidacao(Conta conta, Cliente cliente){
+    public Conta verificarESalvar(Conta conta, Cliente cliente){
         if (contaRepository.existsByTipoContaAndCliente(conta.getTipoConta(), cliente)){
             throw new ContaConflitoException("Esse Cliente já possui uma conta desse tipo.");
         }
@@ -73,7 +73,7 @@ public class ContaService {
         Conta conta = ContaMapper.toEntity(dto, cliente);
         Conta contaValidada = validarTipoDeConta(conta, cliente);
 
-        return salvarContaComValidacao(contaValidada, cliente);
+        return verificarESalvar(contaValidada, cliente);
     }
 
     public Conta alterarConta(Long id, Conta contaAlterada){

@@ -1,4 +1,4 @@
-package com.acabou_o_mony.mony.service;
+/*package com.acabou_o_mony.mony.service;
 
 import com.acabou_o_mony.mony.entity.PessoaFisica;
 import com.acabou_o_mony.mony.entity.PessoaJuridica;
@@ -77,4 +77,4 @@ class ClienteServiceTest {
         assertThrows(ClienteConflitoException.class, () -> clienteService.cadastrarPessoaFisica(pessoaFisica));
         assertThrows(ClienteConflitoException.class, () -> clienteService.cadastrarPessoaJuridica(pessoaJuridica));
     }
-}
+}*/

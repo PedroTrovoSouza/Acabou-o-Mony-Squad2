@@ -1,9 +1,6 @@
 package com.acabou_o_mony.mony.controller;
 
-import com.acabou_o_mony.mony.entity.Cartao;
-import com.acabou_o_mony.mony.entity.Cliente;
-import com.acabou_o_mony.mony.entity.Conta;
-import com.acabou_o_mony.mony.entity.Transacao;
+import com.acabou_o_mony.mony.entity.*;
 import com.acabou_o_mony.mony.enums.Status;
 import com.acabou_o_mony.mony.repository.CartaoRepository;
 import com.acabou_o_mony.mony.repository.ClienteRepository;
@@ -26,7 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-class TransacaoControllerIntegrationTest {
+class TransacaoControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -46,7 +43,7 @@ class TransacaoControllerIntegrationTest {
     private Transacao transacaoSalva;
 
     @BeforeEach
-    public void setup() {
+    public void setupPessoaFisica() {
         // Cria e salva o cartão
         Cartao cartao = new Cartao();
         cartao.setNumero("1234-5678-9876-5432");
@@ -55,24 +52,20 @@ class TransacaoControllerIntegrationTest {
 
         cartaoRepository.save(cartao);
 
-        // Cria e salva o cliente remetente (exemplo)
-        Cliente cliente = new Cliente();
-        clienteRepository.save(cliente);
+        Cliente clienteFisico = new PessoaFisica();
 
-        // Cria a transação e seta todos os campos
+        clienteRepository.save(clienteFisico);
         Transacao transacao = new Transacao();
         transacao.setTipo_transacao("COMPRA");
         transacao.setValor(100.0);
         transacao.setDthora(LocalDateTime.now());
         transacao.setDestinatario(12345);
         transacao.setStatus(Status.SUCESSO);
-        transacao.setRemetente(cliente);   // Preenchido com cliente salvo
+        transacao.setRemetente(clienteFisico);
         transacao.setCartao(cartao);
 
         repository.save(transacao);
     }
-
-
 
     @Test
     void deveCadastrarTransacaoComSucesso() throws Exception {

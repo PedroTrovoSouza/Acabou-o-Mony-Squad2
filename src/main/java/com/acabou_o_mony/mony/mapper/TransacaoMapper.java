@@ -3,15 +3,22 @@ package com.acabou_o_mony.mony.mapper;
 import com.acabou_o_mony.mony.dto.CartaoResponseDTO;
 import com.acabou_o_mony.mony.dto.TransacaoRequestDTO;
 import com.acabou_o_mony.mony.dto.TransacaoResponseDTO;
-import com.acabou_o_mony.mony.entity.Cartao;
-import com.acabou_o_mony.mony.entity.Cliente;
-import com.acabou_o_mony.mony.entity.Conta;
-import com.acabou_o_mony.mony.entity.Transacao;
+import com.acabou_o_mony.mony.entity.*;
 import com.acabou_o_mony.mony.enums.Status;
+import com.acabou_o_mony.mony.repository.PessoaFisicaRepository;
+import com.acabou_o_mony.mony.repository.PessoaJuridicaRepository;
+import lombok.AllArgsConstructor;
 
+import java.util.Optional;
+
+@AllArgsConstructor
 public class TransacaoMapper {
 
-    public static Transacao toEntity(TransacaoRequestDTO dto) {
+    private final PessoaFisicaRepository pessoaFisicaRepository;
+
+    private final PessoaJuridicaRepository pessoaJuridicaRepository;
+
+    public Transacao toEntity(TransacaoRequestDTO dto) {
         Transacao transacao = new Transacao();
         transacao.setTipo_transacao(dto.getTipoTransacao());
         transacao.setValor(dto.getValor());
@@ -19,9 +26,19 @@ public class TransacaoMapper {
         transacao.setDestinatario(dto.getDestinatario());
         transacao.setStatus(dto.getStatus());
 
-        Cliente remetente = new Cliente();
-        remetente.setId(dto.getRemetenteId());
-        transacao.setRemetente(remetente);
+        Optional<PessoaFisica> pessoaFisicaPorId = pessoaFisicaRepository.findById(dto.getRemetenteId());
+        Optional<PessoaJuridica> pessoaJuridicaPorId = pessoaJuridicaRepository.findById(dto.getRemetenteId());
+
+        if (pessoaFisicaPorId.isPresent()) {
+            Cliente remetente = new PessoaFisica();
+            remetente.setId(dto.getRemetenteId());
+            transacao.setRemetente(remetente);
+        }
+        if (pessoaJuridicaPorId.isPresent()) {
+            Cliente remetente = new PessoaJuridica();
+            remetente.setId(dto.getRemetenteId());
+            transacao.setRemetente(remetente);
+        }
 
         Cartao cartao = new Cartao();
         cartao.setId(dto.getCartaoId());
@@ -33,7 +50,7 @@ public class TransacaoMapper {
         return transacao;
     }
 
-    public static TransacaoResponseDTO toResponse(Transacao transacao) {
+    public TransacaoResponseDTO toResponse(Transacao transacao) {
         TransacaoResponseDTO dto = new TransacaoResponseDTO();
         dto.setId(transacao.getId());
         dto.setTipoTransacao(transacao.getTipo_transacao());

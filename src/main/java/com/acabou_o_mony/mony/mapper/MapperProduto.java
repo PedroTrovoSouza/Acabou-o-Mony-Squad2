@@ -8,7 +8,7 @@ import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
 public interface MapperProduto {
-    Produto toEntity(ListagemProdutoDTO produtoDTO);
+    Produto toEntity(CadastroProdutoDTO produtoDTO);
     CadastroProdutoDTO toCadastroProdutoDTO(Produto entity);
     ListagemProdutoDTO toListagemProdutoDTO(Produto entity);
 }

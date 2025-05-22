@@ -25,9 +25,9 @@ public class ProdutoService {
     @Transactional
     public ListagemProdutoDTO saveProduto(CadastroProdutoDTO produtoDTO) {
         if (produtoRepository.existsByNome(produtoDTO.nome())) {
-            throw new RuntimeException("Este Nome já esta cadastrado");
+            throw new RuntimeException("Este Nome já está cadastrado");
         }
-        var produto = new Produto(produtoDTO);
+        var produto = mapperProduto.toEntity(produtoDTO);
         produtoRepository.save(produto);
         return mapperProduto.toListagemProdutoDTO(produto);
     }

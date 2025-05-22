@@ -14,9 +14,6 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-
-@AllArgsConstructor
-@Entity
 public class Produto {
 
     @Id
@@ -25,12 +22,9 @@ public class Produto {
 
     private String nome;
     private double preco;
-}
 
     @Enumerated(EnumType.STRING)
     CategoriaProduto categoria;
-
-    private Double preco;
 
     private int qtd_estoque;
 
@@ -47,3 +41,5 @@ public class Produto {
         this.qtd_estoque = dto.qtd_estoque();
     }
 }
+
+

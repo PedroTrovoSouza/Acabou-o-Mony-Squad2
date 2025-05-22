@@ -5,6 +5,7 @@ import com.acabou_o_mony.mony.entity.PessoaFisica;
 import com.acabou_o_mony.mony.entity.PessoaJuridica;
 import com.acabou_o_mony.mony.enums.Genero;
 import com.acabou_o_mony.mony.enums.PerfilEconomico;
+import com.acabou_o_mony.mony.exception.ClienteConflitoException;
 import com.acabou_o_mony.mony.repository.ClienteRepository;
 import com.acabou_o_mony.mony.repository.PessoaFisicaRepository;
 import com.acabou_o_mony.mony.repository.PessoaJuridicaRepository;
@@ -63,4 +64,19 @@ class ClienteServiceTest {
         assertEquals(pessoaFisica, pessoaFisicaSalva);
         assertEquals(pessoaJuridica, pessoaJuridicaSalva);
     }
+
+//    @Test
+//    void deveLancarExcessaoAoTentarCadastrarClienteComCpfOuCnpjCadastrado(){
+//        //Given
+//
+//        //When
+//        when(fisicaRepository.existsByCpf(anyString())).thenReturn(true);
+//        when(juridicaRepository.existsByCnpj(anyString())).thenReturn(true);
+//
+//        //Then
+//
+//        //Assert
+//        assertThrows(ClienteConflitoException.class, () -> clienteService.cadastrarPessoaFisica(any()));
+//        assertThrows(ClienteConflitoException.class, () -> clienteService.cadastrarPessoaJuridica(any()));
+//    }
 }

@@ -29,6 +29,16 @@ public class ClienteService {
         return juridicaRepository.findAll();
     }
 
+    public PessoaFisica buscarPessoaFisicaPorId(Long id){
+        return fisicaRepository.findById(id)
+                .orElseThrow(() -> new ClienteNaoEncontradoException("Pessoa Fisica não enconntrada"));
+    }
+
+    public PessoaJuridica buscarPessoaJuridicaPorId(Long id){
+        return juridicaRepository.findById(id)
+                .orElseThrow(() -> new ClienteNaoEncontradoException("Pessoa Fisica não enconntrada"));
+    }
+
     public PessoaFisica cadastrarPessoaFisica(PessoaFisica fisica){
         if (fisicaRepository.existsByCpf(fisica.getCpf())){
             throw new ClienteConflitoException("CPF já cadastrado.");

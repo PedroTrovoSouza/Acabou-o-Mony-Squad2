@@ -3,9 +3,12 @@ package com.acabou_o_mony.mony.service;
 import com.acabou_o_mony.mony.dto.conta.ContaRequestDto;
 import com.acabou_o_mony.mony.entity.Cliente;
 import com.acabou_o_mony.mony.entity.Conta;
+import com.acabou_o_mony.mony.entity.PessoaFisica;
+import com.acabou_o_mony.mony.entity.PessoaJuridica;
 import com.acabou_o_mony.mony.enums.TipoConta;
 import com.acabou_o_mony.mony.exception.ContaConflitoException;
 import com.acabou_o_mony.mony.exception.ContaNaoEncontradaException;
+import com.acabou_o_mony.mony.exception.ContaSalarioNaoPermitidaParaPJException;
 import com.acabou_o_mony.mony.mapper.ContaMapper;
 import com.acabou_o_mony.mony.repository.ClienteRepository;
 import com.acabou_o_mony.mony.repository.ContaRepository;
@@ -25,24 +28,9 @@ public class ContaService {
         return contaRepository.findAll();
     }
 
-    public Conta cadastrarConta(ContaRequestDto dto){
-        Cliente cliente = clienteService.buscarClientePorId(dto.idCliente());
-        Conta conta = ContaMapper.toEntity(dto, cliente);
-
+    public Conta finalizarAberturaDeConta(Conta conta, Cliente cliente){
         if (contaRepository.existsByTipoContaAndCliente(conta.getTipoConta(), cliente)){
             throw new ContaConflitoException("Esse Cliente já possui uma conta desse tipo.");
-        }
-
-        if (conta.getTipoConta() == TipoConta.CONTA_CORRENTE){
-            conta.setLimiteCredito(cliente.getPerfilEconomico().limite);
-        }else if(conta.getTipoConta() == TipoConta.CONTA_POUPANCA){
-            conta.setIsDebito(true);
-            conta.setIsCredito(false);
-            conta.setLimiteCredito(BigDecimal.ZERO);
-        } else if (conta.getTipoConta() == TipoConta.CONTA_SALARIO) {
-            conta.setIsDebito(false);
-            conta.setIsCredito(false);
-            conta.setLimiteCredito(BigDecimal.ZERO);
         }
         conta.setIsAtiva(true);
         conta.setCliente(cliente);
@@ -50,23 +38,74 @@ public class ContaService {
         return contaRepository.save(conta);
     }
 
+    public Conta validarTipoDeConta(Conta conta, Cliente cliente){
+        if (conta.getTipoConta() == TipoConta.CONTA_CORRENTE){
+            if (cliente instanceof PessoaFisica pessoaFisica){
+                conta.setLimiteCredito(pessoaFisica.getPerfilEconomico().limite);
+            }else {
+                conta.setLimiteCredito(BigDecimal.valueOf(10_000.00));
+            }
+        }else if(conta.getTipoConta() == TipoConta.CONTA_POUPANCA){
+            conta.setIsDebito(true);
+            conta.setIsCredito(false);
+            conta.setLimiteCredito(BigDecimal.ZERO);
+        } else {
+            if (cliente instanceof PessoaFisica){
+                conta.setIsDebito(false);
+                conta.setIsCredito(false);
+                conta.setLimiteCredito(BigDecimal.ZERO);
+            }else {
+                throw new ContaSalarioNaoPermitidaParaPJException("Pessoa Jurídica não pode abrir conta salário.");
+            }
+        }
+        return conta;
+    }
+
+    public Conta abrirContaPessoaFisica(ContaRequestDto dto){
+        PessoaFisica cliente = clienteService.buscarPessoaFisicaPorId(dto.idCliente());
+        Conta conta = ContaMapper.toEntity(dto, cliente);
+        Conta contaValidada = validarTipoDeConta(conta, cliente);
+
+        return finalizarAberturaDeConta(contaValidada, cliente);
+    }
+
+    public Conta abrirContaPessoaJuridica(ContaRequestDto dto){
+        PessoaJuridica cliente = clienteService.buscarPessoaJuridicaPorId(dto.idCliente());
+        Conta conta = ContaMapper.toEntity(dto, cliente);
+        Conta contaValidada = validarTipoDeConta(conta, cliente);
+
+        return finalizarAberturaDeConta(contaValidada, cliente);
+    }
+
     public Conta alterarConta(Long id, Conta contaAlterada){
             Conta conta = buscarContaPorId(id);
             conta.setAgencia(contaAlterada.getAgencia());
             conta.setTipoConta(contaAlterada.getTipoConta());
 
+            if (contaRepository.existsByTipoContaAndCliente(conta.getTipoConta(), conta.getCliente())){
+                throw new ContaConflitoException("Esse Cliente já possui uma conta desse tipo.");
+            }
+
             if (conta.getTipoConta() == TipoConta.CONTA_CORRENTE){
                 conta.setIsDebito(contaAlterada.getIsDebito());
                 conta.setIsCredito(contaAlterada.getIsCredito());
-                conta.setLimiteCredito(conta.getCliente().getPerfilEconomico().limite);
+                if (conta.getCliente() instanceof PessoaFisica pessoaFisica){
+                    conta.setLimiteCredito(pessoaFisica.getPerfilEconomico().limite);
+                }else {
+                    conta.setLimiteCredito(BigDecimal.valueOf(10_000.00));
+                }
             }else if(conta.getTipoConta() == TipoConta.CONTA_POUPANCA){
                 conta.setIsDebito(true);
                 conta.setIsCredito(false);
                 conta.setLimiteCredito(BigDecimal.ZERO);
             } else if (conta.getTipoConta() == TipoConta.CONTA_SALARIO) {
-                conta.setIsDebito(false);
-                conta.setIsCredito(false);
-                conta.setLimiteCredito(BigDecimal.ZERO);
+                if (conta.getCliente() instanceof PessoaFisica){
+                    conta.setIsDebito(false);
+                    conta.setIsCredito(false);
+                    conta.setLimiteCredito(BigDecimal.ZERO);
+                }else {
+                    throw new ContaSalarioNaoPermitidaParaPJException("Pessoa Jurídica não pode abrir conta salário.");
+                }
             }
             return contaRepository.save(conta);
     }
@@ -81,10 +120,10 @@ public class ContaService {
     public Conta alterarStatusConta(Long idConta){
         Conta conta = buscarContaPorId(idConta);
         if (contaRepository.existsByTipoContaAndCliente(conta.getTipoConta(), conta.getCliente())){
-            conta.setIsAtiva(!conta.getIsAtiva());
-            return conta;
+            throw new ContaConflitoException("Esse Cliente já possui uma conta desse tipo.");
         }
-        throw new ContaNaoEncontradaException("Conta não encontrada.");
+        conta.setIsAtiva(!conta.getIsAtiva());
+        return contaRepository.save(conta);
     }
 
     public void deletarConta(Long id){

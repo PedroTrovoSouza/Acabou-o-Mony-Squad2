@@ -3,6 +3,7 @@ package com.acabou_o_mony.mony.controller;
 import com.acabou_o_mony.mony.dto.PedidoCartaoProdutoDTO;
 import com.acabou_o_mony.mony.dto.PedidoRequestDTO;
 import com.acabou_o_mony.mony.entity.Pedido;
+import com.acabou_o_mony.mony.repository.ProdutoRepository;
 import com.acabou_o_mony.mony.service.PedidoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -31,7 +32,17 @@ public class PedidoController {
             PedidoCartaoProdutoDTO pedidoCriado = pedidoService.cadastrarPedido(novoPedido);
             return ResponseEntity.status(HttpStatus.CREATED).body(pedidoCriado);
         } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Erro ao cadastrar pedido");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
+
+    @DeleteMapping("/cancelar/{numero}")
+    public ResponseEntity<?> deletePedido(@PathVariable long numero){
+        try {
+            Pedido pedidoDelete = pedidoService.deletePedido(numero);
+            return ResponseEntity.status(200).build();
+        }catch (RuntimeException e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
 

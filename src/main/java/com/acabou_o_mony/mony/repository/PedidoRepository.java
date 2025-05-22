@@ -15,4 +15,5 @@ public interface PedidoRepository extends JpaRepository<Pedido, Long> {
             "WHERE p.id = :id")
     PedidoResponseDTO buscarPedidoComNomeDoProduto(@Param("id") Long id);
 
+    Pedido findByNumero(long numero);
 }

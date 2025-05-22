@@ -1,11 +1,8 @@
 package com.acabou_o_mony.mony.service;
 
 import com.acabou_o_mony.mony.dto.PedidoCartaoProdutoDTO;
-import com.acabou_o_mony.mony.dto.PedidoRequestDTO;
 import com.acabou_o_mony.mony.dto.PedidoResponseDTO;
-import com.acabou_o_mony.mony.entity.Cartao;
 import com.acabou_o_mony.mony.entity.Pedido;
-import com.acabou_o_mony.mony.entity.Produto;
 import com.acabou_o_mony.mony.mapper.MapperPedido;
 import com.acabou_o_mony.mony.repository.CartaoRepository;
 import com.acabou_o_mony.mony.repository.PedidoRepository;
@@ -56,6 +53,14 @@ public class PedidoService {
         return mapperPedido.toPedidoCartaoProdutoDTO(salvo);
     }
 
-}
+    public Pedido deletePedido(long numero){
+        Pedido pedidoEncontrado = pedidoRepository.findByNumero(numero);
 
+        if (pedidoEncontrado == null){
+            throw new RuntimeException("Pedido não encontrado");
+        }
+
+        pedidoRepository.delete(pedidoEncontrado);
+        return pedidoEncontrado;
+    }
 }

@@ -33,5 +33,5 @@ public interface ProdutoRepository extends JpaRepository<Produto, Long> {
     @Query("UPDATE Produto u set u.qtd_estoque = :qtd_estoque WHERE u.id = :id")
     int atualizarQtdEstoque(Long id , int qtd_estoque);
 
-    Optional<Produto> findByNumero(String nome);
+    Optional<Produto> findByNome(String nome);
 }

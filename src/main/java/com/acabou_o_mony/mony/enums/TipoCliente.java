@@ -1,17 +1,17 @@
 package com.acabou_o_mony.mony.enums;
 
-public enum TipoRazaoSocial {
+public enum TipoCliente {
     PESSOA_FISICA("Pessoa Física"),
     PESSOA_JURIDICA("Pessoa Jurídica");
 
     private String descricao;
 
-    TipoRazaoSocial(String descricao) {
+    TipoCliente(String descricao) {
         this.descricao = descricao;
     }
 
-    public static TipoRazaoSocial fromSring(String text){
-        for (TipoRazaoSocial razao : TipoRazaoSocial.values()) {
+    public static TipoCliente fromSring(String text){
+        for (TipoCliente razao : TipoCliente.values()) {
             if (razao.descricao.equalsIgnoreCase(text)){
                 return razao;
             }

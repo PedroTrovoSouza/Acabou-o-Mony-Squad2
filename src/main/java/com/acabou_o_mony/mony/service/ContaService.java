@@ -4,13 +4,13 @@ import com.acabou_o_mony.mony.dto.conta.ContaRequestDto;
 import com.acabou_o_mony.mony.entity.Cliente;
 import com.acabou_o_mony.mony.entity.Conta;
 import com.acabou_o_mony.mony.entity.PessoaFisica;
-import com.acabou_o_mony.mony.entity.PessoaJuridica;
+import com.acabou_o_mony.mony.enums.TipoCliente;
 import com.acabou_o_mony.mony.enums.TipoConta;
 import com.acabou_o_mony.mony.exception.ContaConflitoException;
 import com.acabou_o_mony.mony.exception.ContaNaoEncontradaException;
 import com.acabou_o_mony.mony.exception.ContaSalarioNaoPermitidaParaPJException;
+import com.acabou_o_mony.mony.exception.TipoClienteInvalidoException;
 import com.acabou_o_mony.mony.mapper.ContaMapper;
-import com.acabou_o_mony.mony.repository.ClienteRepository;
 import com.acabou_o_mony.mony.repository.ContaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -28,7 +28,7 @@ public class ContaService {
         return contaRepository.findAll();
     }
 
-    public Conta finalizarAberturaDeConta(Conta conta, Cliente cliente){
+    public Conta salvarContaComValidacao(Conta conta, Cliente cliente){
         if (contaRepository.existsByTipoContaAndCliente(conta.getTipoConta(), cliente)){
             throw new ContaConflitoException("Esse Cliente já possui uma conta desse tipo.");
         }
@@ -61,20 +61,19 @@ public class ContaService {
         return conta;
     }
 
-    public Conta abrirContaPessoaFisica(ContaRequestDto dto){
-        PessoaFisica cliente = clienteService.buscarPessoaFisicaPorId(dto.idCliente());
+    public Conta abrirConta(ContaRequestDto dto){
+        Cliente cliente;
+        if (dto.tipoCliente().equals(TipoCliente.PESSOA_FISICA)) {
+            cliente = clienteService.buscarPessoaFisicaPorId(dto.idCliente());
+        } else if (dto.tipoCliente().equals(TipoCliente.PESSOA_JURIDICA)) {
+            cliente = clienteService.buscarPessoaJuridicaPorId(dto.idCliente());
+        } else {
+            throw new TipoClienteInvalidoException("Tipo de cliente inválido.");
+        }
         Conta conta = ContaMapper.toEntity(dto, cliente);
         Conta contaValidada = validarTipoDeConta(conta, cliente);
 
-        return finalizarAberturaDeConta(contaValidada, cliente);
-    }
-
-    public Conta abrirContaPessoaJuridica(ContaRequestDto dto){
-        PessoaJuridica cliente = clienteService.buscarPessoaJuridicaPorId(dto.idCliente());
-        Conta conta = ContaMapper.toEntity(dto, cliente);
-        Conta contaValidada = validarTipoDeConta(conta, cliente);
-
-        return finalizarAberturaDeConta(contaValidada, cliente);
+        return salvarContaComValidacao(contaValidada, cliente);
     }
 
     public Conta alterarConta(Long id, Conta contaAlterada){
@@ -111,17 +110,12 @@ public class ContaService {
     }
 
     public Conta buscarContaPorId(Long id){
-        if (contaRepository.existsById(id)){
-            return contaRepository.getReferenceById(id);
-        }
-        throw new ContaNaoEncontradaException("Conta não encontrada.");
+        return contaRepository.findById(id)
+                .orElseThrow(() -> new ContaNaoEncontradaException("Conta não encontrada."));
     }
 
     public Conta alterarStatusConta(Long idConta){
         Conta conta = buscarContaPorId(idConta);
-        if (contaRepository.existsByTipoContaAndCliente(conta.getTipoConta(), conta.getCliente())){
-            throw new ContaConflitoException("Esse Cliente já possui uma conta desse tipo.");
-        }
         conta.setIsAtiva(!conta.getIsAtiva());
         return contaRepository.save(conta);
     }

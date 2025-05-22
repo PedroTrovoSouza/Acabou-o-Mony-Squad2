@@ -27,7 +27,7 @@ public class ContaController {
 
     @PostMapping
     public ResponseEntity<ContaResponseDto> cadastrarConta(@RequestBody ContaRequestDto contaParaCadastrar){
-        Conta conta = contaService.cadastrarConta(contaParaCadastrar);
+        Conta conta = contaService.abrirConta(contaParaCadastrar);
         ContaResponseDto response = ContaMapper.toResponse(conta);
         return ResponseEntity.status(201).body(response);
     }

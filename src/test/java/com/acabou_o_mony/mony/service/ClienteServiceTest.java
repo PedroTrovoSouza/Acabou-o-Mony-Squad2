@@ -25,6 +25,8 @@ import static org.mockito.Mockito.when;
 class ClienteServiceTest {
 
     @Mock
+    private ClienteRepository clienteRepository;
+    @Mock
     private PessoaFisicaRepository fisicaRepository;
     @Mock
     private PessoaJuridicaRepository juridicaRepository;

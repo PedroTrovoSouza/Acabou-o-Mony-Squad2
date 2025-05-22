@@ -3,7 +3,6 @@ package com.acabou_o_mony.mony.controller;
 import com.acabou_o_mony.mony.entity.*;
 import com.acabou_o_mony.mony.enums.Status;
 import com.acabou_o_mony.mony.repository.CartaoRepository;
-import com.acabou_o_mony.mony.repository.ClienteRepository;
 import com.acabou_o_mony.mony.repository.TransacaoRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;

@@ -19,7 +19,7 @@ import java.util.List;
 public class ClienteController {
     private final ClienteService clienteService;
 
-    @GetMapping
+    @GetMapping("/pf")
     public ResponseEntity<List<FisicaResponseDto>> listarPessoaFisica(){
         List<PessoaFisica> fisicas = clienteService.listarPessoaFisica();
         List<FisicaResponseDto> response = fisicas.stream().map(ClienteMapper::toResponseDto).toList();
@@ -27,7 +27,7 @@ public class ClienteController {
         return response.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(response);
     }
 
-    @GetMapping
+    @GetMapping("/pj")
     public ResponseEntity<List<JuridicaResponseDto>> listarPessoaJuridica(){
         List<PessoaJuridica> juridicas = clienteService.listarPessoaJuridica();
         List<JuridicaResponseDto> response = juridicas.stream().map(ClienteMapper::toResponseDto).toList();
@@ -35,7 +35,7 @@ public class ClienteController {
         return response.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(response);
     }
 
-    @PostMapping
+    @PostMapping("/pf")
     public ResponseEntity<FisicaResponseDto> cadastrarPessoaFisica(@RequestBody @Valid FisicaRequestDto dtoCadastro){
         PessoaFisica fisica = ClienteMapper.toEntity(dtoCadastro);
         PessoaFisica clienteCadastrado = clienteService.cadastrarPessoaFisica(fisica);
@@ -43,7 +43,7 @@ public class ClienteController {
         return ResponseEntity.status(201).body(response);
     }
 
-    @PostMapping
+    @PostMapping("/pj")
     public ResponseEntity<JuridicaResponseDto> cadastrarPessoaJuridica(@RequestBody @Valid JuridicaRequestDto dtoCadastro){
         PessoaJuridica juridica = ClienteMapper.toEntity(dtoCadastro);
         PessoaJuridica clienteCadastrado = clienteService.cadastrarPessoaJuridica(juridica);
@@ -51,7 +51,7 @@ public class ClienteController {
         return ResponseEntity.status(201).body(response);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/pf/{id}")
     public ResponseEntity<FisicaResponseDto> atualizarPessoaFisica(@PathVariable Long id,@RequestBody FisicaAtualizacaoDto dtoAtualizacao){
         PessoaFisica fisica = ClienteMapper.toEntity(dtoAtualizacao);
         PessoaFisica clienteAtualizado = clienteService.atualizarPessoaFisica(id, fisica);
@@ -59,13 +59,13 @@ public class ClienteController {
         return ResponseEntity.status(201).body(response);
     }
 
-    @DeleteMapping("/pessoa-fisica/{id}")
+    @DeleteMapping("/pf/{id}")
     public ResponseEntity<Void> deletarPessoaFisica(@PathVariable String cpf){
         clienteService.deletarPessoaPorCpf(cpf);
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("/pessoa-juridica/{id}")
+    @DeleteMapping("/pj/{id}")
     public ResponseEntity<Void> deletarPessoaJuridica(@PathVariable String cnpj){
         clienteService.deletarEmpresaPorCnpj(cnpj);
         return ResponseEntity.ok().build();

@@ -86,7 +86,7 @@ public class ProdutoController {
         }
     }
 
-    @PatchMapping("/{id}/categoria")
+    @PatchMapping("/{id}/preco")
     public ResponseEntity<Produto> atualizarPreco(@PathVariable Long id, @RequestBody @Valid AtualizarPrecoProdutoDTO precoDTO) {
         try {
             var produto = produtoService.listarUmProduto(id);
@@ -97,7 +97,7 @@ public class ProdutoController {
         }
     }
 
-    @PatchMapping("/{id}/categoria")
+    @PatchMapping("/{id}/estoque")
     public ResponseEntity<Produto> atualizarEstoque(@PathVariable Long id, @RequestBody @Valid AtualizarEstoqueProdutoDTO estoqueDTO) {
         try {
             var produto = produtoService.listarUmProduto(id);

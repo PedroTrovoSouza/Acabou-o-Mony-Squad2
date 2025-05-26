@@ -3,7 +3,7 @@ package com.acabou_o_mony.mony.service;
 import com.acabou_o_mony.mony.entity.Cartao;
 import com.acabou_o_mony.mony.entity.Conta;
 import com.acabou_o_mony.mony.entity.Transacao;
-import com.acabou_o_mony.mony.enums.Status;
+import com.acabou_o_mony.mony.enums.StatusTransacao;
 import com.acabou_o_mony.mony.repository.TransacaoRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -50,7 +50,7 @@ class TransacaoServiceTest {
         transacaoComStatus.setValor(200.00);
         transacaoComStatus.setCartao(cartao);
         transacaoComStatus.setDthora(transacao.getDthora());
-        transacaoComStatus.setStatus(Status.SUCESSO);
+        transacaoComStatus.setStatus(StatusTransacao.SUCESSO);
 
         when(transacaoRepository.save(any(Transacao.class))).thenReturn(transacaoComStatus);
 
@@ -58,7 +58,7 @@ class TransacaoServiceTest {
         Transacao resultado = transacaoService.salvar(transacao);
 
         // Assert
-        assertEquals(Status.SUCESSO, resultado.getStatus());
+        assertEquals(StatusTransacao.SUCESSO, resultado.getStatus());
         assertEquals(new BigDecimal("800.00"), conta.getSaldo()); // 1000 - 200
         verify(transacaoRepository, times(1)).save(any(Transacao.class));
     }

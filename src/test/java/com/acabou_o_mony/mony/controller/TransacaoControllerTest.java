@@ -1,7 +1,7 @@
 package com.acabou_o_mony.mony.controller;
 
 import com.acabou_o_mony.mony.entity.*;
-import com.acabou_o_mony.mony.enums.Status;
+import com.acabou_o_mony.mony.enums.StatusTransacao;
 import com.acabou_o_mony.mony.repository.CartaoRepository;
 import com.acabou_o_mony.mony.repository.PessoaFisicaRepository;
 import com.acabou_o_mony.mony.repository.TransacaoRepository;
@@ -60,7 +60,7 @@ class TransacaoControllerTest {
         transacao.setValor(100.0);
         transacao.setDthora(LocalDateTime.now());
         transacao.setDestinatario(12345);
-        transacao.setStatus(Status.SUCESSO);
+        transacao.setStatus(StatusTransacao.SUCESSO);
         transacao.setRemetente(clienteFisico);
         transacao.setCartao(cartao);
 

@@ -1,10 +1,10 @@
 package com.acabou_o_mony.mony.mapper;
 
-import com.acabou_o_mony.mony.dto.CartaoResponseDTO;
+import com.acabou_o_mony.mony.dto.cartao.CartaoResponseDTO;
 import com.acabou_o_mony.mony.dto.TransacaoRequestDTO;
 import com.acabou_o_mony.mony.dto.TransacaoResponseDTO;
 import com.acabou_o_mony.mony.entity.*;
-import com.acabou_o_mony.mony.enums.Status;
+import com.acabou_o_mony.mony.enums.StatusTransacao;
 import com.acabou_o_mony.mony.repository.PessoaFisicaRepository;
 import com.acabou_o_mony.mony.repository.PessoaJuridicaRepository;
 import lombok.AllArgsConstructor;
@@ -57,7 +57,7 @@ public class TransacaoMapper {
         dto.setValor(transacao.getValor());
         dto.setDthora(transacao.getDthora());
         dto.setDestinatario(transacao.getDestinatario());
-        dto.setStatus((Status) transacao.getStatus());
+        dto.setStatus((StatusTransacao) transacao.getStatus());
 
         if (transacao.getRemetente() != null) {
             dto.setRemetenteId(transacao.getRemetente().getId());

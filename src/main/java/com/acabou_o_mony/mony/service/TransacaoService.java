@@ -3,7 +3,7 @@ package com.acabou_o_mony.mony.service;
 import com.acabou_o_mony.mony.entity.Cartao;
 import com.acabou_o_mony.mony.entity.Conta;
 import com.acabou_o_mony.mony.entity.Transacao;
-import com.acabou_o_mony.mony.enums.Status;
+import com.acabou_o_mony.mony.enums.StatusTransacao;
 import com.acabou_o_mony.mony.repository.TransacaoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,9 +33,9 @@ public class TransacaoService {
         BigDecimal valorTransacao = BigDecimal.valueOf(transacao.getValor());
 
         if (valorTransacao.compareTo(BigDecimal.ZERO) <= 0 || valorTransacao.compareTo(saldoAtual) > 0) {
-            transacao.setStatus(Status.FALHA);
+            transacao.setStatus(StatusTransacao.FALHA);
         } else {
-            transacao.setStatus(Status.SUCESSO);
+            transacao.setStatus(StatusTransacao.SUCESSO);
             conta.setSaldo(saldoAtual.subtract(valorTransacao));
         }
 

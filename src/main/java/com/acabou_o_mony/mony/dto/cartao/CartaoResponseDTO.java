@@ -1,26 +1,20 @@
-package com.acabou_o_mony.mony.entity;
+package com.acabou_o_mony.mony.dto.cartao;
 
-import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Generated;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-@Entity
-@NoArgsConstructor
-@AllArgsConstructor
 @Data
-public class Cartao {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+@Getter
+@Setter
+public class CartaoResponseDTO {
     private String nome;
     private String numero;
     private LocalDate vencimento;
-    private String cvv;
     private String bandeira;
     private boolean isCredito;
     private boolean isDebito;

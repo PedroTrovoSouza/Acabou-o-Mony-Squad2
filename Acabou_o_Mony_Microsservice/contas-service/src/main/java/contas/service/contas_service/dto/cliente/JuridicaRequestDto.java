@@ -9,6 +9,7 @@ import java.time.LocalDate;
 public record JuridicaRequestDto(
         @NotBlank String nome,
         @NotBlank  @Size(max = 14) String cnpj,
+        @NotBlank String email,
         @DateTimeFormat LocalDate dataFundacao
 ) {
 }

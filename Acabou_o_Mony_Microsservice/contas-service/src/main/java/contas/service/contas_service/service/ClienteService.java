@@ -54,6 +54,7 @@ public class ClienteService {
     public PessoaFisica atualizarPessoaFisica(Long id, PessoaFisica fisica){
         if (fisicaRepository.existsById(id)){
             PessoaFisica pessoaExistente = fisicaRepository.getReferenceById(id);
+            pessoaExistente.setEmail(fisica.getEmail());
             pessoaExistente.setDataNascimento(fisica.getDataNascimento());
             pessoaExistente.setGenero(fisica.getGenero());
             return fisicaRepository.save(pessoaExistente);

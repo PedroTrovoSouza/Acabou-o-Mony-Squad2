@@ -19,14 +19,14 @@ public class PessoaJuridica extends Cliente{
 
     private LocalDate dataFundacao;
 
-    public PessoaJuridica(String nome, String cnpj, LocalDate dataFundacao) {
-        super(nome);
+    public PessoaJuridica(Long id, String nome, String email, String cnpj, LocalDate dataFundacao) {
+        super(id, nome, email);
         this.cnpj = cnpj;
         this.dataFundacao = dataFundacao;
     }
 
-    public PessoaJuridica(Long id, String nome, String cnpj, LocalDate dataFundacao) {
-        super(id, nome);
+    public PessoaJuridica(String nome, String cnpj, String email, LocalDate dataFundacao) {
+        super(nome, email);
         this.cnpj = cnpj;
         this.dataFundacao = dataFundacao;
     }

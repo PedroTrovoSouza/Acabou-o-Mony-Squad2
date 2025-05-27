@@ -21,7 +21,10 @@ public abstract class Cliente {
 
     private String nome;
 
-    public Cliente(String nome) {
+    private String email;
+
+    public Cliente(String nome, String email) {
         this.nome = nome;
+        this.email = email;
     }
 }

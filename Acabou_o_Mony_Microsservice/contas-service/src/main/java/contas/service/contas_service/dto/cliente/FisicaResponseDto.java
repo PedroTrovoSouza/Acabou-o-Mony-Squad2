@@ -6,6 +6,7 @@ import java.time.LocalDate;
 public record FisicaResponseDto(
         String nome,
         String cpf,
+        String email,
         LocalDate dataNascimento,
         Genero genero
 ) {

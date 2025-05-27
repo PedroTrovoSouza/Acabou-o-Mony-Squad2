@@ -64,6 +64,16 @@ public class ProdutoController {
         }
     }
 
+    @GetMapping("/nome")
+    public ResponseEntity<List<Produto>> buscarPorNome(@RequestParam String nome) {
+        var produtos = produtoService.buscarPorNome(nome);
+        if (produtos.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Collections.emptyList());
+        }
+
+        return ResponseEntity.ok(produtos);
+    }
+
     @PatchMapping("/{id}/nome")
     public ResponseEntity<Produto> atualizarNome(@PathVariable Long id, @RequestBody @Valid AtualizarNomeProdutoDTO nomeDTO) {
         try {

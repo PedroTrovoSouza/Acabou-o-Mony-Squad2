@@ -42,6 +42,10 @@ public class ProdutoService {
         produtoRepository.deleteById(id);
     }
 
+    public List<Produto> buscarPorNome(String nome) {
+        return produtoRepository.buscarPorNome(nome);
+    }
+
     public void atualizarNome(Long id, String nome) {
         produtoRepository.atualizarNome(id, nome);
     }

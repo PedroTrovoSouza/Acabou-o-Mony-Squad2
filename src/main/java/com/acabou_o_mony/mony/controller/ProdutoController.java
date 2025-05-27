@@ -8,9 +8,11 @@ import com.acabou_o_mony.mony.service.ProdutoService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.List;
 
 @RestController
@@ -64,6 +66,16 @@ public class ProdutoController {
         }
     }
 
+    @GetMapping("/nome")
+    public ResponseEntity<List<Produto>> buscarPorNome(@RequestParam String nome) {
+        var produtos = produtoService.buscarPorNome(nome);
+        if (produtos.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Collections.emptyList());
+        }
+
+        return ResponseEntity.ok(produtos);
+    }
+
     @PatchMapping("/{id}/nome")
     public ResponseEntity<Produto> atualizarNome(@PathVariable Long id, @RequestBody @Valid AtualizarNomeProdutoDTO nomeDTO) {
         try {
@@ -107,4 +119,6 @@ public class ProdutoController {
             return ResponseEntity.notFound().build();
         }
     }
+
+
 }

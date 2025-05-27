@@ -41,8 +41,4 @@ public class Produto {
         this.preco = dto.preco();
         this.qtd_estoque = dto.qtd_estoque();
     }
-
-    public Produto() {
-
-    }
 }

@@ -16,8 +16,5 @@ public class CartaoResponseDTO {
     private String numero;
     private LocalDate vencimento;
     private String bandeira;
-    private boolean isCredito;
-    private boolean isDebito;
-    private BigDecimal limiteCredito;
     private Long contaId;
 }

@@ -52,9 +52,6 @@ public class CartaoService {
         existente.setVencimento(dto.getVencimento());
         existente.setCvv(dto.getCvv());
         existente.setBandeira(dto.getBandeira());
-        existente.setCredito(dto.isCredito());
-        existente.setDebito(dto.isDebito());
-        existente.setLimiteCredito(dto.getLimiteCredito());
         existente.setContaId(dto.getContaId());
 
         Cartao atualizado = repository.save(existente);

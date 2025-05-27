@@ -16,9 +16,6 @@ public class CartaoMapper {
         cartao.setVencimento(dto.getVencimento());
         cartao.setCvv(dto.getCvv());
         cartao.setBandeira(dto.getBandeira());
-        cartao.setCredito(dto.isCredito());
-        cartao.setDebito(dto.isDebito());
-        cartao.setLimiteCredito(dto.getLimiteCredito());
         cartao.setContaId(dto.getContaId());
         return cartao;
     }
@@ -29,9 +26,6 @@ public class CartaoMapper {
         dto.setNumero(entity.getNumero());
         dto.setVencimento(entity.getVencimento());
         dto.setBandeira(entity.getBandeira());
-        dto.setCredito(entity.isCredito());
-        dto.setDebito(entity.isDebito());
-        dto.setLimiteCredito(entity.getLimiteCredito());
         dto.setContaId(entity.getContaId());
         return dto;
     }

@@ -22,22 +22,22 @@ public class TransacaoService {
             throw new RuntimeException("Impossível seguir com cadastro, dados inválidos");
         }
 
-        Cartao cartao = transacao.getCartao();
+        Long cartaoId = transacao.getCartaoId();
 
-        if (cartao == null || cartao.getConta() == null) {
+        if (cartaoId == null) {
             throw new RuntimeException("Cartão ou conta não informados corretamente.");
         }
 
-        Conta conta = cartao.getConta();
-        BigDecimal saldoAtual = conta.getSaldo();
-        BigDecimal valorTransacao = BigDecimal.valueOf(transacao.getValor());
-
-        if (valorTransacao.compareTo(BigDecimal.ZERO) <= 0 || valorTransacao.compareTo(saldoAtual) > 0) {
-            transacao.setStatus(StatusTransacao.FALHA);
-        } else {
-            transacao.setStatus(StatusTransacao.SUCESSO);
-            conta.setSaldo(saldoAtual.subtract(valorTransacao));
-        }
+//        Conta conta = cartaoId.getConta();
+//        BigDecimal saldoAtual = conta.getSaldo();
+//        BigDecimal valorTransacao = BigDecimal.valueOf(transacao.getValor());
+//
+//        if (valorTransacao.compareTo(BigDecimal.ZERO) <= 0 || valorTransacao.compareTo(saldoAtual) > 0) {
+//            transacao.setStatus(StatusTransacao.FALHA);
+//        } else {
+//            transacao.setStatus(StatusTransacao.SUCESSO);
+//            conta.setSaldo(saldoAtual.subtract(valorTransacao));
+//        }
 
         return repository.save(transacao);
     }

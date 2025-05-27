@@ -22,7 +22,7 @@ public class Transacao {
     private Double valor;
     private LocalDateTime dthora;
     private StatusTransacao status;
-    private Long ClienteDestinatarioId;
-    private Long ClienteRemetenteId;
+    private Long clienteDestinatarioId;
+    private Long clienteRemetenteId;
     private Long cartaoId;
 }

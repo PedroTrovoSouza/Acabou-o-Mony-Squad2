@@ -1,4 +1,4 @@
-package com.acabou_o_mony.mony.dto;
+package com.acabou_o_mony.mony.dto.transacao;
 
 import com.acabou_o_mony.mony.enums.StatusTransacao;
 import lombok.Data;
@@ -6,13 +6,14 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Data
-public class TransacaoRequestDTO {
+public class TransacaoResponseDTO {
+    private Long id;
     private String tipoTransacao;
     private Double valor;
     private LocalDateTime dthora;
-    private int destinatario;
+    private Long clienteDestinatarioId;
     private StatusTransacao status;
-    private Long remetenteId;
+    private Long clienteRemetenteId;
     private Long cartaoId;
     private Long contaId;
 }

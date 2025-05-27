@@ -50,4 +50,14 @@ public class Conta {
         this.agencia = agencia;
         this.tipoConta = tipoConta;
     }
+
+    public BigDecimal atualizarSaldo(BigDecimal valor){
+        if (valor.compareTo(BigDecimal.ZERO) >= 0){
+            this.saldo = saldo.add(valor);
+        }else {
+            this.saldo = saldo.subtract(valor);
+        }
+        return saldo;
+    }
+
 }

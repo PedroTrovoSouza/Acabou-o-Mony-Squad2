@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
@@ -44,6 +45,13 @@ public class ContaController {
     @PutMapping("/{id}/status")
     public ResponseEntity<ContaResponseDto> ativarOuDesativarConta(@PathVariable Long id){
         Conta conta = contaService.alterarStatusConta(id);
+        ContaResponseDto response = ContaMapper.toResponse(conta);
+        return ResponseEntity.ok(response);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ContaResponseDto> atualizarSaldoDoCliente(@PathVariable Long id, @RequestBody Double valor){
+        Conta conta = contaService.atualizarSaldo(id, BigDecimal.valueOf(valor));
         ContaResponseDto response = ContaMapper.toResponse(conta);
         return ResponseEntity.ok(response);
     }

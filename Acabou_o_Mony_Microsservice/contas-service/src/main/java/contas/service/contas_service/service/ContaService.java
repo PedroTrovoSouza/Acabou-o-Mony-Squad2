@@ -125,6 +125,12 @@ public class ContaService {
         return contaRepository.save(conta);
     }
 
+    public Conta atualizarSaldo(Long id, BigDecimal valor){
+        Conta conta = buscarContaPorId(id);
+        conta.atualizarSaldo(valor);
+        return contaRepository.save(conta);
+    }
+
     public void deletarConta(Long id){
         Conta conta = buscarContaPorId(id);
         contaRepository.delete(conta);

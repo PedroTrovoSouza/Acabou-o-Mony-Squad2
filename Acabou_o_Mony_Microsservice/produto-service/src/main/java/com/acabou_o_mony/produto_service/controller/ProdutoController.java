@@ -48,73 +48,79 @@ public class ProdutoController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Produto>> listarTodos() {
-        var listarProdutos = produtoService.listarTodos();
-
-        if (listarProdutos.isEmpty()) {
+    public ResponseEntity<List<ListagemProdutoDTO>> listarTodos() {
+        List<Produto> produtos = produtoService.listarTodos();
+        if (produtos.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
-        return ResponseEntity.ok().body(listarProdutos);
+        List<ListagemProdutoDTO> dtos = produtos.stream()
+                .map(mapperProduto::toListagemProdutoDTO)
+                .toList();
+        return ResponseEntity.ok(dtos);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Produto> listarUmUsuario(@PathVariable Long id) {
+    public ResponseEntity<ListagemProdutoDTO> listarUmProduto(@PathVariable Long id) {
         try {
-            return ResponseEntity.ok(produtoService.listarUmProduto(id));
+            Produto produto = produtoService.listarUmProduto(id);
+            ListagemProdutoDTO dto = mapperProduto.toListagemProdutoDTO(produto);
+            return ResponseEntity.ok(dto);
         } catch (RuntimeException e) {
             return ResponseEntity.notFound().build();
         }
     }
 
     @GetMapping("/nome")
-    public ResponseEntity<List<Produto>> buscarPorNome(@RequestParam String nome) {
+    public ResponseEntity<List<ListagemProdutoDTO>> buscarPorNome(@RequestParam String nome) {
         var produtos = produtoService.buscarPorNome(nome);
         if (produtos.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Collections.emptyList());
         }
-
-        return ResponseEntity.ok(produtos);
+        var dtos = produtos.stream()
+                .map(mapperProduto::toListagemProdutoDTO)
+                .toList();
+        return ResponseEntity.ok(dtos);
     }
 
     @PatchMapping("/{id}/nome")
-    public ResponseEntity<Produto> atualizarNome(@PathVariable Long id, @RequestBody @Valid AtualizarNomeProdutoDTO nomeDTO) {
+    public ResponseEntity<ListagemProdutoDTO> atualizarNome(@PathVariable Long id, @RequestBody @Valid AtualizarNomeProdutoDTO nomeDTO) {
         try {
-            var produto = produtoService.listarUmProduto(id);
-            produtoService.atualizarNome(id, nomeDTO.nome());
-            return ResponseEntity.ok(produto);
+            var produtoAtualizado = produtoService.atualizarNome(id, nomeDTO.nome());
+            var dto = mapperProduto.toListagemProdutoDTO(produtoAtualizado);
+            return ResponseEntity.ok(dto);
         } catch (RuntimeException e) {
             return ResponseEntity.notFound().build();
         }
     }
 
     @PatchMapping("/{id}/categoria")
-    public ResponseEntity<Produto> atualizarCategoria(@PathVariable Long id, @RequestBody @Valid AtualizarCategoriaProdutoDTO categoriaDTO) {
+    public ResponseEntity<ListagemProdutoDTO> atualizarCategoria(@PathVariable Long id, @RequestBody @Valid AtualizarCategoriaProdutoDTO categoriaDTO) {
         try {
-            var produto = produtoService.listarUmProduto(id);
-            produtoService.atualizarCategoria(id, categoriaDTO.categoria());
-            return ResponseEntity.ok(produto);
+            var produtoAtualizado = produtoService.atualizarCategoria(id, categoriaDTO.categoria());
+            var dto = mapperProduto.toListagemProdutoDTO(produtoAtualizado);
+            return ResponseEntity.ok(dto);
         } catch (RuntimeException e) {
             return ResponseEntity.notFound().build();
         }
     }
 
     @PatchMapping("/{id}/preco")
-    public ResponseEntity<Produto> atualizarPreco(@PathVariable Long id, @RequestBody @Valid AtualizarPrecoProdutoDTO precoDTO) {
+    public ResponseEntity<ListagemProdutoDTO> atualizarPreco(@PathVariable Long id, @RequestBody @Valid AtualizarPrecoProdutoDTO precoDTO) {
         try {
-            var produto = produtoService.listarUmProduto(id);
-            produtoService.atualizarPreco(id, precoDTO.preco());
-            return ResponseEntity.ok(produto);
+            var produtoAtualizado = produtoService.atualizarPreco(id, precoDTO.preco());
+            var dto = mapperProduto.toListagemProdutoDTO(produtoAtualizado);
+            return ResponseEntity.ok(dto);
         } catch (RuntimeException e) {
             return ResponseEntity.notFound().build();
         }
     }
 
     @PatchMapping("/{id}/estoque")
-    public ResponseEntity<Produto> atualizarEstoque(@PathVariable Long id, @RequestBody @Valid AtualizarEstoqueProdutoDTO estoqueDTO) {
+    public ResponseEntity<ListagemProdutoDTO> atualizarEstoque(@PathVariable Long id, @RequestBody @Valid AtualizarEstoqueProdutoDTO estoqueDTO) {
         try {
-            var produto = produtoService.listarUmProduto(id);
-            produtoService.atualizarEstoque(id, estoqueDTO.qtd_estoque());
-            return ResponseEntity.ok(produto);
+            var produtoAtualizado = produtoService.atualizarEstoque(id, estoqueDTO.qtd_estoque());
+            var dto = mapperProduto.toListagemProdutoDTO(produtoAtualizado);
+            return ResponseEntity.ok(dto);
         } catch (RuntimeException e) {
             return ResponseEntity.notFound().build();
         }

@@ -25,10 +25,8 @@ public class Pedido {
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataPedido;
 
-    @JoinColumn(name = "produto_id")
     private Long produto;
 
-    @JoinColumn(name = "cartao_id")
     private Long cartao;
 
     @Enumerated(EnumType.STRING)

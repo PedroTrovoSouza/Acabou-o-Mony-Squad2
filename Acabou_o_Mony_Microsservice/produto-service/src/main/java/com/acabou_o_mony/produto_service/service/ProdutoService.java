@@ -46,20 +46,24 @@ public class ProdutoService {
         return produtoRepository.buscarPorNome(nome);
     }
 
-    public void atualizarNome(Long id, String nome) {
+    public Produto atualizarNome(Long id, String nome) {
         produtoRepository.atualizarNome(id, nome);
+        return produtoRepository.getReferenceById(id);
     }
 
-    public void atualizarCategoria(Long id, String categoria) {
-        produtoRepository.atualizarCategoria(id, CategoriaProduto.fromString(categoria));
+    public Produto atualizarCategoria(Long id, String categoria) {
+         produtoRepository.atualizarCategoria(id, CategoriaProduto.fromString(categoria));
+        return produtoRepository.getReferenceById(id);
     }
 
-    public void atualizarPreco(Long id, double preco) {
-        produtoRepository.atualizarPreco(id, preco);
+    public Produto atualizarPreco(Long id, double preco) {
+         produtoRepository.atualizarPreco(id, preco);
+        return produtoRepository.getReferenceById(id);
     }
 
-    public void atualizarEstoque(Long id, int qtd_estoque) {
-        produtoRepository.atualizarQtdEstoque(id, qtd_estoque);
+    public Produto atualizarEstoque(Long id, int qtd_estoque) {
+         produtoRepository.atualizarQtdEstoque(id, qtd_estoque);
+         return produtoRepository.getReferenceById(id);
     }
 
     public Produto listarUmProduto(Long id) {

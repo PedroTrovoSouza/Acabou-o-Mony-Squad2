@@ -19,22 +19,22 @@ public interface ProdutoRepository extends JpaRepository<Produto, Long> {
     @Modifying
     @Transactional
     @Query("UPDATE Produto u set u.nome = :nome WHERE u.id = :id")
-    int atualizarNome(Long id , String nome);
+    int atualizarNome(@Param("id") Long id, @Param("nome") String nome);
 
     @Modifying
     @Transactional
     @Query("UPDATE Produto u set u.categoria = :categoria WHERE u.id = :id")
-    int atualizarCategoria(Long id , CategoriaProduto categoria);
+    int atualizarCategoria(@Param("id") Long id, @Param("categoria") CategoriaProduto categoria);
 
     @Modifying
     @Transactional
     @Query("UPDATE Produto u set u.preco = :preco WHERE u.id = :id")
-    int atualizarPreco(Long id , Double preco);
+    int atualizarPreco(@Param("id") Long id, @Param("preco") Double preco);
 
     @Modifying
     @Transactional
     @Query("UPDATE Produto u set u.qtd_estoque = :qtd_estoque WHERE u.id = :id")
-    int atualizarQtdEstoque(Long id , int qtd_estoque);
+    int atualizarQtdEstoque(@Param("id") Long id, @Param("qtd_estoque") int qtd_estoque);
 
     Optional<Produto> findByNome(String nome);
 

@@ -11,8 +11,8 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2025-05-27T11:39:04-0300",
-    comments = "version: 1.5.5.Final, compiler: javac, environment: Java 21.0.7 (Oracle Corporation)"
+    date = "2025-05-27T14:23:14-0300",
+    comments = "version: 1.5.5.Final, compiler: javac, environment: Java 24 (Oracle Corporation)"
 )
 @Component
 public class MapperPedidoImpl implements MapperPedido {
@@ -29,6 +29,7 @@ public class MapperPedidoImpl implements MapperPedido {
         pedido.setDataPedido( pedidoRequestDTO.getDataPedido() );
         pedido.setProduto( pedidoRequestDTO.getProduto() );
         pedido.setCartao( pedidoRequestDTO.getCartao() );
+        pedido.setStatus( pedidoRequestDTO.getStatus() );
 
         return pedido;
     }
@@ -39,12 +40,19 @@ public class MapperPedidoImpl implements MapperPedido {
             return null;
         }
 
-        PedidoRequestDTO pedidoRequestDTO = new PedidoRequestDTO();
+        double valorTotal = 0.0d;
+        Date dataPedido = null;
+        Long produto = null;
+        Long cartao = null;
+        StatusPedido status = null;
 
-        pedidoRequestDTO.setValorTotal( entity.getValorTotal() );
-        pedidoRequestDTO.setDataPedido( entity.getDataPedido() );
-        pedidoRequestDTO.setProduto( entity.getProduto() );
-        pedidoRequestDTO.setCartao( entity.getCartao() );
+        valorTotal = entity.getValorTotal();
+        dataPedido = entity.getDataPedido();
+        produto = entity.getProduto();
+        cartao = entity.getCartao();
+        status = entity.getStatus();
+
+        PedidoRequestDTO pedidoRequestDTO = new PedidoRequestDTO( valorTotal, dataPedido, produto, cartao, status );
 
         return pedidoRequestDTO;
     }
@@ -65,7 +73,7 @@ public class MapperPedidoImpl implements MapperPedido {
 
         String nomeProduto = null;
 
-        PedidoResponseDTO pedidoResponseDTO = new PedidoResponseDTO( valorTotal, dataPedido, nomeProduto, status );
+        PedidoResponseDTO pedidoResponseDTO = new PedidoResponseDTO( nomeProduto, valorTotal, dataPedido, status );
 
         return pedidoResponseDTO;
     }

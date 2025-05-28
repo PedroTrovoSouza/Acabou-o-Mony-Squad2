@@ -47,5 +47,11 @@ public class PessoaFisica extends Cliente{
         this.genero = genero;
     }
 
-
+    public PessoaFisica(Long id, String nome, String email, String cpf, PerfilEconomico perfilEconomico, LocalDate dataNascimento, Genero genero) {
+        super(id, nome, email);
+        this.cpf = cpf;
+        this.perfilEconomico = perfilEconomico;
+        this.dataNascimento = dataNascimento;
+        this.genero = genero;
+    }
 }

@@ -27,6 +27,13 @@ public class ContaController {
         return response.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(response);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<ContaResponseDto> buscarContaPorId(@PathVariable Long id){
+        Conta conta = contaService.buscarContaPorId(id);
+        ContaResponseDto response = ContaMapper.toResponse(conta);
+        return ResponseEntity.ok(response);
+    }
+
     @PostMapping
     public ResponseEntity<ContaResponseDto> cadastrarConta(@RequestBody ContaRequestDto contaParaCadastrar){
         Conta conta = contaService.abrirConta(contaParaCadastrar);

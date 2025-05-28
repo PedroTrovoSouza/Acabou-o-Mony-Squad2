@@ -35,6 +35,34 @@ public class ClienteController {
         return response.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(response);
     }
 
+    @GetMapping("/pf/email")
+    public ResponseEntity<FisicaResponseDto> buscarPessoaFisicaPorEmail(@RequestParam String email){
+        PessoaFisica pessoaFisica = clienteService.buscarPessoaFisicaPorEmail(email);
+        FisicaResponseDto responseDto = ClienteMapper.toResponseDto(pessoaFisica);
+        return ResponseEntity.ok(responseDto);
+    }
+
+    @GetMapping("/pj/email")
+    public ResponseEntity<JuridicaResponseDto> buscarPessoaJuridicaPorEmail(@RequestParam String email){
+        PessoaJuridica pessoaJuridica = clienteService.buscarPessoaJuridicaPorEmail(email);
+        JuridicaResponseDto responseDto = ClienteMapper.toResponseDto(pessoaJuridica);
+        return ResponseEntity.ok(responseDto);
+    }
+
+    @GetMapping("/pf/{id}")
+    public ResponseEntity<FisicaResponseDto> buscarPessoaFisicaPorId(@PathVariable Long id){
+        PessoaFisica pessoaFisica = clienteService.buscarPessoaFisicaPorId(id);
+        FisicaResponseDto responseDto = ClienteMapper.toResponseDto(pessoaFisica);
+        return ResponseEntity.ok(responseDto);
+    }
+
+    @GetMapping("/pj/{id}")
+    public ResponseEntity<JuridicaResponseDto> buscarPessoaJuridicaPorId(@PathVariable Long id){
+        PessoaJuridica pessoaJuridica = clienteService.buscarPessoaJuridicaPorId(id);
+        JuridicaResponseDto responseDto = ClienteMapper.toResponseDto(pessoaJuridica);
+        return ResponseEntity.ok(responseDto);
+    }
+
     @PostMapping("/pf")
     public ResponseEntity<FisicaResponseDto> cadastrarPessoaFisica(@RequestBody @Valid FisicaRequestDto dtoCadastro){
         PessoaFisica fisica = ClienteMapper.toEntity(dtoCadastro);

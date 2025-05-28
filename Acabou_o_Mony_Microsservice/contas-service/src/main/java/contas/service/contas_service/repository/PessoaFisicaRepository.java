@@ -8,4 +8,8 @@ public interface PessoaFisicaRepository extends JpaRepository<PessoaFisica, Long
     boolean existsByCpf(String cpf);
 
     PessoaFisica getPessoaFisicaByCpf(String cpf);
+
+    boolean existsByEmail(String email);
+
+    PessoaFisica getPessoaFisicaByEmail (String email);
 }

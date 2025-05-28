@@ -25,9 +25,11 @@ public class PessoaJuridica extends Cliente{
         this.dataFundacao = dataFundacao;
     }
 
-    public PessoaJuridica(String nome, String cnpj, String email, LocalDate dataFundacao) {
+    public PessoaJuridica(String nome, String email, String cnpj, LocalDate dataFundacao) {
         super(nome, email);
         this.cnpj = cnpj;
         this.dataFundacao = dataFundacao;
     }
+
+
 }

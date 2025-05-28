@@ -37,6 +37,20 @@ public class ClienteService {
                 .orElseThrow(() -> new ClienteNaoEncontradoException("Pessoa Fisica não enconntrada"));
     }
 
+    public PessoaFisica buscarPessoaFisicaPorEmail(String email){
+        if (fisicaRepository.existsByEmail(email)){
+            return fisicaRepository.getPessoaFisicaByEmail(email);
+        }
+        throw new ClienteNaoEncontradoException("Cliente não encontrado;");
+    }
+
+    public PessoaJuridica buscarPessoaJuridicaPorEmail(String email){
+        if (juridicaRepository.existsByEmail(email)){
+            return juridicaRepository.getPessoaJuridicaByEmail(email);
+        }
+        throw new ClienteNaoEncontradoException("Cliente não encontrado;");
+    }
+
     public PessoaFisica cadastrarPessoaFisica(PessoaFisica fisica){
         if (fisicaRepository.existsByCpf(fisica.getCpf())){
             throw new ClienteConflitoException("CPF já cadastrado.");

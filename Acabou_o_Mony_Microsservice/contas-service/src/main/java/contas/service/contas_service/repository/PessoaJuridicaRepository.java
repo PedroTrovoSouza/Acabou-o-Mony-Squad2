@@ -8,4 +8,8 @@ public interface PessoaJuridicaRepository extends JpaRepository<PessoaJuridica, 
     boolean existsByCnpj(String cnpj);
 
     PessoaJuridica getPessoaJuridicaByCnpj(String cnpj);
+
+    boolean existsByEmail(String email);
+
+    PessoaJuridica getPessoaJuridicaByEmail(String email);
 }

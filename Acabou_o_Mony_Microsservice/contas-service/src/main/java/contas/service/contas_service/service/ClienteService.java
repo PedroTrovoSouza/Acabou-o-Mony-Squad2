@@ -1,10 +1,12 @@
 package contas.service.contas_service.service;
 
 
+import contas.service.contas_service.entity.Cliente;
 import contas.service.contas_service.entity.PessoaFisica;
 import contas.service.contas_service.entity.PessoaJuridica;
 import contas.service.contas_service.exception.ClienteConflitoException;
 import contas.service.contas_service.exception.ClienteNaoEncontradoException;
+import contas.service.contas_service.repository.ClienteRepository;
 import contas.service.contas_service.repository.PessoaFisicaRepository;
 import contas.service.contas_service.repository.PessoaJuridicaRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +20,7 @@ public class ClienteService {
 
     private final PessoaJuridicaRepository juridicaRepository;
     private final PessoaFisicaRepository fisicaRepository;
+    private final ClienteRepository clienteRepository;
 
     public List<PessoaFisica> listarPessoaFisica(){
         return fisicaRepository.findAll();
@@ -47,6 +50,13 @@ public class ClienteService {
     public PessoaJuridica buscarPessoaJuridicaPorEmail(String email){
         if (juridicaRepository.existsByEmail(email)){
             return juridicaRepository.getPessoaJuridicaByEmail(email);
+        }
+        throw new ClienteNaoEncontradoException("Cliente não encontrado;");
+    }
+
+    public Cliente buscarClientePorEmail(String email){
+        if (clienteRepository.existsByEmail(email)){
+            return clienteRepository.getClienteByEmail(email);
         }
         throw new ClienteNaoEncontradoException("Cliente não encontrado;");
     }

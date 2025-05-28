@@ -2,6 +2,7 @@ package contas.service.contas_service.controller;
 
 
 import contas.service.contas_service.dto.cliente.*;
+import contas.service.contas_service.entity.Cliente;
 import contas.service.contas_service.entity.PessoaFisica;
 import contas.service.contas_service.entity.PessoaJuridica;
 import contas.service.contas_service.mapper.ClienteMapper;
@@ -49,6 +50,12 @@ public class ClienteController {
         return ResponseEntity.ok(responseDto);
     }
 
+    @GetMapping("/email")
+    public ResponseEntity<Cliente> buscarClientePorEmail(@RequestParam String email){
+        Cliente cliente = clienteService.buscarClientePorEmail(email);
+        return ResponseEntity.ok(cliente);
+    }
+
     @GetMapping("/pf/{id}")
     public ResponseEntity<FisicaResponseDto> buscarPessoaFisicaPorId(@PathVariable Long id){
         PessoaFisica pessoaFisica = clienteService.buscarPessoaFisicaPorId(id);
@@ -84,7 +91,7 @@ public class ClienteController {
         PessoaFisica fisica = ClienteMapper.toEntity(dtoAtualizacao);
         PessoaFisica clienteAtualizado = clienteService.atualizarPessoaFisica(id, fisica);
         FisicaResponseDto response = ClienteMapper.toResponseDto(clienteAtualizado);
-        return ResponseEntity.status(201).body(response);
+        return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/pf/{id}")

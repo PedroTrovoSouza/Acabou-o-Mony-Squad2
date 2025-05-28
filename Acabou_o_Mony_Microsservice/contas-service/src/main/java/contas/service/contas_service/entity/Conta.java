@@ -51,6 +51,17 @@ public class Conta {
         this.tipoConta = tipoConta;
     }
 
+    public Conta(String agencia, TipoConta tipoConta, BigDecimal saldo, Boolean isDebito, Boolean isCredito, BigDecimal limiteCredito, Boolean isAtiva, Cliente cliente) {
+        this.agencia = agencia;
+        this.tipoConta = tipoConta;
+        this.saldo = saldo;
+        this.isDebito = isDebito;
+        this.isCredito = isCredito;
+        this.limiteCredito = limiteCredito;
+        this.isAtiva = isAtiva;
+        this.cliente = cliente;
+    }
+
     public BigDecimal atualizarSaldo(BigDecimal valor){
         if (valor.compareTo(BigDecimal.ZERO) >= 0){
             this.saldo = saldo.add(valor);

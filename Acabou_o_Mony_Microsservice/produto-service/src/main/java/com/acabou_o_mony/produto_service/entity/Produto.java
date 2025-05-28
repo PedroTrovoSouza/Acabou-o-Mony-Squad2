@@ -1,6 +1,7 @@
 package com.acabou_o_mony.produto_service.entity;
 
 import com.acabou_o_mony.produto_service.dto.CadastroProdutoDTO;
+import com.acabou_o_mony.produto_service.dto.ListagemProdutoDTO;
 import com.acabou_o_mony.produto_service.enums.CategoriaProduto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -23,18 +24,12 @@ public class Produto {
     private String nome;
 
     @Enumerated(EnumType.STRING)
-    CategoriaProduto categoria;
+    private CategoriaProduto categoria;
 
     private Double preco;
 
     private int qtd_estoque;
 
-    public Produto(String nome, CategoriaProduto categoria, Double preco, int qtd_estoque) {
-        this.nome = nome;
-        this.categoria = categoria;
-        this.preco = preco;
-        this.qtd_estoque = qtd_estoque;
-    }
     public Produto(CadastroProdutoDTO dto) {
         this.nome = dto.nome();
         this.categoria = CategoriaProduto.valueOf(dto.categoria());
@@ -42,7 +37,4 @@ public class Produto {
         this.qtd_estoque = dto.qtd_estoque();
     }
 
-    public Produto() {
-
-    }
 }

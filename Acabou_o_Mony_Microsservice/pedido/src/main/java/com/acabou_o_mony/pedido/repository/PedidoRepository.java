@@ -21,5 +21,4 @@ public interface PedidoRepository extends JpaRepository<Pedido, Long> {
     WHERE p.id_pedido = :id
     """, nativeQuery = true)
     PedidoResponseDTO buscarPedidoComNomeDoProduto(@Param("id") Long id);
-
 }

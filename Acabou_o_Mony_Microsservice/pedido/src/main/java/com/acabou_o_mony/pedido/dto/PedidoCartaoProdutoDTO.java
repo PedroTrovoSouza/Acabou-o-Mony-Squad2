@@ -24,6 +24,6 @@ public class PedidoCartaoProdutoDTO {
         this.numeroCartao = numeroCartao;
         this.nomeProduto = nomeProduto;
         this.dataPedido = dataPedido;
-        this.status = StatusPedido.FINALIZADO;
+        this.status = StatusPedido.EM_ANDAMENTO;
     }
 }

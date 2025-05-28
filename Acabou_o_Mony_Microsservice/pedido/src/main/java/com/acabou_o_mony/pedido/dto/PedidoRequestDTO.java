@@ -24,6 +24,6 @@ public class PedidoRequestDTO {
         this.dataPedido = dataPedido;
         this.produto = produto;
         this.cartao = cartao;
-        this.status = StatusPedido.FINALIZADO;
+        this.status = StatusPedido.APROVADO;
     }
 }

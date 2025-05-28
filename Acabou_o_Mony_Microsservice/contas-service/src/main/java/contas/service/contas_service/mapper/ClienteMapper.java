@@ -16,7 +16,7 @@ public class ClienteMapper {
     }
 
     public static PessoaFisica toEntity(FisicaRequestDto dtoCadastro) {
-        return new PessoaFisica(dtoCadastro.nome(), dtoCadastro.cpf(), dtoCadastro.email(), dtoCadastro.dataNascimento(),
+        return new PessoaFisica(dtoCadastro.nome(), dtoCadastro.email(), dtoCadastro.cpf(), dtoCadastro.perfilEconomico(), dtoCadastro.dataNascimento(),
                 dtoCadastro.genero());
     }
 

@@ -41,15 +41,15 @@ public class ContaController {
         return ResponseEntity.status(201).body(response);
     }
 
-    @PutMapping("/conta/{id}")
-    public ResponseEntity<ContaResponseDto> alterarTipoConta (@PathVariable Long idCliente, @RequestBody ContaAtualizacaoDto contaParaAtualizar){
+    @PutMapping("/conta/{idConta}")
+    public ResponseEntity<ContaResponseDto> alterarTipoConta (@PathVariable Long idConta, @RequestBody ContaAtualizacaoDto contaParaAtualizar){
         Conta conta = ContaMapper.toEntity(contaParaAtualizar);
-        Conta contaAtualizada = contaService.alterarConta(idCliente, conta);
+        Conta contaAtualizada = contaService.alterarConta(idConta, conta);
         ContaResponseDto response = ContaMapper.toResponse(contaAtualizada);
         return ResponseEntity.ok(response);
     }
 
-    @PutMapping("/{id}/status")
+    @PutMapping("/status/{id}")
     public ResponseEntity<ContaResponseDto> ativarOuDesativarConta(@PathVariable Long id){
         Conta conta = contaService.alterarStatusConta(id);
         ContaResponseDto response = ContaMapper.toResponse(conta);

@@ -63,11 +63,7 @@ public class Conta {
     }
 
     public BigDecimal atualizarSaldo(BigDecimal valor){
-        if (valor.compareTo(BigDecimal.ZERO) >= 0){
-            this.saldo = saldo.add(valor);
-        }else {
-            this.saldo = saldo.subtract(valor);
-        }
+        this.saldo = saldo.add(valor);
         return saldo;
     }
 

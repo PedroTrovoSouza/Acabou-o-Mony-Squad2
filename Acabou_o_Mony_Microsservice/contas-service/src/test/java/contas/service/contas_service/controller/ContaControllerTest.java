@@ -1,6 +1,7 @@
 package contas.service.contas_service.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import contas.service.contas_service.dto.conta.ContaAtualizacaoDto;
 import contas.service.contas_service.dto.conta.ContaRequestDto;
 import contas.service.contas_service.entity.Conta;
 import contas.service.contas_service.entity.PessoaFisica;
@@ -24,9 +25,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
@@ -54,6 +53,7 @@ class ContaControllerTest {
 
     private Conta contaPessoaFisica;
 
+
     @BeforeEach
     void setUp(){
         pessoaFisica = new PessoaFisica("Fernando", "fernando@gmail.com", "12345678901", PerfilEconomico.MEDIO, LocalDate.of(2005,10,02),
@@ -72,7 +72,7 @@ class ContaControllerTest {
 
         clienteService.cadastrarPessoaFisica(pessoaFisica);
         ContaRequestDto requestDto2 = new ContaRequestDto(contaPessoaFisica.getAgencia(), contaPessoaFisica.getTipoConta(),
-                contaPessoaFisica.getIsDebito(), contaPessoaFisica.getIsCredito(), contaPessoaFisica.getId(), TipoCliente.PESSOA_FISICA);
+                contaPessoaFisica.getIsDebito(), contaPessoaFisica.getIsCredito(), pessoaFisica.getId(), TipoCliente.PESSOA_FISICA);
 
         contaService.abrirConta(requestDto1);
         contaService.abrirConta(requestDto2);
@@ -92,17 +92,89 @@ class ContaControllerTest {
     }
 
     @Test
-    @DisplayName("Deve abrir uma nova conta para pesssoa física com sucesso")
-    void deveAbrirContaParaPessoaFisicaComSucesso() throws Exception {
-        clienteService.cadastrarPessoaFisica(pessoaFisica);
+    @DisplayName("Deve abrir uma nova conta para pesssoa Juridica com sucesso")
+    void deveAbrirContaParaPessoaJuridicaComSucesso() throws Exception {
+        clienteService.cadastrarPessoaJuridica(pessoaJuridica);
         ContaRequestDto requestDto = new ContaRequestDto(contaPessoaJuridica.getAgencia(), contaPessoaJuridica.getTipoConta(),
                 contaPessoaJuridica.getIsDebito(), contaPessoaJuridica.getIsCredito(), pessoaJuridica.getId(), TipoCliente.PESSOA_JURIDICA);
 
         mockMvc.perform(post("/contas").contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(requestDto)))
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("$[0].tipoConta").value(TipoConta.CONTA_POUPANCA))
-                .andExpect(jsonPath("$[0].tipoCliente").value(TipoCliente.PESSOA_JURIDICA));
+                .andExpect(jsonPath("$.tipoConta").value(TipoConta.CONTA_CORRENTE.name()));
+    }
+
+    @Test
+    @DisplayName("Deve abrir uma nova conta para pesssoa Juridica com sucesso e retornar a pessoa cadastrada")
+    void deveAbrirContaParaPessoaFisicaComSucesso() throws Exception {
+        clienteService.cadastrarPessoaFisica(pessoaFisica);
+        ContaRequestDto requestDto = new ContaRequestDto(contaPessoaFisica.getAgencia(), contaPessoaFisica.getTipoConta(),
+                contaPessoaFisica.getIsDebito(), contaPessoaFisica.getIsCredito(), pessoaFisica.getId(), TipoCliente.PESSOA_FISICA);
+
+        mockMvc.perform(post("/contas").contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(requestDto)))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.tipoConta").value(TipoConta.CONTA_POUPANCA.name()));
+    }
+
+    @Test
+    @DisplayName("Deve desativar conta com sucesso e retornar OK")
+    void deveDesativarUmaContaComSucesso() throws Exception {
+        clienteService.cadastrarPessoaJuridica(pessoaJuridica);
+        ContaRequestDto requestDto1 = new ContaRequestDto(contaPessoaJuridica.getAgencia(), contaPessoaJuridica.getTipoConta(),
+                contaPessoaJuridica.getIsDebito(), contaPessoaJuridica.getIsCredito(), pessoaJuridica.getId(), TipoCliente.PESSOA_JURIDICA);
+
+        Conta contaAberta = contaService.abrirConta(requestDto1);
+
+        mockMvc.perform(put("/contas/status/{id}", contaAberta.getId()))
+                .andExpect(jsonPath("$.isAtiva").value(false));
+    }
+
+    @Test
+    @DisplayName("Deve somar saldo do cliente com valor passado")
+    void deveSomarSaldoDoClienteComValorPassado() throws Exception {
+        clienteService.cadastrarPessoaJuridica(pessoaJuridica);
+        ContaRequestDto requestDto1 = new ContaRequestDto(contaPessoaJuridica.getAgencia(), contaPessoaJuridica.getTipoConta(),
+                contaPessoaJuridica.getIsDebito(), contaPessoaJuridica.getIsCredito(), pessoaJuridica.getId(), TipoCliente.PESSOA_JURIDICA);
+
+        Conta contaAberta = contaService.abrirConta(requestDto1);
+
+        mockMvc.perform(put("/contas/saldo/{id}", contaAberta.getId())
+                        .contentType(MediaType.APPLICATION_JSON)
+                    .content(objectMapper.writeValueAsString(2_000.0)))
+                .andExpect(jsonPath("$.saldo").value(2_000.0));
+    }
+
+    @Test
+    @DisplayName("Deve subtrair saldo do cliente com valor passado")
+    void deveSubtrairSaldoDoClienteComValorPassado() throws Exception {
+        clienteService.cadastrarPessoaJuridica(pessoaJuridica);
+        ContaRequestDto requestDto1 = new ContaRequestDto(contaPessoaJuridica.getAgencia(), contaPessoaJuridica.getTipoConta(),
+                contaPessoaJuridica.getIsDebito(), contaPessoaJuridica.getIsCredito(), pessoaJuridica.getId(), TipoCliente.PESSOA_JURIDICA);
+
+        Conta contaAberta = contaService.abrirConta(requestDto1);
+
+        mockMvc.perform(put("/contas/saldo/{id}", contaAberta.getId())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(-1_000.0)))
+                .andExpect(jsonPath("$.saldo").value(-1_000.0));
+    }
+
+    @Test
+    @DisplayName("Deve alterar CONTA_CORRENTE para CONTA_SALARIo")
+    void deveAlterarTipoDeConta() throws Exception {
+        clienteService.cadastrarPessoaFisica(pessoaFisica);
+        ContaRequestDto requestDto = new ContaRequestDto(contaPessoaFisica.getAgencia(), contaPessoaFisica.getTipoConta(),
+                contaPessoaFisica.getIsDebito(), contaPessoaFisica.getIsCredito(), pessoaFisica.getId(), TipoCliente.PESSOA_FISICA);
+        ContaAtualizacaoDto atualizacaoDto = new ContaAtualizacaoDto("003", TipoConta.CONTA_SALARIO);
+
+        Conta contaAberta = contaService.abrirConta(requestDto);
+
+        mockMvc.perform(put("/contas/conta/{id}", contaAberta.getId())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(atualizacaoDto)))
+                .andExpect(jsonPath("$.agencia").value(atualizacaoDto.agencia()))
+                .andExpect(jsonPath("$.tipoConta").value(atualizacaoDto.tipoConta().name()));
     }
 
 }

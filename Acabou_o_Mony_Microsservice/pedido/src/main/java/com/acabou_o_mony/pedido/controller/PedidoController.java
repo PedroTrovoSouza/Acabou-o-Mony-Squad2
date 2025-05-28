@@ -1,7 +1,9 @@
 package com.acabou_o_mony.pedido.controller;
 
+import com.acabou_o_mony.pedido.dto.BuscarEmailPedido;
 import com.acabou_o_mony.pedido.dto.PedidoCartaoProdutoDTO;
 import com.acabou_o_mony.pedido.dto.PedidoRequestDTO;
+import com.acabou_o_mony.pedido.dto.PedidoResponseDTO;
 import com.acabou_o_mony.pedido.entity.Pedido;
 import com.acabou_o_mony.pedido.service.PedidoService;
 import jakarta.validation.Valid;
@@ -22,17 +24,17 @@ public class PedidoController {
     PedidoService pedidoService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getPedido(@PathVariable long id){
+    public ResponseEntity<?> getPedido(@PathVariable long id) {
         try {
-            return ResponseEntity.status(200).body(pedidoService.buscarPedido(id));
-        }catch (RuntimeException e){
-            return ResponseEntity.status(404).body(e.getMessage());
+            PedidoResponseDTO pedido = pedidoService.buscarPedido(id);
+            return ResponseEntity.ok(pedido); // status 200 automaticamente
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
 
-
     @PostMapping("/cadastrar")
-    public ResponseEntity<?> postPedido(@RequestBody PedidoRequestDTO novoPedido) {
+    public ResponseEntity<?> postPedido(@RequestBody BuscarEmailPedido novoPedido) {
         try {
             PedidoCartaoProdutoDTO pedidoCriado = pedidoService.cadastrarPedido(novoPedido);
             return ResponseEntity.status(HttpStatus.CREATED).body(pedidoCriado);

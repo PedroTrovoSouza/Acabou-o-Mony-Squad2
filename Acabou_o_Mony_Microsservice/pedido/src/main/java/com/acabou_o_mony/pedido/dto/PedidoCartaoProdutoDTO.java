@@ -1,6 +1,7 @@
 package com.acabou_o_mony.pedido.dto;
 
 import com.acabou_o_mony.pedido.enums.StatusPedido;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,7 +13,10 @@ public class PedidoCartaoProdutoDTO {
     double valorTotal;
     String numeroCartao;
     String nomeProduto;
+
+    @JsonFormat(pattern = "dd/MM/yyyy")
     Date dataPedido;
+
     StatusPedido status;
 
     public PedidoCartaoProdutoDTO(double valorTotal, String numeroCartao, String nomeProduto, Date dataPedido, StatusPedido status){

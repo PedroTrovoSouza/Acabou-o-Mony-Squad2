@@ -4,5 +4,6 @@
     <file url="file://$PROJECT_DIR$/contas-service/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/pedido/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/produto-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/transacao-service/src/main/java" charset="UTF-8" />
   </component>
 </project>

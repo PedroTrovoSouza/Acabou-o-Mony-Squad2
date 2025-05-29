@@ -25,7 +25,7 @@ public class Pedido {
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataPedido;
 
-    private Long produto;
+    private String produto;
 
     private Long cartao;
 

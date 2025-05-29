@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="8cc7e7fa-7e66-4964-9f4d-e4e155a9dceb" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/acabou_o_mony/pedido/controller/PedidoController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/acabou_o_mony/pedido/controller/PedidoController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/acabou_o_mony/pedido/dto/PedidoCartaoProdutoDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/acabou_o_mony/pedido/dto/PedidoCartaoProdutoDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/acabou_o_mony/pedido/entity/Pedido.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/acabou_o_mony/pedido/entity/Pedido.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/acabou_o_mony/pedido/service/PedidoService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/acabou_o_mony/pedido/service/PedidoService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/acabou_o_mony/pedido/controller/PedidoController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/acabou_o_mony/pedido/controller/PedidoController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/acabou_o_mony/pedido/dto/PedidoCartaoProdutoDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/acabou_o_mony/pedido/dto/PedidoCartaoProdutoDTO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/acabou_o_mony/pedido/dto/PedidoRequestDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/acabou_o_mony/pedido/dto/PedidoRequestDTO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/acabou_o_mony/pedido/entity/Pedido.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/acabou_o_mony/pedido/entity/Pedido.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/acabou_o_mony/pedido/enums/StatusPedido.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/acabou_o_mony/pedido/enums/StatusPedido.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/acabou_o_mony/pedido/mapper/MapperPedidoImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/acabou_o_mony/pedido/mapper/MapperPedidoImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/acabou_o_mony/pedido/service/PedidoService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/acabou_o_mony/pedido/service/PedidoService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/generated-sources/annotations/com/acabou_o_mony/pedido/mapper/MapperPedidoImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/target/generated-sources/annotations/com/acabou_o_mony/pedido/mapper/MapperPedidoImpl.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 3
+}</component>
+  <component name="ProjectId" id="2xjZ8MAdv7rgWCT0GhhOb9v1grP" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.PedidoApplication.executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "C:/Users/pedro.tsouza/Documents/Acabou-o-Mony-Squad2/Acabou_o_Mony_Microsservice/pedido/pom.xml",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "settings.editor.selected.configurable": "configurable.group.language"
+  }
+}]]></component>
+  <component name="RunManager">
+    <configuration name="PedidoApplication" type="Application" factoryName="Application" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.acabou_o_mony.pedido.PedidoApplication" />
+      <module name="pedido" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.acabou_o_mony.pedido.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="JetRunConfigurationType">
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <option name="filePath" />
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="PythonConfigurationType" factoryName="Python">
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="Tox" factoryName="Tox">
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="8cc7e7fa-7e66-4964-9f4d-e4e155a9dceb" name="Changes" comment="" />
+      <created>1748453287091</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1748453287091</updated>
+    </task>
+    <servers />
+  </component>
+</project>

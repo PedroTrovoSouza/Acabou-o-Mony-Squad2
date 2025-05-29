@@ -11,8 +11,8 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2025-05-27T14:23:14-0300",
-    comments = "version: 1.5.5.Final, compiler: javac, environment: Java 24 (Oracle Corporation)"
+    date = "2025-05-29T10:20:51-0300",
+    comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.12 (Oracle Corporation)"
 )
 @Component
 public class MapperPedidoImpl implements MapperPedido {
@@ -27,7 +27,9 @@ public class MapperPedidoImpl implements MapperPedido {
 
         pedido.setValorTotal( pedidoRequestDTO.getValorTotal() );
         pedido.setDataPedido( pedidoRequestDTO.getDataPedido() );
-        pedido.setProduto( pedidoRequestDTO.getProduto() );
+        if ( pedidoRequestDTO.getProduto() != null ) {
+            pedido.setProduto( String.valueOf( pedidoRequestDTO.getProduto() ) );
+        }
         pedido.setCartao( pedidoRequestDTO.getCartao() );
         pedido.setStatus( pedidoRequestDTO.getStatus() );
 
@@ -48,7 +50,9 @@ public class MapperPedidoImpl implements MapperPedido {
 
         valorTotal = entity.getValorTotal();
         dataPedido = entity.getDataPedido();
-        produto = entity.getProduto();
+        if ( entity.getProduto() != null ) {
+            produto = Long.parseLong( entity.getProduto() );
+        }
         cartao = entity.getCartao();
         status = entity.getStatus();
 
@@ -99,18 +103,21 @@ public class MapperPedidoImpl implements MapperPedido {
             return null;
         }
 
+        String nomeProduto = null;
         StatusPedido status = null;
         double valorTotal = 0.0d;
         Date dataPedido = null;
 
+        nomeProduto = entity.getProduto();
         status = entity.getStatus();
         valorTotal = entity.getValorTotal();
         dataPedido = entity.getDataPedido();
 
-        String numeroCartao = null;
-        String nomeProduto = null;
+        PedidoCartaoProdutoDTO pedidoCartaoProdutoDTO = new PedidoCartaoProdutoDTO( valorTotal, nomeProduto, dataPedido, status );
 
-        PedidoCartaoProdutoDTO pedidoCartaoProdutoDTO = new PedidoCartaoProdutoDTO( valorTotal, numeroCartao, nomeProduto, dataPedido, status );
+        if ( entity.getCartao() != null ) {
+            pedidoCartaoProdutoDTO.setNumeroCartao( String.valueOf( entity.getCartao() ) );
+        }
 
         return pedidoCartaoProdutoDTO;
     }

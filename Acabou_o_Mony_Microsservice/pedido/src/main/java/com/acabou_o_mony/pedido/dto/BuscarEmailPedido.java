@@ -12,5 +12,6 @@ import lombok.Setter;
 public class BuscarEmailPedido {
     private String email;
     private PedidoRequestDTO pedido;
+    private String cartao;
 }
 

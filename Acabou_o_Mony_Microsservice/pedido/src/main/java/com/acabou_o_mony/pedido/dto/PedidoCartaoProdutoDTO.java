@@ -19,9 +19,8 @@ public class PedidoCartaoProdutoDTO {
 
     StatusPedido status;
 
-    public PedidoCartaoProdutoDTO(double valorTotal, String numeroCartao, String nomeProduto, Date dataPedido, StatusPedido status){
+    public PedidoCartaoProdutoDTO(double valorTotal, String nomeProduto, Date dataPedido, StatusPedido status){
         this.valorTotal = valorTotal;
-        this.numeroCartao = numeroCartao;
         this.nomeProduto = nomeProduto;
         this.dataPedido = dataPedido;
         this.status = StatusPedido.EM_ANDAMENTO;

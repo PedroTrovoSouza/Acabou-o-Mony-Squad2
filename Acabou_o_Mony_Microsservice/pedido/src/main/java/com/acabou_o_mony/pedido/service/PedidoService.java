@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
+
 import java.util.Date;
 import java.util.Optional;
 
@@ -35,7 +36,7 @@ public class PedidoService {
         return null;
     }
 
-    public PedidoCartaoProdutoDTO cadastrarPedido(BuscarEmailPedido dto) {
+    public PedidoCartaoProdutoDTO cadastrarPedido(String nomeProduto, BuscarEmailPedido dto) {
         if (dto == null) {
             throw new RuntimeException("Pedido não pode ser nulo");
         }
@@ -58,14 +59,20 @@ public class PedidoService {
             throw new RuntimeException("Email: " + dto.getEmail() + " não encontrado.");
         }
 
-        /*try {
+        try {
             client.get()
-                    .uri("http://localhost:9091/produto/{nome}", dto.getPedido().getProduto())
+                    .uri(uriBuilder -> uriBuilder
+                            .scheme("http")
+                            .host("localhost")
+                            .port(9091)
+                            .path("/produto/nome")
+                            .queryParam("nome", nomeProduto)
+                            .build())
                     .retrieve()
                     .toBodilessEntity()
                     .block();
         } catch (WebClientResponseException.NotFound e) {
-            throw new RuntimeException("Produto " + dto.getPedido().getProduto() + " não encontrado.");
+            throw new RuntimeException("Produto: " + nomeProduto + " não encontrado");
         }
 
         try {
@@ -87,18 +94,20 @@ public class PedidoService {
                     .block();
         } catch (WebClientResponseException e) {
             throw new RuntimeException("Erro ao consultar transação: " + e.getMessage());
-        }*/
+        }
 
         Pedido pedido = mapperPedido.toEntity(dto.getPedido());
         pedido.setDataPedido(new Date());
-        pedido.setProduto(dto.getPedido().getProduto());
+        pedido.setProduto(nomeProduto);
         pedido.setCartao(dto.getPedido().getCartao());
 
-        /*if (transacao != null && "APROVADA".equalsIgnoreCase(String.valueOf(transacao.getStatus()))) {
+        System.out.println(dto.getPedido().getCartao() + " id do cartao!!");
+
+        if (transacao != null && "APROVADA".equalsIgnoreCase(transacao.getTransacao())) {
             pedido.setStatus(StatusPedido.APROVADO);
         } else {
             pedido.setStatus(StatusPedido.RECUSADO);
-        }*/
+        }
 
         Pedido salvo = pedidoRepository.save(pedido);
 

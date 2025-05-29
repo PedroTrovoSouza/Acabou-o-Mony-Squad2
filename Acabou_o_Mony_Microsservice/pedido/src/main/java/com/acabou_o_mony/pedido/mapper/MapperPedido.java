@@ -19,6 +19,8 @@ public interface MapperPedido {
     @Mapping(source = "status", target = "status")
     Pedido toEntityProduto(PedidoCartaoProdutoDTO dto);
 
+    @Mapping(source = "produto", target = "nomeProduto")
     @Mapping(source = "status", target = "status")
+    @Mapping(source = "cartao", target = "numeroCartao")
     PedidoCartaoProdutoDTO toPedidoCartaoProdutoDTO(Pedido entity);
 }

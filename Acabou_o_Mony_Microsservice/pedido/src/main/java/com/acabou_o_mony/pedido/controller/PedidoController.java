@@ -27,16 +27,16 @@ public class PedidoController {
     public ResponseEntity<?> getPedido(@PathVariable long id) {
         try {
             PedidoResponseDTO pedido = pedidoService.buscarPedido(id);
-            return ResponseEntity.ok(pedido); // status 200 automaticamente
+            return ResponseEntity.ok(pedido);
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
 
     @PostMapping("/cadastrar")
-    public ResponseEntity<?> postPedido(@RequestBody BuscarEmailPedido novoPedido) {
+    public ResponseEntity<?> postPedido(@RequestParam String nomeProduto, @RequestBody BuscarEmailPedido novoPedido) {
         try {
-            PedidoCartaoProdutoDTO pedidoCriado = pedidoService.cadastrarPedido(novoPedido);
+            PedidoCartaoProdutoDTO pedidoCriado = pedidoService.cadastrarPedido(nomeProduto, novoPedido);
             return ResponseEntity.status(HttpStatus.CREATED).body(pedidoCriado);
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("erro", e.getMessage()));

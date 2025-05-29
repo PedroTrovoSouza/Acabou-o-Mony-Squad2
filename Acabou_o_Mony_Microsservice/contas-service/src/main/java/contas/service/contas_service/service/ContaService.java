@@ -5,6 +5,7 @@ import contas.service.contas_service.dto.conta.ContaRequestDto;
 import contas.service.contas_service.entity.Cliente;
 import contas.service.contas_service.entity.Conta;
 import contas.service.contas_service.entity.PessoaFisica;
+import contas.service.contas_service.entity.PessoaJuridica;
 import contas.service.contas_service.enums.TipoCliente;
 import contas.service.contas_service.enums.TipoConta;
 import contas.service.contas_service.exception.ContaConflitoException;
@@ -63,18 +64,24 @@ public class ContaService {
     }
 
     public Conta abrirConta(ContaRequestDto dto){
-        Cliente cliente;
+        PessoaFisica clienteFisico = null;
+        PessoaJuridica clienteJuridico = null;
         if (dto.tipoCliente().equals(TipoCliente.PESSOA_FISICA)) {
-            cliente = clienteService.buscarPessoaFisicaPorId(dto.idCliente());
+            clienteFisico = clienteService.buscarPessoaFisicaPorId(dto.idCliente());
         } else if (dto.tipoCliente().equals(TipoCliente.PESSOA_JURIDICA)) {
-            cliente = clienteService.buscarPessoaJuridicaPorId(dto.idCliente());
+            clienteJuridico = clienteService.buscarPessoaJuridicaPorId(dto.idCliente());
         } else {
             throw new TipoClienteInvalidoException("Tipo de cliente inválido.");
         }
-        Conta conta = ContaMapper.toEntity(dto, cliente);
-        Conta contaValidada = validarTipoDeConta(conta, cliente);
-
-        return salvarContaComValidacao(contaValidada, cliente);
+        
+        if (clienteFisico != null){
+            Conta conta = ContaMapper.toEntity(dto, clienteFisico);
+            Conta contaValidada = validarTipoDeConta(conta, clienteFisico);
+            return salvarContaComValidacao(contaValidada, clienteFisico);
+        }
+        Conta conta = ContaMapper.toEntity(dto, clienteJuridico);
+        Conta contaValidada = validarTipoDeConta(conta, clienteJuridico);
+        return salvarContaComValidacao(contaValidada, clienteJuridico);
     }
 
     public Conta alterarConta(Long id, Conta contaAlterada){

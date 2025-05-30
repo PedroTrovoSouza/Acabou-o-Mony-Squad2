@@ -1,10 +1,15 @@
 package com.acabou_o_mony.pedido.service;
 
 import com.acabou_o_mony.pedido.dto.*;
+import com.acabou_o_mony.pedido.entity.EmailMessage;
 import com.acabou_o_mony.pedido.entity.Pedido;
 import com.acabou_o_mony.pedido.enums.StatusPedido;
 import com.acabou_o_mony.pedido.mapper.MapperPedido;
 import com.acabou_o_mony.pedido.repository.PedidoRepository;
+import contas.service.contas_service.dto.cliente.ClienteDto;
+import contas.service.contas_service.entity.Cartao;
+import contas.service.contas_service.entity.Cliente;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -23,6 +28,9 @@ public class PedidoService {
 
     @Autowired
     MapperPedido mapperPedido;
+
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
 
     public PedidoResponseDTO buscarPedido(long id) {
         Optional<Pedido> pedidoOptional = pedidoRepository.findById(id);
@@ -60,8 +68,9 @@ public class PedidoService {
 
         WebClient client = WebClient.create();
 
+        ClienteDto cliente;
         try {
-            client.get()
+            cliente = client.get()
                     .uri(uriBuilder -> uriBuilder
                             .scheme("http")
                             .host("localhost")
@@ -70,7 +79,7 @@ public class PedidoService {
                             .queryParam("email", dto.getEmail())
                             .build())
                     .retrieve()
-                    .toBodilessEntity()
+                    .bodyToMono(ClienteDto.class)
                     .block();
         } catch (WebClientResponseException.NotFound e) {
             throw new RuntimeException("Email: " + dto.getEmail() + " não encontrado.");
@@ -91,7 +100,7 @@ public class PedidoService {
         } catch (WebClientResponseException.NotFound e) {
             throw new RuntimeException("Produto: " + nomeProduto + " não encontrado");
         }
-
+        Cartao cartao;
         try {
             client.get()
                     .uri("http://localhost:9092/cartao/{id}", dto.getPedido().getCartao())
@@ -135,6 +144,14 @@ public class PedidoService {
         }
 
         Pedido salvo = pedidoRepository.save(pedido);
+
+        EmailMessage emailMessage = new EmailMessage(
+                cliente.email(),
+                "Criação de Conta na Acabou o Mony",
+                "Parabéns! Sua conta na Acabou o Mony foi criada com sucesso!!"
+        );
+
+        rabbitTemplate.convertAndSend("conta_exchange", "routing_emails", emailMessage);
 
         return mapperPedido.toPedidoCartaoProdutoDTO(salvo);
     }

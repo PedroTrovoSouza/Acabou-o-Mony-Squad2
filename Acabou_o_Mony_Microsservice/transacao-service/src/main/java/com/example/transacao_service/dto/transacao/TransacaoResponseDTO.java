@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 
 @Data
 public class TransacaoResponseDTO {
+    private Long id;
     private String tipoTransacao;
     private Double valor;
     private LocalDateTime dthora;
@@ -14,5 +15,4 @@ public class TransacaoResponseDTO {
     private StatusTransacao status;
     private Long clienteRemetenteId;
     private Long cartaoId;
-    private Long contaId;
 }

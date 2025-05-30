@@ -35,8 +35,6 @@ public class TransacaoMapper {
         dto.setClienteRemetenteId(transacao.getClienteRemetenteId());
         dto.setCartaoId(transacao.getCartaoId());
 
-         dto.setContaId(null);
-
         return dto;
     }
 }

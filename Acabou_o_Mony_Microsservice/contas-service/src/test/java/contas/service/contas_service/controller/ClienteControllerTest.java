@@ -47,9 +47,9 @@ class ClienteControllerTest {
 
     @BeforeEach
     void setUp(){
-        pessoaFisica = new PessoaFisica("Fernando", "fernando@gmail.com", "12345678901", PerfilEconomico.MEDIO, LocalDate.of(2005,10,02),
+        pessoaFisica = new PessoaFisica("Fernando", "fernando@gmail.com", PerfilEconomico.MEDIO, "12345678901",  LocalDate.of(2005,10,02),
                 Genero.MASCULINO);
-        pessoaJuridica = new PessoaJuridica("Solutis","solutis@gmail.com", "09876543212", LocalDate.of(2005,10,02));
+        pessoaJuridica = new PessoaJuridica("Solutis","solutis@gmail.com", PerfilEconomico.EMPRESA,"09876543212", LocalDate.of(2005,10,02));
     }
 
     @Test

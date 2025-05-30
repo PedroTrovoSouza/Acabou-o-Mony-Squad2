@@ -28,10 +28,11 @@ public class ProdutoController {
 
     @PostMapping
     public ResponseEntity<String> cadastrarProduto(@RequestBody @Valid CadastroProdutoDTO produtodto) {
-        try {
+        try{
             produtoService.saveProduto(produtodto);
             return ResponseEntity.status(201).body("Cadastro de produto feito com sucesso!");
-        } catch (RuntimeException e) {
+        }
+        catch (RuntimeException e) {
             return ResponseEntity.status(409).body("Ocorreu um erro ao cadastrar o produto! Já existe um cadastro com esse nome!");
         }
     }
@@ -47,13 +48,15 @@ public class ProdutoController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Produto>> listarTodos() {
-            List<Produto> produtos = produtoService.listAll();
-//            List<ListagemProdutoDTO> response = produtos.stream()
-//                    .map(mapperProduto::toListagemProdutoDTO)
-//                    .toList();
-
-            return ResponseEntity.ok(produtos);
+    public ResponseEntity<List<ListagemProdutoDTO>> listarTodos() {
+        List<Produto> produtos = produtoService.listarTodos();
+        if (produtos.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        List<ListagemProdutoDTO> dtos = produtos.stream()
+                .map(mapperProduto::toListagemProdutoDTO)
+                .toList();
+        return ResponseEntity.ok(dtos);
     }
 
     @GetMapping("/{id}")

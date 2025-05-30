@@ -61,6 +61,13 @@ public class ClienteService {
         throw new ClienteNaoEncontradoException("Cliente não encontrado;");
     }
 
+    public Cliente buscarClientePorId(Long id){
+        if (clienteRepository.existsById(id)){
+            return clienteRepository.getReferenceById(id);
+        }
+        throw new ClienteNaoEncontradoException("Cliente não encontrado;");
+    }
+
     public PessoaFisica cadastrarPessoaFisica(PessoaFisica fisica){
         if (fisicaRepository.existsByCpf(fisica.getCpf())){
             throw new ClienteConflitoException("CPF já cadastrado.");

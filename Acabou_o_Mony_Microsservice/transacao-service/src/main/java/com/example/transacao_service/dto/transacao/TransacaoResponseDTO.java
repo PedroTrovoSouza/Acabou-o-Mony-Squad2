@@ -14,4 +14,5 @@ public class TransacaoResponseDTO {
     private StatusTransacao status;
     private Long clienteRemetenteId;
     private Long cartaoId;
+    private Long contaId;
 }

@@ -3,8 +3,10 @@ package contas.service.contas_service.service;
 import contas.service.contas_service.dto.cartao.CartaoRequestDTO;
 import contas.service.contas_service.dto.cartao.CartaoResponseDTO;
 import contas.service.contas_service.entity.Cartao;
+import contas.service.contas_service.entity.EmailMessage;
 import contas.service.contas_service.mapper.CartaoMapper;
 import contas.service.contas_service.repository.CartaoRepository;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,13 +21,24 @@ public class CartaoService {
     @Autowired
     private CartaoRepository repository;
 
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
+
+    @Autowired
+    private ContaService contaService;
+
     public CartaoResponseDTO salvarCartao(CartaoRequestDTO dto) {
         Cartao cartaoEntidade = mapper.toEntity(dto);
-        Optional<Cartao> cartaoExistente = repository.findById(cartaoEntidade.getId());
 
-        if (cartaoExistente.isEmpty()) {
-            return null;
-        }
+        String emailCliente = contaService.emailClientePorContaId(dto.getContaId());
+
+        EmailMessage emailMessage = new EmailMessage(
+                emailCliente,
+                "Criação de Conta na Acabou o Mony",
+                "Parabéns! Sua conta na Acabou o Mony foi criada com sucesso!!"
+        );
+
+        rabbitTemplate.convertAndSend("conta_exchange", "routing_emails", emailMessage);
 
         Cartao cartaoSalvar = repository.save(cartaoEntidade);
         return mapper.toResponseDTO(cartaoSalvar);

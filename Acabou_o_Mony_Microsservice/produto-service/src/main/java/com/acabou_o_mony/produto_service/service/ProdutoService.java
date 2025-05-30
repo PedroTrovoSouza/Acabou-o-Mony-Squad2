@@ -76,11 +76,7 @@ public class ProdutoService {
         return produto.get();
     }
 
-    public List<Produto> listAll() {
-        var produtos = produtoRepository.findAll();
-
-        produtos.stream()
-                .forEach(p -> System.out.println(p.getNome()));
-        return produtos;
+    public List<Produto> listarTodos() {
+        return produtoRepository.findAll();
     }
 }

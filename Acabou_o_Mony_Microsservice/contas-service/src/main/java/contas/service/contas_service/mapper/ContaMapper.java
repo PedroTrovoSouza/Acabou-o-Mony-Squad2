@@ -5,12 +5,14 @@ import contas.service.contas_service.dto.conta.ContaRequestDto;
 import contas.service.contas_service.dto.conta.ContaResponseDto;
 import contas.service.contas_service.entity.Cliente;
 import contas.service.contas_service.entity.Conta;
+import contas.service.contas_service.repository.ClienteRepository;
+import contas.service.contas_service.repository.ContaRepository;
 
 public class ContaMapper {
 
     public static ContaResponseDto toResponse(Conta conta){
             return new ContaResponseDto(conta.getAgencia(), conta.getTipoConta(), conta.getSaldo(),
-                    conta.getIsAtiva(), conta.getCliente().getId());
+                    conta.getIsAtiva(),conta.getCliente().getId());
     }
 
     public static Conta toEntity(ContaRequestDto dto, Cliente cliente) {

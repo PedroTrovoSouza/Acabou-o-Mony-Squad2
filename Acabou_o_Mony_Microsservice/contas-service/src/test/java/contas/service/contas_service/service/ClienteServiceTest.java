@@ -39,9 +39,9 @@ class ClienteServiceTest {
 
     @BeforeEach
     void setUp(){
-        pessoaFisica = new PessoaFisica(1L, "Fernando", "fernando@gmail.com", "12345678901", PerfilEconomico.MEDIO, LocalDate.of(2005,10,02),
+        pessoaFisica = new PessoaFisica(1L, "Fernando", "fernando@gmail.com",  PerfilEconomico.MEDIO,"12345678901", LocalDate.of(2005,10,02),
                 Genero.MASCULINO);
-        pessoaJuridica = new PessoaJuridica(1L, "Solutis","solutis@gmail.com", "09876543212", LocalDate.of(2005,10,02));
+        pessoaJuridica = new PessoaJuridica(1L, "Solutis","solutis@gmail.com", PerfilEconomico.EMPRESA, "09876543212", LocalDate.of(2005,10,02));
     }
 
     @Test

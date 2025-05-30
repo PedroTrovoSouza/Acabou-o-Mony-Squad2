@@ -48,12 +48,12 @@ class ContaServiceTest {
 
     @BeforeEach
     void setUp(){
-        pessoaFisica = new PessoaFisica(1L, "Fernando","fernando@gmail.com", "12345678901", PerfilEconomico.MEDIO, LocalDate.of(2005,10,02),
+        pessoaFisica = new PessoaFisica(1L, "Fernando","fernando@gmail.com",  PerfilEconomico.MEDIO, "12345678901", LocalDate.of(2005,10,02),
                 Genero.MASCULINO);
         contaDaPessoaFisica = new Conta(1L, "001", TipoConta.CONTA_CORRENTE,  BigDecimal.valueOf(5_000.00), true, true,
                 BigDecimal.valueOf(6_000.00), true, pessoaFisica);
 
-        pessoaJuridica = new PessoaJuridica(1L, "Solutis","solutis@gmail.com", "09876543212", LocalDate.of(2005,10,02));
+        pessoaJuridica = new PessoaJuridica(1L, "Solutis","solutis@gmail.com",  PerfilEconomico.EMPRESA,"09876543212", LocalDate.of(2005,10,02));
         contaDaPessoaJuridica = new Conta(2L, "001", TipoConta.CONTA_POUPANCA,  BigDecimal.valueOf(100_000.00), true, true,
                 BigDecimal.valueOf(10_000.00), true, pessoaJuridica);
     }

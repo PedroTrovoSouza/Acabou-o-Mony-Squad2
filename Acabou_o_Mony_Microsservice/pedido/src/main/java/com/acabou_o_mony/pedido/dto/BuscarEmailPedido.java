@@ -16,4 +16,3 @@ public class BuscarEmailPedido {
     private Long clienteDestinatarioId;
     private Long clienteRemetenteId;
 }
-

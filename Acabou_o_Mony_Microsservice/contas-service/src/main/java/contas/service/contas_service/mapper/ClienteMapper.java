@@ -16,12 +16,12 @@ public class ClienteMapper {
     }
 
     public static PessoaFisica toEntity(FisicaRequestDto dtoCadastro) {
-        return new PessoaFisica(dtoCadastro.nome(), dtoCadastro.email(), dtoCadastro.cpf(), dtoCadastro.perfilEconomico(), dtoCadastro.dataNascimento(),
+        return new PessoaFisica(dtoCadastro.nome(), dtoCadastro.email(), dtoCadastro.perfilEconomico(), dtoCadastro.cpf(),  dtoCadastro.dataNascimento(),
                 dtoCadastro.genero());
     }
 
     public static PessoaJuridica toEntity(JuridicaRequestDto dtoCadastro) {
-        return new PessoaJuridica(dtoCadastro.nome(), dtoCadastro.cnpj(), dtoCadastro.email(), dtoCadastro.dataFundacao());
+        return new PessoaJuridica(dtoCadastro.nome(), dtoCadastro.email(), dtoCadastro.perfilEconomico(), dtoCadastro.cnpj(),  dtoCadastro.dataFundacao());
     }
 
     public static PessoaFisica toEntity(FisicaAtualizacaoDto dto) {

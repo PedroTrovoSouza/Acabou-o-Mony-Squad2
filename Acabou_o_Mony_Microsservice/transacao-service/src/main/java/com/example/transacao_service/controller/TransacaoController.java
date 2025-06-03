@@ -2,7 +2,7 @@ package com.example.transacao_service.controller;
 
 import com.example.transacao_service.dto.transacao.TransacaoRequestDTO;
 import com.example.transacao_service.dto.transacao.TransacaoResponseDTO;
-import com.example.transacao_service.entity.Transacao;
+import com.example.transacao_service.enums.StatusTransacao;
 import com.example.transacao_service.service.TransacaoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,8 +20,14 @@ public class TransacaoController {
     @PostMapping
     public ResponseEntity<TransacaoResponseDTO> cadastrar(@RequestBody TransacaoRequestDTO dto) {
         TransacaoResponseDTO response = service.salvar(dto);
+
+        if (response.getStatus() == StatusTransacao.FALHA) {
+            return ResponseEntity.badRequest().body(response);
+        }
+
         return ResponseEntity.status(201).body(response);
     }
+
 
     @GetMapping
     public ResponseEntity<List<TransacaoResponseDTO>> listarTodos() {

@@ -15,6 +15,9 @@ import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 import com.acabou_o_mony.pedido.enums.StatusTransacao;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Optional;
@@ -30,6 +33,8 @@ public class PedidoService {
 
     @Autowired
     private RabbitTemplate rabbitTemplate;
+
+    private static final Logger logger = LoggerFactory.getLogger(PedidoService.class);
 
     public PedidoResponseDTO buscarPedido(long id) {
         Optional<Pedido> pedidoOptional = pedidoRepository.findById(id);
@@ -106,6 +111,7 @@ public class PedidoService {
         } catch (WebClientResponseException.NotFound e) {
             throw new RuntimeException("Produto: " + nomeProduto + " não encontrado");
         }
+
         Cartao cartao;
         try {
             client.get()
@@ -151,18 +157,17 @@ public class PedidoService {
 
         Pedido salvo = pedidoRepository.save(pedido);
 
-        EmailMessage emailMessage = new EmailMessage(
-                cliente.email(),
-                "Criação de Conta na Acabou o Mony",
-                "Parabéns! Sua conta na Acabou o Mony foi criada com sucesso!!"
-        );
+        // mostrar nos logs
+        logger.info("Pedido criado: ID={}, Produto={}, Status={}", salvo.getIdPedido(), salvo.getProduto(), salvo.getStatus());
 
-        rabbitTemplate.convertAndSend("conta_exchange", "routing_emails", emailMessage);
+        // para enviar paa a fila do RabbitMQ
+        rabbitTemplate.convertAndSend("pedido_exchange", "routing_pedidos", salvo);
+        logger.info("Pedido enviado para fila RabbitMQ: ID={}", salvo.getIdPedido());
 
         return mapperPedido.toPedidoCartaoProdutoDTO(salvo);
     }
 
-    public Optional<Pedido> deletePedido(long id) {
+public Optional<Pedido> deletePedido(long id) {
         Optional<Pedido> pedidoEncontrado = pedidoRepository.findById(id);
 
         if (pedidoEncontrado == null) {

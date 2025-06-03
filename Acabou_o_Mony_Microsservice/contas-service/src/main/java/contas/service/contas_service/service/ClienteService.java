@@ -13,7 +13,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-
 @Service
 @RequiredArgsConstructor
 public class ClienteService {
@@ -61,6 +60,13 @@ public class ClienteService {
         throw new ClienteNaoEncontradoException("Cliente não encontrado;");
     }
 
+    public Cliente buscarClientePorId(Long id){
+        if (clienteRepository.existsById(id)){
+            return clienteRepository.getReferenceById(id);
+        }
+        throw new ClienteNaoEncontradoException("Cliente não encontrado;");
+    }
+
     public PessoaFisica cadastrarPessoaFisica(PessoaFisica fisica){
         if (fisicaRepository.existsByCpf(fisica.getCpf())){
             throw new ClienteConflitoException("CPF já cadastrado.");
@@ -100,8 +106,8 @@ public class ClienteService {
     }
 
     public void deletarPessoaPorCpf(String cpf){
-      PessoaFisica cliente = buscarPessoaPorCpf(cpf);
-      fisicaRepository.deleteById(cliente.getId());
+        PessoaFisica cliente = buscarPessoaPorCpf(cpf);
+        fisicaRepository.deleteById(cliente.getId());
     }
     public void deletarEmpresaPorCnpj(String cnpj){
         PessoaJuridica cliente = buscarEmpresaPorCnpj(cnpj);

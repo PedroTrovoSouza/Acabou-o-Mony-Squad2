@@ -20,16 +20,13 @@ public class PessoaFisica extends Cliente{
 
     private String cpf;
 
-    private PerfilEconomico perfilEconomico;
-
     private LocalDate dataNascimento;
 
     private Genero genero;
 
-    public PessoaFisica(String nome, String email, String cpf, PerfilEconomico perfilEconomico, LocalDate dataNascimento, Genero genero) {
-        super(nome, email);
+    public PessoaFisica(String nome, String email, PerfilEconomico perfilEconomico, String cpf, LocalDate dataNascimento, Genero genero) {
+        super(nome, email, perfilEconomico);
         this.cpf = cpf;
-        this.perfilEconomico = perfilEconomico;
         this.dataNascimento = dataNascimento;
         this.genero = genero;
     }
@@ -40,17 +37,10 @@ public class PessoaFisica extends Cliente{
         this.genero = genero;
     }
 
-    public PessoaFisica(String nome, String email, String cpf, LocalDate dataNascimento, Genero genero) {
-        super(nome, email);
-        this.cpf = cpf;
-        this.dataNascimento = dataNascimento;
-        this.genero = genero;
-    }
 
-    public PessoaFisica(Long id, String nome, String email, String cpf, PerfilEconomico perfilEconomico, LocalDate dataNascimento, Genero genero) {
-        super(id, nome, email);
+    public PessoaFisica(Long id, String nome, String email, PerfilEconomico perfilEconomico, String cpf, LocalDate dataNascimento, Genero genero) {
+        super(id, nome, email, perfilEconomico);
         this.cpf = cpf;
-        this.perfilEconomico = perfilEconomico;
         this.dataNascimento = dataNascimento;
         this.genero = genero;
     }

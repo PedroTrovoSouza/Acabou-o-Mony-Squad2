@@ -56,7 +56,7 @@ class ContaControllerTest {
 
     @BeforeEach
     void setUp(){
-        pessoaFisica = new PessoaFisica("Fernando", "fernando@gmail.com", "12345678901", PerfilEconomico.MEDIO, LocalDate.of(2005,10,02),
+        pessoaFisica = new PessoaFisica("Fernando", "fernando@gmail.com", PerfilEconomico.MEDIO,"12345678901",  LocalDate.of(2005,10,02),
                 Genero.MASCULINO);
         pessoaJuridica = new PessoaJuridica("Solutis","solutis@gmail.com", "09876543212", LocalDate.of(2005,10,02));
         contaPessoaJuridica = new Conta("001", TipoConta.CONTA_CORRENTE, BigDecimal.valueOf(10_000.00), true, true, BigDecimal.valueOf(10_000.0), true, pessoaJuridica);
@@ -141,7 +141,7 @@ class ContaControllerTest {
 
         mockMvc.perform(put("/contas/saldo/{id}", contaAberta.getId())
                         .contentType(MediaType.APPLICATION_JSON)
-                    .content(objectMapper.writeValueAsString(2_000.0)))
+                        .content(objectMapper.writeValueAsString(2_000.0)))
                 .andExpect(jsonPath("$.saldo").value(2_000.0));
     }
 

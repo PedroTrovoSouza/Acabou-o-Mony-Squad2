@@ -51,9 +51,10 @@ public class ClienteController {
     }
 
     @GetMapping("/email")
-    public ResponseEntity<Cliente> buscarClientePorEmail(@RequestParam String email){
+    public ResponseEntity<ClienteDto> buscarClientePorEmail(@RequestParam String email){
         Cliente cliente = clienteService.buscarClientePorEmail(email);
-        return ResponseEntity.ok(cliente);
+        ClienteDto dto = new ClienteDto(cliente.getId(), cliente.getNome(), cliente.getEmail());
+        return ResponseEntity.ok(dto);
     }
 
     @GetMapping("/pf/{id}")
@@ -105,5 +106,4 @@ public class ClienteController {
         clienteService.deletarEmpresaPorCnpj(cnpj);
         return ResponseEntity.ok().build();
     }
-
 }

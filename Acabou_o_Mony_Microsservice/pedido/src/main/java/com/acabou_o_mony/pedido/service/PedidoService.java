@@ -6,6 +6,8 @@ import com.acabou_o_mony.pedido.entity.Pedido;
 import com.acabou_o_mony.pedido.enums.StatusPedido;
 import com.acabou_o_mony.pedido.mapper.MapperPedido;
 import com.acabou_o_mony.pedido.repository.PedidoRepository;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import contas.service.contas_service.dto.cliente.ClienteDto;
 import contas.service.contas_service.entity.Cartao;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -72,7 +74,7 @@ public class PedidoService {
         );
     }
 
-    public PedidoCartaoProdutoDTO cadastrarPedido(String nomeProduto, BuscarEmailPedido dto) {
+    public PedidoCartaoProdutoDTO cadastrarPedido(String nomeProduto, BuscarEmailPedido dto) throws JsonProcessingException {
         if (dto == null) {
             throw new RuntimeException("Pedido não pode ser nulo");
         }
@@ -161,8 +163,11 @@ public class PedidoService {
         logger.info("Pedido criado: ID={}, Produto={}, Status={}", salvo.getIdPedido(), salvo.getProduto(), salvo.getStatus());
 
         // para enviar paa a fila do RabbitMQ
-        rabbitTemplate.convertAndSend("pedido_exchange", "routing_pedidos", salvo);
-        logger.info("Pedido enviado para fila RabbitMQ: ID={}", salvo.getIdPedido());
+        ObjectMapper objectMapper = new ObjectMapper();
+        String pedidoJson = objectMapper.writeValueAsString(pedido);
+        rabbitTemplate.convertAndSend("pedido_exchange", "routing_pedidos", pedidoJson);
+
+
 
         return mapperPedido.toPedidoCartaoProdutoDTO(salvo);
     }

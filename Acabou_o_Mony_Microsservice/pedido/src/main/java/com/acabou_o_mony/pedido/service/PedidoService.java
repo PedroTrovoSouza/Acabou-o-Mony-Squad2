@@ -44,13 +44,20 @@ public class PedidoService {
 
         try {
             client.get()
-                    .uri("http://localhost:9091/produto/{nome}", pedido.getProduto())
+                    .uri(uriBuilder -> uriBuilder
+                            .scheme("http")
+                            .host("localhost")
+                            .port(9091)
+                            .path("/produto")
+                            .queryParam("nomeProduto", pedido.getProduto())
+                            .build())
                     .retrieve()
                     .toBodilessEntity()
                     .block();
         } catch (WebClientResponseException.NotFound e) {
             throw new RuntimeException("Produto " + pedido.getProduto() + " não encontrado no serviço de produtos.");
         }
+
 
         return new PedidoResponseDTO(
                 pedido.getProduto(),

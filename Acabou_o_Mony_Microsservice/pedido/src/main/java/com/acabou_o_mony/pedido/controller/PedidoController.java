@@ -6,6 +6,7 @@ import com.acabou_o_mony.pedido.dto.PedidoRequestDTO;
 import com.acabou_o_mony.pedido.dto.PedidoResponseDTO;
 import com.acabou_o_mony.pedido.entity.Pedido;
 import com.acabou_o_mony.pedido.service.PedidoService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -40,6 +41,8 @@ public class PedidoController {
             return ResponseEntity.status(HttpStatus.CREATED).body(pedidoCriado);
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("erro", e.getMessage()));
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
         }
     }
 

@@ -14,7 +14,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public abstract class Cliente {
+public class Cliente {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,6 +23,8 @@ public abstract class Cliente {
     private String nome;
 
     private String email;
+
+    private String senha;
 
     private PerfilEconomico perfilEconomico;
 

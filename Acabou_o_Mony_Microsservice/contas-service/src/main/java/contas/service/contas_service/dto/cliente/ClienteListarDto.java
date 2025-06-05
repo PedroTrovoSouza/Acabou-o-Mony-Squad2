@@ -1,13 +1,9 @@
 package contas.service.contas_service.dto.cliente;
 
-import lombok.Data;
-
-
-public class ClienteDto {
+public class ClienteListarDto {
     private Long id;
     private String nome;
     private String email;
-    private String senha;
 
     public Long getId() {
         return id;
@@ -31,13 +27,5 @@ public class ClienteDto {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getSenha() {
-        return senha;
-    }
-
-    public void setSenha(String senha) {
-        this.senha = senha;
     }
 }

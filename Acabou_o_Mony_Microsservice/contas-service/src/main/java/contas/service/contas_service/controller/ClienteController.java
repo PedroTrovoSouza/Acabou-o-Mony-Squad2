@@ -53,7 +53,7 @@ public class ClienteController {
     @GetMapping("/email")
     public ResponseEntity<ClienteDto> buscarClientePorEmail(@RequestParam String email){
         Cliente cliente = clienteService.buscarClientePorEmail(email);
-        ClienteDto dto = new ClienteDto(cliente.getId(), cliente.getNome(), cliente.getEmail());
+        ClienteDto dto = new ClienteDto(cliente.getId(), cliente.getNome(), cliente.getEmail(), cliente.getSenha());
         return ResponseEntity.ok(dto);
     }
 
@@ -95,13 +95,13 @@ public class ClienteController {
         return ResponseEntity.ok(response);
     }
 
-    @DeleteMapping("/pf/{cpf}")
+    @DeleteMapping("/pf/{id}")
     public ResponseEntity<Void> deletarPessoaFisica(@PathVariable String cpf){
         clienteService.deletarPessoaPorCpf(cpf);
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("/pj/{cnpj}")
+    @DeleteMapping("/pj/{id}")
     public ResponseEntity<Void> deletarPessoaJuridica(@PathVariable String cnpj){
         clienteService.deletarEmpresaPorCnpj(cnpj);
         return ResponseEntity.ok().build();

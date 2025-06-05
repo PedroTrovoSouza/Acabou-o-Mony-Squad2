@@ -2,6 +2,7 @@ package contas.service.contas_service.mapper;
 
 
 import contas.service.contas_service.dto.cliente.*;
+import contas.service.contas_service.entity.Cliente;
 import contas.service.contas_service.entity.PessoaFisica;
 import contas.service.contas_service.entity.PessoaJuridica;
 
@@ -26,5 +27,45 @@ public class ClienteMapper {
 
     public static PessoaFisica toEntity(FisicaAtualizacaoDto dto) {
         return new PessoaFisica(dto.nome(), dto.email(), dto.dataNascimento(), dto.genero());
+    }
+
+    public Cliente of(ClienteDto clienteCraicao) {
+        Cliente cliente = new Cliente();
+
+        cliente.setEmail(clienteCraicao.getEmail());
+        cliente.setNome(clienteCraicao.getNome());
+        cliente.setSenha(clienteCraicao.getSenha());
+
+        return cliente;
+    }
+
+    public Cliente of(ClienteLoginDto clienteLoginDto) {
+        Cliente cliente = new Cliente();
+
+        cliente.setEmail(clienteLoginDto.getEmail());
+        cliente.setSenha(cliente.getSenha());
+
+        return cliente;
+    }
+
+    public static ClienteTokenDto of(Cliente cliente, String token) {
+        ClienteTokenDto clienteTokenDto = new ClienteTokenDto();
+
+        clienteTokenDto.setId(cliente.getId());
+        clienteTokenDto.setNome(cliente.getNome());
+        clienteTokenDto.setEmail(cliente.getEmail());
+        clienteTokenDto.setToken(token);
+
+        return clienteTokenDto;
+    }
+
+    public static ClienteListarDto of(Cliente cliente) {
+        ClienteListarDto clienteListarDto = new ClienteListarDto();
+
+        clienteListarDto.setId(cliente.getId());
+        clienteListarDto.setEmail(cliente.getEmail());
+        clienteListarDto.setNome(cliente.getNome());
+
+        return clienteListarDto;
     }
 }

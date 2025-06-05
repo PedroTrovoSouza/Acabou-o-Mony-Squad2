@@ -61,8 +61,6 @@ O projeto visa atender pequenas e grandes empresas, com foco especial em integra
 
 ## 📡 Endpoints REST Principais
 
-<div align="center">
-
 | **Recurso** | **Método HTTP** | **Descrição** |
 |------------|----------------|-----------------------------|
 | `/clientes/pf` | `POST` | Criação de cliente pessoa física |
@@ -104,7 +102,6 @@ O projeto visa atender pequenas e grandes empresas, com foco especial em integra
 | `/transacao` | `GET` | Buscar transações feitas |
 | `/transacao` | `GET` | Buscar informações de uma transação específica |
 
-</div>
 ---
 
 ## 📈 Escalabilidade & Monitoramento

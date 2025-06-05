@@ -58,50 +58,48 @@ O projeto visa atender pequenas e grandes empresas, com foco especial em integra
 - Transações financeiras (crédito/débito) em tempo real
 
 ---
-<div style= "align=center">
 ## 📡 Endpoints REST Principais
 
+<div align="center">
+
 | **Recurso** | **Método HTTP** | **Descrição** |
-|------------|----------------|-----------------------------|
-| `/clientes/pf` | `POST` | Criação de cliente pessoa física |
-| `/clientes/pf` | `GET` | Buscar perfil do cliente |
-| `/cliente/pf/email` | `GET` | Buscar cliente por email |
-| `/cliente/pf/{id}` | `GET` | Buscar cliente por id |
-| `/cliente/pf/{id}` | `PUT` | Editar cliente por id |
-| `/cliente/pf/{id}` | `DELETE` | Deletar cliente por id |
-| `/clientes/pj` | `POST` | Criação de cliente pessoa jurídica |
-| `/clientes/pj` | `GET` | Buscar perfil do cliente |
-| `/cliente/pj/email` | `GET` | Buscar cliente por email |
-| `/cliente/pj/{id}` | `GET` | Buscar cliente por id |
-| `/cliente/pj/{id}` | `PUT` | Editar cliente por id |
-| `/cliente/pj/{id}` | `DELETE` | Deletar cliente por id |
+|------------|------------------|-----------------------------|
+| `/clientes/pf`              | `POST`   | Criação de cliente pessoa física         |
+| `/clientes/pf`              | `GET`    | Buscar perfil do cliente                 |
+| `/cliente/pf/email`         | `GET`    | Buscar cliente por email                 |
+| `/cliente/pf/{id}`          | `GET`    | Buscar cliente por id                    |
+| `/cliente/pf/{id}`          | `PUT`    | Editar cliente por id                    |
+| `/cliente/pf/{id}`          | `DELETE` | Deletar cliente por id                   |
+| `/clientes/pj`              | `POST`   | Criação de cliente pessoa jurídica       |
+| `/clientes/pj`              | `GET`    | Buscar perfil do cliente                 |
+| `/cliente/pj/email`         | `GET`    | Buscar cliente por email                 |
+| `/cliente/pj/{id}`          | `GET`    | Buscar cliente por id                    |
+| `/cliente/pj/{id}`          | `PUT`    | Editar cliente por id                    |
+| `/cliente/pj/{id}`          | `DELETE` | Deletar cliente por id                   |
+| `/contas`                   | `POST`   | Criação de conta digital                 |
+| `/contas`                   | `GET`    | Buscar todas as contas cadastradas       |
+| `/contas/{id}`              | `GET`    | Buscar cliente por id                    |
+| `/contas/conta/{idConta}`   | `PUT`    | Editar conta por id                      |
+| `/contas/status/{id}`       | `PUT`    | Editar status da conta por id            |
+| `/contas/saldo/{id}`        | `PUT`    | Editar saldo da conta por id             |
+| `/contas/{id}`              | `DELETE` | Deletar conta específica por id          |
+| `/cartao`                   | `POST`   | Criação de cartão digital                |
+| `/cartao/${id}`             | `GET`    | Buscar um cartão específico              |
+| `/cartao/${id}`             | `PUT`    | Editar número do cartão                  |
+| `/cartao/${id}`             | `DELETE` | Deletar cartão pedido                    |
+| `/produtos`                 | `POST`   | Cadastro de produtos                     |
+| `/produtos/${id}`           | `DELETE` | Deletar um produto cadastrado            |
+| `/produtos`                 | `GET`    | Buscar todos os produtos cadastrados     |
+| `/produtos/${id}`           | `GET`    | Buscar produto específico cadastrado     |
+| `/pedido/cadastrar`         | `POST`   | Criação de pedido completo               |
+| `/pedido/cancelar/${id}`    | `DELETE` | Cancelamento de um pedido                |
+| `/pedido/${id}`             | `GET`    | Buscar resumo do pedido feito            |
+| `/transacao`                | `POST`   | Registro de transações financeiras       |
+| `/transacao`                | `GET`    | Buscar transações feitas                 |
+| `/transacao`                | `GET`    | Buscar informações de uma transação específica |
 
-| `/contas` | `POST` | Criação de conta digital |
-| `/contas` | `GET` | Buscar todas as contas cadastradas |
-| `/contas/{id}` | `GET` | Buscar cliente por id |
-| `/contas/conta/{idConta}` | `PUT` | Editar conta por id |
-| `/contas/status/{id}` | `PUT` | Editar status da conta por id |
-| `/contas/saldo/{id}` | `PUT` | Editar saldo da conta por id |
-| `/contas/{id}` | `DELETE` | Deletar conta específica por id |
-
-| `/cartao` | `POST` | Criação de cartão digital |
-| `/cartao/${id}` | `GET` | Buscar um cartão específico |
-| `/cartao/${id}` | `PUT` | Editar número do cartão |
-| `/cartao/${id}` | `DELETE` | Deletar cartão pedido |
-
-| `/produtos` | `POST` | Cadastro de produtos |
-| `/produtos/${id}` | `DELETE` | Deletar um produto cadastrado |
-| `/produtos` | `GET` | Buscar todos os produtos cadastrados |
-| `/produtos/${id}` | `GET` | Buscar produto específico cadastrado |
-
-| `/pedido/cadastrar` | `POST` | Criação de pedido completo |
-| `/pedido/cancelar/${id}` | `DELETE` | Cancelamento de um pedido |
-| `/pedido/${id}` | `GET` | Buscar resumo do pedido feito |
-
-| `/transacao` | `POST` | Registro de transações financeiras |
-| `/transacao` | `GET` | Buscar transações feitas |
-| `/transacao` | `GET` | Buscar informações de uma transação específica |
 </div>
+
 ---
 
 ## 📈 Escalabilidade & Monitoramento

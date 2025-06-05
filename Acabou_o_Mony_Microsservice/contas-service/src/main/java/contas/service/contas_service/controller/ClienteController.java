@@ -95,13 +95,13 @@ public class ClienteController {
         return ResponseEntity.ok(response);
     }
 
-    @DeleteMapping("/pf/{id}")
+    @DeleteMapping("/pf/{cpf}")
     public ResponseEntity<Void> deletarPessoaFisica(@PathVariable String cpf){
         clienteService.deletarPessoaPorCpf(cpf);
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("/pj/{id}")
+    @DeleteMapping("/pj/{cnpj}")
     public ResponseEntity<Void> deletarPessoaJuridica(@PathVariable String cnpj){
         clienteService.deletarEmpresaPorCnpj(cnpj);
         return ResponseEntity.ok().build();

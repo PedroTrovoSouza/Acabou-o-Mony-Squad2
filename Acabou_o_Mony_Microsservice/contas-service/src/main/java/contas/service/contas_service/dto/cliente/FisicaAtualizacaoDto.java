@@ -7,6 +7,7 @@ import java.time.LocalDate;
 public record FisicaAtualizacaoDto(
         String nome,
         String email,
+        String senha,
         LocalDate dataNascimento,
         Genero genero
 ) {

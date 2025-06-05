@@ -17,16 +17,16 @@ public class ClienteMapper {
     }
 
     public static PessoaFisica toEntity(FisicaRequestDto dtoCadastro) {
-        return new PessoaFisica(dtoCadastro.nome(), dtoCadastro.email(), dtoCadastro.perfilEconomico(), dtoCadastro.cpf(),  dtoCadastro.dataNascimento(),
+        return new PessoaFisica(dtoCadastro.nome(), dtoCadastro.email(), dtoCadastro.senha(), dtoCadastro.perfilEconomico(), dtoCadastro.cpf(),  dtoCadastro.dataNascimento(),
                 dtoCadastro.genero());
     }
 
     public static PessoaJuridica toEntity(JuridicaRequestDto dtoCadastro) {
-        return new PessoaJuridica(dtoCadastro.nome(), dtoCadastro.email(), dtoCadastro.perfilEconomico(), dtoCadastro.cnpj(),  dtoCadastro.dataFundacao());
+        return new PessoaJuridica(dtoCadastro.nome(), dtoCadastro.email(), "senha", dtoCadastro.perfilEconomico(), dtoCadastro.cnpj(),  dtoCadastro.dataFundacao());
     }
 
     public static PessoaFisica toEntity(FisicaAtualizacaoDto dto) {
-        return new PessoaFisica(dto.nome(), dto.email(), dto.dataNascimento(), dto.genero());
+        return new PessoaFisica(dto.nome(), dto.email(), dto.senha(), dto.dataNascimento(), dto.genero());
     }
 
     public Cliente of(ClienteDto clienteCraicao) {

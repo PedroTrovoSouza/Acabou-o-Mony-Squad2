@@ -24,22 +24,22 @@ public class PessoaFisica extends Cliente{
 
     private Genero genero;
 
-    public PessoaFisica(String nome, String email, PerfilEconomico perfilEconomico, String cpf, LocalDate dataNascimento, Genero genero) {
-        super(nome, email, perfilEconomico);
+    public PessoaFisica(String nome, String email, String senha, PerfilEconomico perfilEconomico, String cpf, LocalDate dataNascimento, Genero genero) {
+        super(nome, email, senha, perfilEconomico);
         this.cpf = cpf;
         this.dataNascimento = dataNascimento;
         this.genero = genero;
     }
 
-    public PessoaFisica(String nome, String email, LocalDate dataNascimento, Genero genero) {
-        super(nome, email);
+    public PessoaFisica(String nome, String email, String senha, LocalDate dataNascimento, Genero genero) {
+        super(nome, email, senha);
         this.dataNascimento = dataNascimento;
         this.genero = genero;
     }
 
 
-    public PessoaFisica(Long id, String nome, String email, PerfilEconomico perfilEconomico, String cpf, LocalDate dataNascimento, Genero genero) {
-        super(id, nome, email, perfilEconomico);
+    public PessoaFisica(Long id, String nome, String email, String senha, PerfilEconomico perfilEconomico, String cpf, LocalDate dataNascimento, Genero genero) {
+        super(id, nome, email, senha, perfilEconomico);
         this.cpf = cpf;
         this.dataNascimento = dataNascimento;
         this.genero = genero;

@@ -56,9 +56,9 @@ class ContaControllerTest {
 
     @BeforeEach
     void setUp(){
-        pessoaFisica = new PessoaFisica("Fernando", "fernando@gmail.com", PerfilEconomico.MEDIO,"12345678901",  LocalDate.of(2005,10,02),
+        pessoaFisica = new PessoaFisica("Fernando", "fernando@gmail.com", "senha", PerfilEconomico.MEDIO,"12345678901",  LocalDate.of(2005,10,02),
                 Genero.MASCULINO);
-        pessoaJuridica = new PessoaJuridica("Solutis","solutis@gmail.com", "09876543212", LocalDate.of(2005,10,02));
+        pessoaJuridica = new PessoaJuridica("Solutis","solutis@gmail.com", "senha", "09876543212", LocalDate.of(2005,10,02));
         contaPessoaJuridica = new Conta("001", TipoConta.CONTA_CORRENTE, BigDecimal.valueOf(10_000.00), true, true, BigDecimal.valueOf(10_000.0), true, pessoaJuridica);
         contaPessoaFisica = new Conta("002", TipoConta.CONTA_POUPANCA, BigDecimal.valueOf(3_000.00), true, false, BigDecimal.valueOf(5_000.00), true, pessoaFisica);
     }

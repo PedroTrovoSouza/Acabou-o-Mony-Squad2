@@ -12,6 +12,7 @@ import java.time.LocalDate;
 public record FisicaRequestDto(
         @NotBlank String nome,
         @NotBlank @Size(max = 12) String cpf,
+        @NotBlank String senha,
         @NotNull PerfilEconomico perfilEconomico,
         @NotBlank String email,
         @DateTimeFormat LocalDate dataNascimento,

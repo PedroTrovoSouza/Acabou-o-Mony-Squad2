@@ -26,7 +26,6 @@ O projeto visa atender pequenas e grandes empresas, com foco especial em integra
 - **RabbitMQ**: Gerenciamento de filas para comunicação assíncrona e desacoplamento entre microsserviços.
 - **Python**: Microserviços especializados em análise de dados e processamento paralelo.
 - **MySQL (via JPA + Hibernate)**: Persistência de dados estruturados com alta disponibilidade.
-- **Docker**: Containerização para garantir portabilidade e consistência entre ambientes.
 - **JWT (JSON Web Token)**: Segurança por meio de autenticação stateless.
 
 ---
@@ -62,15 +61,50 @@ O projeto visa atender pequenas e grandes empresas, com foco especial em integra
 
 ## 📡 Endpoints REST Principais
 
-| Recurso        | Método HTTP | Descrição                           |
-|----------------|-------------|-------------------------------------|
-| `/clientes/pf` | `POST`      | Criação de cliente pessoa física    |
-| `/clientes/pj` | `POST`      | Criação de cliente pessoa jurídica  |
-| `/cartao`      | `POST`      | Criação de cartão digital           |
-| `/produtos`    | `POST`      | Cadastro de produtos                |
-| `/pedido`      | `POST`      | Criação de pedido completo          |
-| `/transacao`   | `POST`      | Registro de transações financeiras  |
+<div align="center">
 
+| **Recurso** | **Método HTTP** | **Descrição** |
+|------------|----------------|-----------------------------|
+| `/clientes/pf` | `POST` | Criação de cliente pessoa física |
+| `/clientes/pf` | `GET` | Buscar perfil do cliente |
+| `/cliente/pf/email` | `GET` | Buscar cliente por email |
+| `/cliente/pf/{id}` | `GET` | Buscar cliente por id |
+| `/cliente/pf/{id}` | `PUT` | Editar cliente por id |
+| `/cliente/pf/{id}` | `DELETE` | Deletar cliente por id |
+| `/clientes/pj` | `POST` | Criação de cliente pessoa jurídica |
+| `/clientes/pj` | `GET` | Buscar perfil do cliente |
+| `/cliente/pj/email` | `GET` | Buscar cliente por email |
+| `/cliente/pj/{id}` | `GET` | Buscar cliente por id |
+| `/cliente/pj/{id}` | `PUT` | Editar cliente por id |
+| `/cliente/pj/{id}` | `DELETE` | Deletar cliente por id |
+
+| `/contas` | `POST` | Criação de conta digital |
+| `/contas` | `GET` | Buscar todas as contas cadastradas |
+| `/contas/{id}` | `GET` | Buscar cliente por id |
+| `/contas/conta/{idConta}` | `PUT` | Editar conta por id |
+| `/contas/status/{id}` | `PUT` | Editar status da conta por id |
+| `/contas/saldo/{id}` | `PUT` | Editar saldo da conta por id |
+| `/contas/{id}` | `DELETE` | Deletar conta específica por id |
+
+| `/cartao` | `POST` | Criação de cartão digital |
+| `/cartao/${id}` | `GET` | Buscar um cartão específico |
+| `/cartao/${id}` | `PUT` | Editar número do cartão |
+| `/cartao/${id}` | `DELETE` | Deletar cartão pedido |
+
+| `/produtos` | `POST` | Cadastro de produtos |
+| `/produtos/${id}` | `DELETE` | Deletar um produto cadastrado |
+| `/produtos` | `GET` | Buscar todos os produtos cadastrados |
+| `/produtos/${id}` | `GET` | Buscar produto específico cadastrado |
+
+| `/pedido/cadastrar` | `POST` | Criação de pedido completo |
+| `/pedido/cancelar/${id}` | `DELETE` | Cancelamento de um pedido |
+| `/pedido/${id}` | `GET` | Buscar resumo do pedido feito |
+
+| `/transacao` | `POST` | Registro de transações financeiras |
+| `/transacao` | `GET` | Buscar transações feitas |
+| `/transacao` | `GET` | Buscar informações de uma transação específica |
+
+</div>
 ---
 
 ## 📈 Escalabilidade & Monitoramento
@@ -78,24 +112,13 @@ O projeto visa atender pequenas e grandes empresas, com foco especial em integra
 - Mensageria com RabbitMQ garante resiliência e desacoplamento
 - Banco de dados configurado com réplicas para alta disponibilidade
 - Monitoramento ativo e alertas de performance
-- Infraestrutura preparada para autoscaling
-
----
-
-## 🔄 Integrações
-
-- Integração com plataformas de Live e Conversational Commerce
-- API REST com documentação seguindo padrão OpenAPI
-- Suporte a webhooks e eventos assíncronos via RabbitMQ
 
 ---
 
 ## 🧠 Roadmap
 
 - Refatoração contínua do backend com foco em Clean Architecture
-- Implementação de cache para reduzir latência em endpoints críticos
 - Integração com gateways de pagamento externos
-- Consolidação do painel de monitoramento em tempo real
 
 ---
 

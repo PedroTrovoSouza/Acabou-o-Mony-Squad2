@@ -58,7 +58,7 @@ O projeto visa atender pequenas e grandes empresas, com foco especial em integra
 - Transações financeiras (crédito/débito) em tempo real
 
 ---
-
+<div style= "align=center">
 ## 📡 Endpoints REST Principais
 
 | **Recurso** | **Método HTTP** | **Descrição** |
@@ -101,7 +101,7 @@ O projeto visa atender pequenas e grandes empresas, com foco especial em integra
 | `/transacao` | `POST` | Registro de transações financeiras |
 | `/transacao` | `GET` | Buscar transações feitas |
 | `/transacao` | `GET` | Buscar informações de uma transação específica |
-
+</div>
 ---
 
 ## 📈 Escalabilidade & Monitoramento

@@ -55,8 +55,8 @@ public class PedidoService {
                             .scheme("http")
                             .host("localhost")
                             .port(9091)
-                            .path("/produto")
-                            .queryParam("nomeProduto", pedido.getProduto())
+                            .path("/produtos/nome")
+                            .queryParam("nome", pedido.getProduto())
                             .build())
                     .retrieve()
                     .toBodilessEntity()
@@ -64,7 +64,6 @@ public class PedidoService {
         } catch (WebClientResponseException.NotFound e) {
             throw new RuntimeException("Produto " + pedido.getProduto() + " não encontrado no serviço de produtos.");
         }
-
 
         return new PedidoResponseDTO(
                 pedido.getProduto(),
@@ -104,7 +103,7 @@ public class PedidoService {
                             .scheme("http")
                             .host("localhost")
                             .port(9091)
-                            .path("/produto/nome")
+                            .path("/produtos/nome")
                             .queryParam("nome", nomeProduto)
                             .build())
                     .retrieve()

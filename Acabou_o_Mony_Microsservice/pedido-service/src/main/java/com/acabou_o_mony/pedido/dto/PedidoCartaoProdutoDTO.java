@@ -25,4 +25,8 @@ public class PedidoCartaoProdutoDTO {
         this.dataPedido = dataPedido;
         this.status = StatusPedido.EM_ANDAMENTO;
     }
+
+    public PedidoCartaoProdutoDTO(){
+
+    }
 }

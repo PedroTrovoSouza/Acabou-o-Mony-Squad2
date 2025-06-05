@@ -1,24 +1,22 @@
 package com.acabou_o_mony.pedido.service;
 
 import com.acabou_o_mony.pedido.dto.*;
-import com.acabou_o_mony.pedido.entity.EmailMessage;
 import com.acabou_o_mony.pedido.entity.Pedido;
 import com.acabou_o_mony.pedido.enums.StatusPedido;
+import com.acabou_o_mony.pedido.enums.StatusTransacao;
 import com.acabou_o_mony.pedido.mapper.MapperPedido;
 import com.acabou_o_mony.pedido.repository.PedidoRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import contas.service.contas_service.dto.cliente.ClienteDto;
 import contas.service.contas_service.entity.Cartao;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
-import com.acabou_o_mony.pedido.enums.StatusTransacao;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -28,26 +26,28 @@ import java.util.Optional;
 public class PedidoService {
 
     @Autowired
-    PedidoRepository pedidoRepository;
+    private PedidoRepository pedidoRepository;
 
     @Autowired
-    MapperPedido mapperPedido;
+    private MapperPedido mapperPedido;
 
     @Autowired
     private RabbitTemplate rabbitTemplate;
+
+    @Autowired
+    private WebClient.Builder webClientBuilder;
 
     private static final Logger logger = LoggerFactory.getLogger(PedidoService.class);
 
     public PedidoResponseDTO buscarPedido(long id) {
         Optional<Pedido> pedidoOptional = pedidoRepository.findById(id);
-
         if (pedidoOptional.isEmpty()) {
             throw new RuntimeException("Pedido com ID " + id + " não encontrado.");
         }
 
         Pedido pedido = pedidoOptional.get();
 
-        WebClient client = WebClient.create();
+        WebClient client = webClientBuilder.build(); // ✅ usando builder
 
         try {
             client.get()
@@ -73,12 +73,12 @@ public class PedidoService {
         );
     }
 
-    public PedidoCartaoProdutoDTO cadastrarPedido(String nomeProduto, BuscarEmailPedido dto) throws JsonProcessingException {
+    public PedidoCartaoProdutoDTO cadastrarPedido(String nomeProduto, BuscarEmailPedidoDTO dto) throws JsonProcessingException {
         if (dto == null) {
             throw new RuntimeException("Pedido não pode ser nulo");
         }
 
-        WebClient client = WebClient.create();
+        WebClient client = webClientBuilder.build(); // ✅ usando builder
 
         ClienteDto cliente;
         try {
@@ -113,7 +113,6 @@ public class PedidoService {
             throw new RuntimeException("Produto: " + nomeProduto + " não encontrado");
         }
 
-        Cartao cartao;
         try {
             client.get()
                     .uri("http://localhost:9092/cartao/{id}", dto.getPedido().getCartao())
@@ -158,22 +157,17 @@ public class PedidoService {
 
         Pedido salvo = pedidoRepository.save(pedido);
 
-        // mostrar nos logs
         logger.info("Pedido criado: ID={}, Produto={}, Status={}", salvo.getIdPedido(), salvo.getProduto(), salvo.getStatus());
 
-        // para enviar paa a fila do RabbitMQ
         ObjectMapper objectMapper = new ObjectMapper();
         String pedidoJson = objectMapper.writeValueAsString(pedido);
         rabbitTemplate.convertAndSend("pedido_exchange", "routing_pedidos", pedidoJson);
 
-
-
         return mapperPedido.toPedidoCartaoProdutoDTO(salvo);
     }
 
-public Optional<Pedido> deletePedido(long id) {
+    public Optional<Pedido> deletePedido(long id) {
         Optional<Pedido> pedidoEncontrado = pedidoRepository.findById(id);
-
         if (pedidoEncontrado == null) {
             throw new RuntimeException("Pedido não encontrado");
         }
@@ -184,7 +178,6 @@ public Optional<Pedido> deletePedido(long id) {
 
     public StatusPedido patchStatusPedido(StatusPedido status, Long id) {
         Optional<Pedido> pedidoOptional = pedidoRepository.findById(id);
-
         if (pedidoOptional.isEmpty()) {
             throw new RuntimeException("Pedido não encontrado com ID: " + id);
         }

@@ -23,4 +23,8 @@ public class PedidoResponseDTO {
         this.dataPedido = dataPedido;
         this.status = status;
     }
+
+    public PedidoResponseDTO(){
+
+    }
 }

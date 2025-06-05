@@ -1,19 +1,16 @@
 package com.acabou_o_mony.pedido.controller;
 
-import com.acabou_o_mony.pedido.dto.BuscarEmailPedido;
+import com.acabou_o_mony.pedido.dto.BuscarEmailPedidoDTO;
 import com.acabou_o_mony.pedido.dto.PedidoCartaoProdutoDTO;
-import com.acabou_o_mony.pedido.dto.PedidoRequestDTO;
 import com.acabou_o_mony.pedido.dto.PedidoResponseDTO;
 import com.acabou_o_mony.pedido.entity.Pedido;
 import com.acabou_o_mony.pedido.service.PedidoService;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
 import java.util.Map;
 import java.util.Optional;
 
@@ -35,7 +32,7 @@ public class PedidoController {
     }
 
     @PostMapping("/cadastrar")
-    public ResponseEntity<?> postPedido(@RequestParam String nomeProduto, @RequestBody BuscarEmailPedido novoPedido) {
+    public ResponseEntity<?> postPedido(@RequestParam String nomeProduto, @RequestBody BuscarEmailPedidoDTO novoPedido) {
         try {
             PedidoCartaoProdutoDTO pedidoCriado = pedidoService.cadastrarPedido(nomeProduto, novoPedido);
             return ResponseEntity.status(HttpStatus.CREATED).body(pedidoCriado);

@@ -72,7 +72,7 @@ public class ClienteController {
         return ResponseEntity.ok(responseDto);
     }
 
-    @PostMapping("/pf")
+    @PostMapping("/cadastro/pf")
     @SecurityRequirement(name = "Bearer")
     public ResponseEntity<FisicaResponseDto> cadastrarPessoaFisica(@RequestBody @Valid FisicaRequestDto dtoCadastro){
         final PessoaFisica fisica = ClienteMapper.toEntity(dtoCadastro);
@@ -81,7 +81,7 @@ public class ClienteController {
         return ResponseEntity.status(201).body(response);
     }
 
-    @PostMapping("/pj")
+    @PostMapping("/cadastro/pj")
     @SecurityRequirement(name = "Bearer")
     public ResponseEntity<JuridicaResponseDto> cadastrarPessoaJuridica(@RequestBody @Valid JuridicaRequestDto dtoCadastro){
         final PessoaJuridica juridica = ClienteMapper.toEntity(dtoCadastro);

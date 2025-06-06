@@ -20,7 +20,7 @@ public class AutenticacaoProvider implements AuthenticationProvider {
     }
 
     @Override
-    public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+    public Authentication authenticate(final Authentication authentication) throws AuthenticationException {
 
         final String username = authentication.getName();
         final String password = authentication.getCredentials().toString();
@@ -35,7 +35,7 @@ public class AutenticacaoProvider implements AuthenticationProvider {
     }
 
     @Override
-    public boolean supports(Class<?> authentication) {
+    public boolean supports(final Class<?> authentication) {
         return authentication.equals(UsernamePasswordAuthenticationToken.class);
     }
 }

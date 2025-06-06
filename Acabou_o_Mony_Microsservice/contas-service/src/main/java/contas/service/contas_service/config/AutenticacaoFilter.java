@@ -20,7 +20,9 @@ import java.util.Objects;
 public class AutenticacaoFilter extends OncePerRequestFilter {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AutenticacaoFilter.class);
+
     private final AutenticacaoService autenticacaoService;
+
     private final GerenciadorTokenJwt jwtTokenManager;
 
     public AutenticacaoFilter(AutenticacaoService autenticacaoService, GerenciadorTokenJwt jwtTokenManager) {
@@ -30,12 +32,12 @@ public class AutenticacaoFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        String username= null;
-        String jwtToken= null;
+        String username = null;
+        String jwtToken = null;
 
         String requestTokenHeader = request.getHeader("Authorization");
 
-        if (Objects.nonNull(requestTokenHeader) && requestTokenHeader.startsWith("Bearer")) {
+        if (Objects.nonNull(requestTokenHeader) && requestTokenHeader.startsWith("Bearer ")) {
             jwtToken = requestTokenHeader.substring(7);
 
             try {
@@ -45,10 +47,11 @@ public class AutenticacaoFilter extends OncePerRequestFilter {
                 LOGGER.info("[FALHA AUTENTICACAO] - Token expirado, usuario: {} - {}",
                         exception.getClaims().getSubject(), exception.getMessage());
 
-                LOGGER.trace("[FALHA AUTENTICAO] - stack trace: %s", exception);
+                LOGGER.trace("[FALHA AUTENTICACAO] - stack trace: %s", exception);
 
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             }
+
         }
 
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {

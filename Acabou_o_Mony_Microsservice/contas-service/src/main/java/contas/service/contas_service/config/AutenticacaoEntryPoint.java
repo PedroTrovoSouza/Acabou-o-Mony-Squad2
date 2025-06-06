@@ -13,14 +13,15 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
-
+@Component
 public class AutenticacaoEntryPoint implements AuthenticationEntryPoint {
 
     @Override
-    public void commence(HttpServletRequest request, HttpServletResponse response, org.springframework.security.core.AuthenticationException authException) throws IOException, ServletException {
-        if (authException.getClass().equals(BadCredentialsException.class) || authException.getClass().equals(InsufficientAuthenticationException.class)) {
+    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
+        if (authException.getClass().equals(BadCredentialsException.class)|| authException.getClass().equals(InsufficientAuthenticationException.class)) {
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
         } else {
             response.sendError(HttpServletResponse.SC_FORBIDDEN);

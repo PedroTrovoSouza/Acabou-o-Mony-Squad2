@@ -22,12 +22,17 @@ public class GerenciadorTokenJwt {
     @Value("${jwt.validity}")
     private long jwtTokenValidity;
 
-    public String getUsernameFromToken(String token) { return getClaimForToken(token, Claims::getSubject); }
+    public String getUsernameFromToken(String token) {
+        return getClaimForToken(token, Claims::getSubject);
+    }
 
-    public Date getExpirationDateFromToken(String token) { return getClaimForToken(token, Claims::getExpiration); }
+    public Date getExpirationDateFromToken(String token) {
+        return getClaimForToken(token, Claims::getExpiration);
+    }
 
-    public String generateToken (final Authentication authentication) {
+    public String generateToken(final Authentication authentication) {
 
+        // Para verificacoes de permissões;
         final String authorities = authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(","));
 
@@ -36,14 +41,9 @@ public class GerenciadorTokenJwt {
                 .setExpiration(new Date(System.currentTimeMillis() + jwtTokenValidity * 1_000)).compact();
     }
 
-    public <T> T getClaimForToken(Function<Claims, T> claimsResolver) {
-        return getClaimForToken(null);
-    }
-
     public <T> T getClaimForToken(String token, Function<Claims, T> claimsResolver) {
         Claims claims = getAllClaimsFromToken(token);
         return claimsResolver.apply(claims);
-
     }
 
     public boolean validateToken(String token, UserDetails userDetails) {
@@ -51,12 +51,12 @@ public class GerenciadorTokenJwt {
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
 
-    public boolean isTokenExpired(String token) {
+    private boolean isTokenExpired(String token) {
         Date expirationDate = getExpirationDateFromToken(token);
         return expirationDate.before(new Date(System.currentTimeMillis()));
     }
 
-    public Claims getAllClaimsFromToken(String token) {
+    private Claims getAllClaimsFromToken(String token) {
         return Jwts.parserBuilder()
                 .setSigningKey(parseSecret())
                 .build()
@@ -67,4 +67,3 @@ public class GerenciadorTokenJwt {
         return Keys.hmacShaKeyFor(this.secret.getBytes(StandardCharsets.UTF_8));
     }
 }
-

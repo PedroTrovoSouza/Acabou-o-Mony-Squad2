@@ -1,8 +1,9 @@
 package contas.service.contas_service.dto.cliente;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
-
+@AllArgsConstructor
 public class ClienteDto {
     private Long id;
     private String nome;

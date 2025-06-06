@@ -7,6 +7,7 @@ import contas.service.contas_service.entity.PessoaFisica;
 import contas.service.contas_service.entity.PessoaJuridica;
 import contas.service.contas_service.mapper.ClienteMapper;
 import contas.service.contas_service.service.ClienteService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -72,19 +73,40 @@ public class ClienteController {
     }
 
     @PostMapping("/pf")
+    @SecurityRequirement(name = "Bearer")
     public ResponseEntity<FisicaResponseDto> cadastrarPessoaFisica(@RequestBody @Valid FisicaRequestDto dtoCadastro){
-        PessoaFisica fisica = ClienteMapper.toEntity(dtoCadastro);
+        final PessoaFisica fisica = ClienteMapper.toEntity(dtoCadastro);
         PessoaFisica clienteCadastrado = clienteService.cadastrarPessoaFisica(fisica);
         FisicaResponseDto response = ClienteMapper.toResponseDto(clienteCadastrado);
         return ResponseEntity.status(201).body(response);
     }
 
     @PostMapping("/pj")
+    @SecurityRequirement(name = "Bearer")
     public ResponseEntity<JuridicaResponseDto> cadastrarPessoaJuridica(@RequestBody @Valid JuridicaRequestDto dtoCadastro){
-        PessoaJuridica juridica = ClienteMapper.toEntity(dtoCadastro);
+        final PessoaJuridica juridica = ClienteMapper.toEntity(dtoCadastro);
         PessoaJuridica clienteCadastrado = clienteService.cadastrarPessoaJuridica(juridica);
         JuridicaResponseDto response = ClienteMapper.toResponseDto(clienteCadastrado);
         return ResponseEntity.status(201).body(response);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<ClienteTokenDto> login(@RequestBody ClienteLoginDto clienteLoginDto) {
+        final Cliente cliente = ClienteMapper.of(clienteLoginDto);
+        ClienteTokenDto clienteTokenDto = this.clienteService.autenticar(cliente);
+
+        return ResponseEntity.status(200).body(clienteTokenDto);
+    }
+
+    @GetMapping
+    @SecurityRequirement(name = "Bearer")
+    public ResponseEntity<List<ClienteListarDto>> listarTodos() {
+        List<ClienteListarDto> clientesEncontrados = this.clienteService.listarTodos();
+
+        if (clientesEncontrados.isEmpty()) {
+            return ResponseEntity.status(204).build();
+        }
+        return ResponseEntity.status(200).body(clientesEncontrados);
     }
 
     @PutMapping("/pf/{id}")

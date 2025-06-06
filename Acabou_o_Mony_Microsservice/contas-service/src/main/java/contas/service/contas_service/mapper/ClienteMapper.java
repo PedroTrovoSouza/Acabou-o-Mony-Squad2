@@ -39,7 +39,7 @@ public class ClienteMapper {
         return cliente;
     }
 
-    public Cliente of(ClienteLoginDto clienteLoginDto) {
+    public static Cliente of(ClienteLoginDto clienteLoginDto) {
         Cliente cliente = new Cliente();
 
         cliente.setEmail(clienteLoginDto.getEmail());

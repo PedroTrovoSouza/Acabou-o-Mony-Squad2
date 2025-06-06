@@ -91,6 +91,7 @@ public class ClienteController {
     }
 
     @PostMapping("/login")
+    @SecurityRequirement(name = "Bearer")
     public ResponseEntity<ClienteTokenDto> login(@RequestBody ClienteLoginDto clienteLoginDto) {
         final Cliente cliente = ClienteMapper.of(clienteLoginDto);
         ClienteTokenDto clienteTokenDto = this.clienteService.autenticar(cliente);

@@ -19,10 +19,6 @@ public class ClienteDetalhesDto implements UserDetails {
         this.senha = cliente.getSenha();
     }
 
-    public String getNome() {
-        return nome;
-    }
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of();
@@ -30,12 +26,12 @@ public class ClienteDetalhesDto implements UserDetails {
 
     @Override
     public String getPassword() {
-        return "";
+        return this.senha; // retorna a senha criptografada do cliente
     }
 
     @Override
     public String getUsername() {
-        return "";
+        return this.email; // retorna o email que está sendo usado como username
     }
 
     @Override

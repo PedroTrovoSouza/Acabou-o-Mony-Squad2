@@ -23,7 +23,13 @@ public class AutenticacaoProvider implements AuthenticationProvider {
     public Authentication authenticate(final Authentication authentication) throws AuthenticationException {
 
         final String username = authentication.getName();
-        final String password = authentication.getCredentials().toString();
+        final Object credentials = authentication.getCredentials();
+
+        if (credentials == null) {
+            throw new BadCredentialsException("Senha não fornecida");
+        }
+
+        final String password = credentials.toString();
 
         UserDetails userDetails = this.usuarioAutorizacaoService.loadUserByUsername(username);
 

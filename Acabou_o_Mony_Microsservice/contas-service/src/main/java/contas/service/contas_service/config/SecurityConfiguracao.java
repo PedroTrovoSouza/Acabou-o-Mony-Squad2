@@ -38,6 +38,9 @@ public class SecurityConfiguracao {
     private AutenticacaoEntryPoint authenticacaoJwtEntryPoint;
 
     private static final String[] URLS_PERMITIDAS = {
+            "/clientes/cadastro/pf",
+            "/clientes/cadastro/pj",
+            "/clientes/login",
             "/swagger-ui/**",
             "/swagger-ui.html",
             "/swagger-resources",
@@ -48,10 +51,7 @@ public class SecurityConfiguracao {
             "/api/public/authenticate",
             "/webjars/**",
             "/v3/api-docs/**",
-            "/actuator/*",
-            "/clientes/cadastro/pf",
-            "/clientes/cadastro/pj",
-            "/clientes/login"
+            "/actuator/*"
     };
 
     @Bean

@@ -15,7 +15,7 @@ import org.springframework.context.annotation.Configuration;
                 description = "implementação de JWT com Spring Security",
                 contact = @Contact(
                         name = "Diego",
-                        url = "link x",
+                        url = "https://github.com/PedroTrovoSouza/Acabou-o-Mony-Squad2",
                         email = "joao.rossi@gmail.com"
                 ),
                 license = @License(name = "UNLICENSED"),

@@ -113,6 +113,8 @@ public class ClienteService {
     }
 
     public ClienteTokenDto autenticar(Cliente cliente) {
+
+
         final UsernamePasswordAuthenticationToken credentials = new UsernamePasswordAuthenticationToken(
                 cliente.getEmail(), cliente.getSenha()
         );

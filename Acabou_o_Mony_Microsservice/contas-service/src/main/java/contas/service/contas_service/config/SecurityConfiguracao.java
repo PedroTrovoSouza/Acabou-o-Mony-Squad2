@@ -1,6 +1,7 @@
 package contas.service.contas_service.config;
 
 import contas.service.contas_service.service.AutenticacaoService;
+import contas.service.contas_service.service.ClienteUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,7 +20,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -27,16 +27,15 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import java.util.Arrays;
 import java.util.List;
 
+
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
 public class SecurityConfiguracao {
 
-    @Autowired
-    private AutenticacaoService autenticacaoService;
+    private final ClienteUserDetailsService clienteUserDetailsService;
 
-    @Autowired
-    private AutenticacaoEntryPoint authenticacaoJwtEntryPoint;
+    private AutenticacaoService autenticacaoService;
 
     private static final String[] URLS_PERMITIDAS = {
             "/swagger-ui/**",
@@ -58,9 +57,14 @@ public class SecurityConfiguracao {
             "/clientes/login"
     };
 
+    public SecurityConfiguracao(ClienteUserDetailsService clienteUserDetailsService) {
+        this.clienteUserDetailsService = clienteUserDetailsService;
+    }
+
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http,
+                                                   AutenticacaoEntryPoint authenticationEntryPoint) throws Exception {
         http
                 .headers(headers -> headers
                         .frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
@@ -70,7 +74,7 @@ public class SecurityConfiguracao {
                         .requestMatchers(URLS_PERMITIDAS).permitAll()
                         .anyRequest().authenticated())
                 .exceptionHandling(handling -> handling
-                        .authenticationEntryPoint(authenticacaoJwtEntryPoint))
+                        .authenticationEntryPoint(authenticationEntryPoint))
                 .sessionManagement(management -> management
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
@@ -78,6 +82,7 @@ public class SecurityConfiguracao {
 
         return http.build();
     }
+
 
     @Bean
     public AuthenticationManager authManager(HttpSecurity http) throws Exception {

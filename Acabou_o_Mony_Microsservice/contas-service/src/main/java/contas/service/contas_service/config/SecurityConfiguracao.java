@@ -65,21 +65,22 @@ public class SecurityConfiguracao {
     public SecurityFilterChain securityFilterChain(HttpSecurity http,
                                                    AutenticacaoEntryPoint authenticationEntryPoint) throws Exception {
         http
-                .csrf().disable()
-                .authorizeHttpRequests()
-                .requestMatchers("/clientes/login/**").permitAll() // liberando explicitamente
-                .anyRequest().authenticated()
-                .and()
-                .exceptionHandling()
-                .authenticationEntryPoint(authenticationEntryPoint)
-                .and()
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        .headers(headers -> headers
+            .frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
+        .cors(Customizer.withDefaults())
+        .csrf(CsrfConfigurer<HttpSecurity>::disable)
+        .authorizeHttpRequests( authorize -> authorize
+            .requestMatchers(URLS_PERMITIDAS).permitAll()
+            .anyRequest().authenticated())
+        .exceptionHandling(handling -> handling
+            .authenticationEntryPoint(authenticationEntryPoint))
+                .sessionManagement(session -> session
+                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
         http.addFilterBefore(jwtAuthenticationFilterBean(), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
-    }
+}
 
 
     @Bean

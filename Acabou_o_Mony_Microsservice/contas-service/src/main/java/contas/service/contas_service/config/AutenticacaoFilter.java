@@ -15,15 +15,34 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-import java.util.Objects;
 
 public class AutenticacaoFilter extends OncePerRequestFilter {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AutenticacaoFilter.class);
 
     private final AutenticacaoService autenticacaoService;
-
     private final GerenciadorTokenJwt jwtTokenManager;
+
+    // URLs liberadas (sem autenticação)
+    private static final String[] URLS_PERMITIDAS = {
+            "/swagger-ui/",
+            "/swagger-ui.html",
+            "/swagger-resources",
+            "/swagger-resources/",
+            "/configuration/ui",
+            "/configuration/security",
+            "/api/public/",
+            "/api/public/authenticate",
+            "/webjars/",
+            "/v3/api-docs/",
+            "/actuator/",
+            "/h2-console/",
+            "/error/",
+            "/clientes/cadastro/pf",
+            "/clientes/cadastro/pj",
+            "/clientes/login",
+            "/clientes/login/"
+    };
 
     public AutenticacaoFilter(AutenticacaoService autenticacaoService, GerenciadorTokenJwt jwtTokenManager) {
         this.autenticacaoService = autenticacaoService;
@@ -31,27 +50,34 @@ public class AutenticacaoFilter extends OncePerRequestFilter {
     }
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+            throws ServletException, IOException {
+
+        String path = request.getServletPath();
+
+        // Pula autenticação para URLs públicas
+        for (String urlPermitida : URLS_PERMITIDAS) {
+            if (path.startsWith(urlPermitida)) {
+                filterChain.doFilter(request, response);
+                return;
+            }
+        }
+
         String username = null;
         String jwtToken = null;
-
         String requestTokenHeader = request.getHeader("Authorization");
 
-        if (Objects.nonNull(requestTokenHeader) && requestTokenHeader.startsWith("Bearer ")) {
+        if (requestTokenHeader != null && requestTokenHeader.startsWith("Bearer ")) {
             jwtToken = requestTokenHeader.substring(7);
-
             try {
                 username = jwtTokenManager.getUsernameFromToken(jwtToken);
             } catch (ExpiredJwtException exception) {
-
                 LOGGER.info("[FALHA AUTENTICACAO] - Token expirado, usuario: {} - {}",
                         exception.getClaims().getSubject(), exception.getMessage());
-
                 LOGGER.trace("[FALHA AUTENTICACAO] - stack trace: %s", exception);
-
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                return; // interrompe o filtro, não segue adiante
             }
-
         }
 
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {

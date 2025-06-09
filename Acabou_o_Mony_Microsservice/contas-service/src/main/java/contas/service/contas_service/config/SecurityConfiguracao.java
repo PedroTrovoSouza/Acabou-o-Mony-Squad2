@@ -34,8 +34,12 @@ import java.util.List;
 public class SecurityConfiguracao {
 
     private final ClienteUserDetailsService clienteUserDetailsService;
+    private final AutenticacaoService autenticacaoService;
 
-    private AutenticacaoService autenticacaoService;
+    public SecurityConfiguracao(ClienteUserDetailsService clienteUserDetailsService, AutenticacaoService autenticacaoService) {
+        this.clienteUserDetailsService = clienteUserDetailsService;
+        this.autenticacaoService = autenticacaoService;
+    }
 
     private static final String[] URLS_PERMITIDAS = {
             "/swagger-ui/**",
@@ -57,26 +61,20 @@ public class SecurityConfiguracao {
             "/clientes/login"
     };
 
-    public SecurityConfiguracao(ClienteUserDetailsService clienteUserDetailsService) {
-        this.clienteUserDetailsService = clienteUserDetailsService;
-    }
-
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http,
                                                    AutenticacaoEntryPoint authenticationEntryPoint) throws Exception {
         http
-                .headers(headers -> headers
-                        .frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
-                .cors(Customizer.withDefaults())
-                .csrf(CsrfConfigurer<HttpSecurity>::disable)
-                .authorizeHttpRequests(request -> request
-                        .requestMatchers(URLS_PERMITIDAS).permitAll()
-                        .anyRequest().authenticated())
-                .exceptionHandling(handling -> handling
-                        .authenticationEntryPoint(authenticationEntryPoint))
-                .sessionManagement(management -> management
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+                .csrf().disable()
+                .authorizeHttpRequests()
+                .requestMatchers("/clientes/login/**").permitAll() // liberando explicitamente
+                .anyRequest().authenticated()
+                .and()
+                .exceptionHandling()
+                .authenticationEntryPoint(authenticationEntryPoint)
+                .and()
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         http.addFilterBefore(jwtAuthenticationFilterBean(), UsernamePasswordAuthenticationFilter.class);
 
@@ -85,17 +83,20 @@ public class SecurityConfiguracao {
 
 
     @Bean
-    public AuthenticationManager authManager(HttpSecurity http) throws Exception {
+    public AutenticacaoProvider autenticacaoProvider() {
+        return new AutenticacaoProvider(autenticacaoService, passwordEncoder());
+    }
+
+    @Bean
+    public AuthenticationManager authManager(HttpSecurity http, AutenticacaoProvider autenticacaoProvider) throws Exception {
         AuthenticationManagerBuilder authenticationManagerBuilder =
                 http.getSharedObject(AuthenticationManagerBuilder.class);
 
-        authenticationManagerBuilder.authenticationProvider(new AutenticacaoProvider(autenticacaoService, passwordEncoder()));
+        authenticationManagerBuilder.authenticationProvider(autenticacaoProvider);
+
         return authenticationManagerBuilder.build();
     }
 
-
-    @Bean
-    public AutenticacaoEntryPoint jwtAuthenticationEntryPoint(){ return new AutenticacaoEntryPoint(); }
 
     @Bean
     public AutenticacaoFilter jwtAuthenticationFilterBean(){

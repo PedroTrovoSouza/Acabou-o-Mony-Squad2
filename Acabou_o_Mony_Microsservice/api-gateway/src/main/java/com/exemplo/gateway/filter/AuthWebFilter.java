@@ -22,6 +22,13 @@ public class AuthWebFilter implements WebFilter {
     private static final Logger logger = LoggerFactory.getLogger(AuthWebFilter.class);
     private final Key secretKey;
 
+    // Lista de endpoints públicos (sem autenticação)
+    private static final String[] PUBLIC_URLS = {
+            "/api/contas-service/clientes/cadastro/pf",
+            "/api/contas-service/clientes/cadastro/pj",
+            "/api/contas-service/clientes/login"
+    };
+
     public AuthWebFilter(@Value("${api.security.token.secret}") String secretKeyString) {
         try {
             this.secretKey = Keys.hmacShaKeyFor(secretKeyString.getBytes());
@@ -34,6 +41,17 @@ public class AuthWebFilter implements WebFilter {
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
+        String path = exchange.getRequest().getPath().toString();
+
+        logger.info("Path da requisição: {}", path);
+
+        // Se a URL for pública, pula a autenticação
+        for (String publicUrl : PUBLIC_URLS) {
+            if (path.startsWith(publicUrl)) {
+                return chain.filter(exchange);
+            }
+        }
+
         String token = recoverToken(exchange);
 
         if (token == null) {
@@ -48,7 +66,7 @@ public class AuthWebFilter implements WebFilter {
                     .build()
                     .parseClaimsJws(token);
 
-            logger.debug("Token JWT válido para a requisição: {}", exchange.getRequest().getURI());
+            logger.debug("Token JWT válido para a requisição: {}", path);
             return chain.filter(exchange);
 
         } catch (JwtException e) {

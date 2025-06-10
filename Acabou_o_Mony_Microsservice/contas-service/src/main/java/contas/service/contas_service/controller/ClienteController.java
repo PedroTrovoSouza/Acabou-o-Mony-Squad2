@@ -21,6 +21,29 @@ import java.util.List;
 public class ClienteController {
     private final ClienteService clienteService;
 
+
+    @PostMapping("/cadastro/pf")
+    public ResponseEntity<FisicaResponseDto> cadastrarPessoaFisica(@RequestBody @Valid FisicaRequestDto dtoCadastro){
+        try {
+            final PessoaFisica fisica = ClienteMapper.toEntity(dtoCadastro);
+            PessoaFisica clienteCadastrado = clienteService.cadastrarPessoaFisica(dtoCadastro);
+            FisicaResponseDto response = ClienteMapper.toResponseDto(clienteCadastrado);
+            return ResponseEntity.status(201).body(response);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return null;
+    }
+
+    @PostMapping("/cadastro/pj")
+    public ResponseEntity<JuridicaResponseDto> cadastrarPessoaJuridica(@RequestBody @Valid JuridicaRequestDto dtoCadastro){
+        final PessoaJuridica juridica = ClienteMapper.toEntity(dtoCadastro);
+        PessoaJuridica clienteCadastrado = clienteService.cadastrarPessoaJuridica(juridica);
+        JuridicaResponseDto response = ClienteMapper.toResponseDto(clienteCadastrado);
+        return ResponseEntity.status(201).body(response);
+    }
+
+
     @GetMapping("/pf")
     public ResponseEntity<List<FisicaResponseDto>> listarPessoaFisica(){
         List<PessoaFisica> fisicas = clienteService.listarPessoaFisica();
@@ -70,27 +93,6 @@ public class ClienteController {
         PessoaJuridica pessoaJuridica = clienteService.buscarPessoaJuridicaPorId(id);
         JuridicaResponseDto responseDto = ClienteMapper.toResponseDto(pessoaJuridica);
         return ResponseEntity.ok(responseDto);
-    }
-
-    @PostMapping("/cadastro/pf")
-    public ResponseEntity<FisicaResponseDto> cadastrarPessoaFisica(@RequestBody @Valid FisicaRequestDto dtoCadastro){
-        try {
-            final PessoaFisica fisica = ClienteMapper.toEntity(dtoCadastro);
-            PessoaFisica clienteCadastrado = clienteService.cadastrarPessoaFisica(dtoCadastro);
-            FisicaResponseDto response = ClienteMapper.toResponseDto(clienteCadastrado);
-            return ResponseEntity.status(201).body(response);
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-        return null;
-    }
-
-    @PostMapping("/cadastro/pj")
-    public ResponseEntity<JuridicaResponseDto> cadastrarPessoaJuridica(@RequestBody @Valid JuridicaRequestDto dtoCadastro){
-        final PessoaJuridica juridica = ClienteMapper.toEntity(dtoCadastro);
-        PessoaJuridica clienteCadastrado = clienteService.cadastrarPessoaJuridica(juridica);
-        JuridicaResponseDto response = ClienteMapper.toResponseDto(clienteCadastrado);
-        return ResponseEntity.status(201).body(response);
     }
 
     @PostMapping("/login")

@@ -40,8 +40,9 @@ public class SecurityConfiguracao {
                         .requestMatchers(HttpMethod.POST,"/clientes/cadastro/pj").permitAll()
                         .requestMatchers(HttpMethod.POST,"/clientes/login").permitAll()
                         .requestMatchers("/pedido/**").permitAll()
+                        .requestMatchers("/produtos/**").permitAll()
                         .requestMatchers("/clientes/**").permitAll()
-                        .anyRequest().authenticated()
+                        .anyRequest().permitAll()
                 )
                 .addFilterBefore(securityFilter, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter.class)
                 .build();

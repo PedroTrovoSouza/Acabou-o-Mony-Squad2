@@ -15,14 +15,12 @@ public class PedidoRequestDTO {
     @JsonFormat(pattern = "dd/MM/yyyy")
     private Date dataPedido;
 
-    private Long produto;
     private Long cartao;
     private StatusPedido status;
 
-    public PedidoRequestDTO(double valorTotal, Date dataPedido, Long produto, Long cartao, StatusPedido status){
+    public PedidoRequestDTO(double valorTotal, Date dataPedido, Long cartao, StatusPedido status){
         this.valorTotal = valorTotal;
         this.dataPedido = dataPedido;
-        this.produto = produto;
         this.cartao = cartao;
         this.status = status;
     }

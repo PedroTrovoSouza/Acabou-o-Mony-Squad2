@@ -9,8 +9,8 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2025-06-10T09:17:49-0300",
-    comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.12 (Oracle Corporation)"
+    date = "2025-06-10T14:48:39-0300",
+    comments = "version: 1.5.5.Final, compiler: javac, environment: Java 24 (Oracle Corporation)"
 )
 @Component
 public class MapperPedidoImpl implements MapperPedido {
@@ -25,9 +25,6 @@ public class MapperPedidoImpl implements MapperPedido {
 
         pedido.setValorTotal( pedidoRequestDTO.getValorTotal() );
         pedido.setDataPedido( pedidoRequestDTO.getDataPedido() );
-        if ( pedidoRequestDTO.getProduto() != null ) {
-            pedido.setProduto( String.valueOf( pedidoRequestDTO.getProduto() ) );
-        }
         pedido.setCartao( pedidoRequestDTO.getCartao() );
         pedido.setStatus( pedidoRequestDTO.getStatus() );
 
@@ -44,9 +41,6 @@ public class MapperPedidoImpl implements MapperPedido {
 
         pedidoRequestDTO.setValorTotal( entity.getValorTotal() );
         pedidoRequestDTO.setDataPedido( entity.getDataPedido() );
-        if ( entity.getProduto() != null ) {
-            pedidoRequestDTO.setProduto( Long.parseLong( entity.getProduto() ) );
-        }
         pedidoRequestDTO.setCartao( entity.getCartao() );
         pedidoRequestDTO.setStatus( entity.getStatus() );
 

@@ -32,15 +32,10 @@ public class PedidoController {
     }
 
     @PostMapping("/cadastrar")
-    public ResponseEntity<?> postPedido(@RequestParam String nomeProduto, @RequestBody BuscarEmailPedidoDTO novoPedido) {
-        try {
-            PedidoCartaoProdutoDTO pedidoCriado = pedidoService.cadastrarPedido(nomeProduto, novoPedido);
-            return ResponseEntity.status(HttpStatus.CREATED).body(pedidoCriado);
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("erro", e.getMessage()));
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
+    public ResponseEntity<PedidoCartaoProdutoDTO> cadastrarPedido(@RequestParam("nomeProduto") String nomeProduto, @RequestBody BuscarEmailPedidoDTO buscarEmailPedidoDTO) throws JsonProcessingException {
+
+        PedidoCartaoProdutoDTO pedidoCriado = pedidoService.cadastrarPedido(nomeProduto, buscarEmailPedidoDTO);
+        return ResponseEntity.ok(pedidoCriado);
     }
 
     @DeleteMapping("/cancelar/{id}")

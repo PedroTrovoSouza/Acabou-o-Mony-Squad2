@@ -9,7 +9,6 @@ import com.acabou_o_mony.pedido.repository.PedidoRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import contas.service.contas_service.dto.cliente.ClienteDto;
-import contas.service.contas_service.entity.Cartao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -47,7 +46,7 @@ public class PedidoService {
 
         Pedido pedido = pedidoOptional.get();
 
-        WebClient client = webClientBuilder.build(); // ✅ usando builder
+        WebClient client = webClientBuilder.build();
 
         try {
             client.get()
@@ -74,11 +73,11 @@ public class PedidoService {
     }
 
     public PedidoCartaoProdutoDTO cadastrarPedido(String nomeProduto, BuscarEmailPedidoDTO dto) throws JsonProcessingException {
-        if (dto == null) {
+        if (dto == null || dto.getPedido() == null) {
             throw new RuntimeException("Pedido não pode ser nulo");
         }
 
-        WebClient client = webClientBuilder.build(); // ✅ usando builder
+        WebClient client = webClientBuilder.build();
 
         ClienteDto cliente;
         try {
@@ -88,13 +87,13 @@ public class PedidoService {
                             .host("localhost")
                             .port(9092)
                             .path("/clientes/email")
-                            .queryParam("email", dto.getEmail())
+                            .queryParam("email", dto.getLogin())
                             .build())
                     .retrieve()
                     .bodyToMono(ClienteDto.class)
                     .block();
         } catch (WebClientResponseException.NotFound e) {
-            throw new RuntimeException("Email: " + dto.getEmail() + " não encontrado.");
+            throw new RuntimeException("Email: " + dto.getLogin() + " não encontrado.");
         }
 
         try {
@@ -145,8 +144,8 @@ public class PedidoService {
         }
 
         Pedido pedido = mapperPedido.toEntity(dto.getPedido());
-        pedido.setDataPedido(new Date());
         pedido.setProduto(nomeProduto);
+        pedido.setDataPedido(new Date());
         pedido.setCartao(dto.getPedido().getCartao());
 
         if (transacao != null && "APROVADA".equalsIgnoreCase(transacao.getTransacao())) {
@@ -168,7 +167,7 @@ public class PedidoService {
 
     public Optional<Pedido> deletePedido(long id) {
         Optional<Pedido> pedidoEncontrado = pedidoRepository.findById(id);
-        if (pedidoEncontrado == null) {
+        if (pedidoEncontrado.isEmpty()) {
             throw new RuntimeException("Pedido não encontrado");
         }
 

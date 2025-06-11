@@ -39,6 +39,7 @@ public class SecurityConfiguracao {
                         .requestMatchers(HttpMethod.POST, "/clientes/cadastro/pf").permitAll()
                         .requestMatchers(HttpMethod.POST,"/clientes/cadastro/pj").permitAll()
                         .requestMatchers(HttpMethod.POST,"/clientes/login").permitAll()
+                        .requestMatchers(HttpMethod.POST,"/pedido/cadastrar").permitAll()
                         .requestMatchers("/pedido/**").permitAll()
                         .requestMatchers("/produtos/**").permitAll()
                         .requestMatchers("/clientes/**").permitAll()

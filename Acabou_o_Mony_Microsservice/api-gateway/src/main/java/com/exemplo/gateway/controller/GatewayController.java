@@ -30,7 +30,7 @@ public class GatewayController {
             case "pedido-service", "pedido" -> "http://localhost:9090";
             case "produto-service", "produtos" -> "http://localhost:9091";
             case "contas-service", "clientes" -> "http://localhost:9092";
-            case "transacao-service", "transacao" -> "http://localhost:8084";
+            case "transacao-service", "transacao" -> "http://localhost:9093";
             default -> null;
         };
 

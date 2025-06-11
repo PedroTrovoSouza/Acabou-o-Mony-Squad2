@@ -25,7 +25,8 @@ public class AuthWebFilter implements WebFilter {
     private static final String[] PUBLIC_URLS = {
             "/api/contas-service/clientes/cadastro/pf",
             "/api/contas-service/clientes/cadastro/pj",
-            "/api/contas-service/clientes/login"
+            "/api/contas-service/clientes/login",
+            "/api/transacao-service/transacao"
     };
 
     public AuthWebFilter(@Value("${api.security.token.secret}") String secretKeyString) {

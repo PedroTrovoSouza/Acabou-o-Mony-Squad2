@@ -1,13 +1,16 @@
 package com.acabou_o_mony.pedido.service;
 
+import com.acabou_o_mony.pedido.config.WebClientConfig;
 import com.acabou_o_mony.pedido.dto.*;
 import com.acabou_o_mony.pedido.entity.Pedido;
 import com.acabou_o_mony.pedido.enums.StatusPedido;
 import com.acabou_o_mony.pedido.enums.StatusTransacao;
 import com.acabou_o_mony.pedido.mapper.MapperPedido;
 import com.acabou_o_mony.pedido.repository.PedidoRepository;
+import com.acabou_o_mony.produto_service.dto.ProdutoResponseDTO;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import contas.service.contas_service.dto.cartao.CartaoResponseDTO;
 import contas.service.contas_service.dto.cliente.ClienteDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,6 +27,17 @@ import java.util.Optional;
 @Service
 public class PedidoService {
 
+    private final WebClient webProduto;
+    private final WebClient webClient;
+    private final WebClient webTransacao;
+
+    @Autowired
+    public PedidoService(WebClient.Builder webClientBuilder){
+        this.webProduto = webClientBuilder.baseUrl("http://localhost:9091").build();
+        this.webClient = webClientBuilder.baseUrl("http://localhost:9092").build();
+        this.webTransacao = webClientBuilder.baseUrl("http://localhost:9093").build();
+    }
+
     @Autowired
     private PedidoRepository pedidoRepository;
 
@@ -33,20 +47,15 @@ public class PedidoService {
     @Autowired
     private RabbitTemplate rabbitTemplate;
 
-    @Autowired
-    private WebClient.Builder webClientBuilder;
-
     private static final Logger logger = LoggerFactory.getLogger(PedidoService.class);
 
-    public PedidoResponseDTO buscarPedido(long id) {
+    /*public PedidoResponseDTO buscarPedido(long id) {
         Optional<Pedido> pedidoOptional = pedidoRepository.findById(id);
         if (pedidoOptional.isEmpty()) {
             throw new RuntimeException("Pedido com ID " + id + " não encontrado.");
         }
 
         Pedido pedido = pedidoOptional.get();
-
-        WebClient client = webClientBuilder.build();
 
         try {
             String nomeProduto = pedido.getProduto();
@@ -79,57 +88,49 @@ public class PedidoService {
                 pedido.getDataPedido(),
                 pedido.getStatus()
         );
-    }
+    }*/
 
     public PedidoCartaoProdutoDTO cadastrarPedido(String nomeProduto, BuscarEmailPedidoDTO dto) throws JsonProcessingException {
         if (dto == null || dto.getPedido() == null) {
             throw new RuntimeException("Pedido não pode ser nulo");
         }
 
-        WebClient client = webClientBuilder.build();
+        /*String url = "/clientes/" + dto.getLogin();
 
-        ClienteDto cliente;
         try {
-            cliente = client.get()
-                    .uri(uriBuilder -> uriBuilder
-                            .scheme("http")
-                            .host("localhost")
-                            .port(9092)
-                            .path("/clientes/email")
-                            .queryParam("email", dto.getLogin())
-                            .build())
+            ClienteDto cliente = webClient.get()
+                    .uri(url)
                     .retrieve()
                     .bodyToMono(ClienteDto.class)
                     .block();
+
         } catch (WebClientResponseException.NotFound e) {
             throw new RuntimeException("Email: " + dto.getLogin() + " não encontrado.");
         }
 
+        String urlProduto = "/produtos/" + nomeProduto;
+
         try {
-            client.get()
-                    .uri(uriBuilder -> uriBuilder
-                            .scheme("http")
-                            .host("localhost")
-                            .port(9091)
-                            .path("/produtos/nome")
-                            .queryParam("nome", nomeProduto)
-                            .build())
+             ProdutoResponseDTO produto = webProduto.get()
+                    .uri(urlProduto)
                     .retrieve()
-                    .toBodilessEntity()
+                    .bodyToMono(ProdutoResponseDTO.class)
                     .block();
         } catch (WebClientResponseException.NotFound e) {
             throw new RuntimeException("Produto: " + nomeProduto + " não encontrado");
         }
 
+        String urlCartao = "/cartao/" + dto.getPedido().getCartao();
+
         try {
-            client.get()
-                    .uri("http://localhost:9092/cartao/{id}", dto.getPedido().getCartao())
+            CartaoResponseDTO cartao = webClient.get()
+                    .uri(urlCartao)
                     .retrieve()
-                    .toBodilessEntity()
+                    .bodyToMono(CartaoResponseDTO.class)
                     .block();
         } catch (WebClientResponseException.NotFound e) {
             throw new RuntimeException("Cartão com ID " + dto.getPedido().getCartao() + " não encontrado.");
-        }
+        }*/
 
         TransacaoRequestDTO transacaoRequest = new TransacaoRequestDTO();
         transacaoRequest.setTipoTransacao("DEBITO");
@@ -140,24 +141,24 @@ public class PedidoService {
         transacaoRequest.setClienteDestinatarioId(dto.getClienteDestinatarioId());
         transacaoRequest.setCartaoId(dto.getPedido().getCartao());
 
-        TransacaoResponseDTO transacao;
+        /*String urlTransacao = "/transacao" + transacaoRequest;
+
         try {
-            transacao = client.post()
-                    .uri("http://localhost:9093/transacao")
-                    .bodyValue(transacaoRequest)
+            TransacaoResponseDTO transacao = webTransacao.get()
+                    .uri(urlTransacao)
                     .retrieve()
                     .bodyToMono(TransacaoResponseDTO.class)
                     .block();
         } catch (WebClientResponseException e) {
             throw new RuntimeException("Erro ao consultar transação: " + e.getMessage());
-        }
+        }*/
 
         Pedido pedido = mapperPedido.toEntity(dto.getPedido());
         pedido.setProduto(nomeProduto);
         pedido.setDataPedido(new Date());
         pedido.setCartao(dto.getPedido().getCartao());
 
-        if (transacao != null && "APROVADA".equalsIgnoreCase(transacao.getTransacao())) {
+        if (transacaoRequest != null && "APROVADA".equalsIgnoreCase(transacaoRequest.getTipoTransacao())) {
             pedido.setStatus(StatusPedido.APROVADO);
         } else {
             pedido.setStatus(StatusPedido.RECUSADO);

@@ -36,13 +36,13 @@ public class SecurityConfiguracao {
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(HttpMethod.POST, "/clientes/cadastro/pf").permitAll()
-                        .requestMatchers(HttpMethod.POST,"/clientes/cadastro/pj").permitAll()
-                        .requestMatchers(HttpMethod.POST,"/clientes/login").permitAll()
-                        .requestMatchers(HttpMethod.POST,"/pedido/cadastrar").permitAll()
+                        /*.requestMatchers(HttpMethod.POST, "/clientes/cadastro/pf").permitAll()
+                        .requestMatchers(HttpMethod.POST,"/clientes/cadastro/pj").permitAll()*/
+                        .requestMatchers("/clientes/login/**").permitAll()
+                        /*.requestMatchers(HttpMethod.POST,"/pedido/cadastrar").permitAll()
                         .requestMatchers("/pedido/**").permitAll()
                         .requestMatchers("/produtos/**").permitAll()
-                        .requestMatchers("/clientes/**").permitAll()
+                        .requestMatchers("/clientes/**").permitAll()*/
                         .anyRequest().permitAll()
                 )
                 .addFilterBefore(securityFilter, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter.class)

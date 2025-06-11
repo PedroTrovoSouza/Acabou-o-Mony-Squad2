@@ -21,7 +21,7 @@ public class PedidoController {
     @Autowired
     PedidoService pedidoService;
 
-    @GetMapping("/{id}")
+    /*@GetMapping("/{id}")
     public ResponseEntity<?> getPedido(@PathVariable long id) {
         try {
             PedidoResponseDTO pedido = pedidoService.buscarPedido(id);
@@ -29,7 +29,7 @@ public class PedidoController {
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
-    }
+    }*/
 
     @PostMapping("/cadastrar")
     public ResponseEntity<PedidoCartaoProdutoDTO> cadastrarPedido(@RequestParam("nomeProduto") String nomeProduto, @RequestBody BuscarEmailPedidoDTO buscarEmailPedidoDTO) throws JsonProcessingException {

@@ -21,18 +21,16 @@ import java.util.List;
 public class ClienteController {
     private final ClienteService clienteService;
 
-
     @PostMapping("/cadastro/pf")
     public ResponseEntity<FisicaResponseDto> cadastrarPessoaFisica(@RequestBody @Valid FisicaRequestDto dtoCadastro){
         try {
-            final PessoaFisica fisica = ClienteMapper.toEntity(dtoCadastro);
             PessoaFisica clienteCadastrado = clienteService.cadastrarPessoaFisica(dtoCadastro);
             FisicaResponseDto response = ClienteMapper.toResponseDto(clienteCadastrado);
             return ResponseEntity.status(201).body(response);
         } catch (Exception e) {
-            System.out.println(e);
+            e.printStackTrace(); // Use log, se possível
+            return ResponseEntity.status(500).build();
         }
-        return null;
     }
 
     @PostMapping("/cadastro/pj")
@@ -42,7 +40,6 @@ public class ClienteController {
         JuridicaResponseDto response = ClienteMapper.toResponseDto(clienteCadastrado);
         return ResponseEntity.status(201).body(response);
     }
-
 
     @GetMapping("/pf")
     public ResponseEntity<List<FisicaResponseDto>> listarPessoaFisica(){

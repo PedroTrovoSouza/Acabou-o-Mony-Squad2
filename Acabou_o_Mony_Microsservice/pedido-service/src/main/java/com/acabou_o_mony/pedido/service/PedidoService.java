@@ -49,19 +49,28 @@ public class PedidoService {
         WebClient client = webClientBuilder.build();
 
         try {
+            String nomeProduto = pedido.getProduto();
+
+            if (nomeProduto == null || nomeProduto.isBlank()) {
+                throw new RuntimeException("O nome do produto está vazio ou nulo no pedido.");
+            }
+
             client.get()
                     .uri(uriBuilder -> uriBuilder
                             .scheme("http")
                             .host("localhost")
                             .port(9091)
                             .path("/produtos/nome")
-                            .queryParam("nome", pedido.getProduto())
+                            .queryParam("nome", nomeProduto)
                             .build())
                     .retrieve()
                     .toBodilessEntity()
                     .block();
+
         } catch (WebClientResponseException.NotFound e) {
             throw new RuntimeException("Produto " + pedido.getProduto() + " não encontrado no serviço de produtos.");
+        } catch (WebClientResponseException e) {
+            throw new RuntimeException("Erro na comunicação com o serviço de produtos: " + e.getMessage());
         }
 
         return new PedidoResponseDTO(

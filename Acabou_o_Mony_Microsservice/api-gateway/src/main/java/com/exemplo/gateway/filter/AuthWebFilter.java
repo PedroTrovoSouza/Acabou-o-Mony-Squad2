@@ -22,7 +22,6 @@ public class AuthWebFilter implements WebFilter {
     private static final Logger logger = LoggerFactory.getLogger(AuthWebFilter.class);
     private final Key secretKey;
 
-    // Lista de endpoints públicos (sem autenticação)
     private static final String[] PUBLIC_URLS = {
             "/api/contas-service/clientes/cadastro/pf",
             "/api/contas-service/clientes/cadastro/pj",

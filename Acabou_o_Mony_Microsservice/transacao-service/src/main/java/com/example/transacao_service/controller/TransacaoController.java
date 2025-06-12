@@ -49,4 +49,9 @@ public class TransacaoController {
         }
         return ResponseEntity.status(200).body(transacaoPorId);
     }
+
+    @PostMapping("/teste")
+    public ResponseEntity<String> metodoDeTeste(@RequestBody String teste){
+        return ResponseEntity.ok("TESTE FUNCIONANDO");
+    }
 }

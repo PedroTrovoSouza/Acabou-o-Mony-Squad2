@@ -47,4 +47,9 @@ public class PedidoController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
+
+    @PostMapping("/teste")
+    public ResponseEntity<String> metodoDeTeste(@RequestBody String teste){
+        return ResponseEntity.ok("TESTE FUNCIONANDO");
+    }
 }

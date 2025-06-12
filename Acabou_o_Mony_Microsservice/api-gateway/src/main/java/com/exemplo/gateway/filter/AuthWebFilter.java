@@ -26,7 +26,7 @@ public class AuthWebFilter implements WebFilter {
             "/api/contas-service/clientes/cadastro/pf",
             "/api/contas-service/clientes/cadastro/pj",
             "/api/contas-service/clientes/login",
-            "/api/transacao-service/transacao"
+            "/api/transacao/transacao"
     };
 
     public AuthWebFilter(@Value("${api.security.token.secret}") String secretKeyString) {
@@ -55,11 +55,12 @@ public class AuthWebFilter implements WebFilter {
         String token = recoverToken(exchange);
 
         if (token == null) {
-            logger.warn("Cabeçalho Authorization ausente ou inválido");
+            logger.info("Cabeçalho Authorization ausente ou inválido");
             exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
             return exchange.getResponse().setComplete();
         }
 
+        logger.info("Chegou aqui!!");
         try {
             Jwts.parserBuilder()
                     .setSigningKey(secretKey)

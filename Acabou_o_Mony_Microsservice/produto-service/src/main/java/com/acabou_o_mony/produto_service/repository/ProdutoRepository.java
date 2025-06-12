@@ -40,5 +40,4 @@ public interface ProdutoRepository extends JpaRepository<Produto, Long> {
 
     @Query(value = "SELECT * FROM produto WHERE LOWER(nome) LIKE LOWER(CONCAT('%', :nome, '%'))", nativeQuery = true)
     List<Produto> buscarPorNome(@Param("nome") String nome);
-
 }

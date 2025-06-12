@@ -6,6 +6,8 @@ import com.example.transacao_service.entity.Transacao;
 import com.example.transacao_service.enums.TipoTransacao;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
+
 @Component
 public class TransacaoMapper {
 
@@ -15,7 +17,7 @@ public class TransacaoMapper {
         Transacao transacao = new Transacao();
         transacao.setTipo_transacao(TipoTransacao.valueOf(dto.getTipoTransacao()));
         transacao.setValor(dto.getValor());
-        transacao.setDthora(dto.getDthora());
+        transacao.setDthora(LocalDateTime.now());
         transacao.setStatus(dto.getStatus());
         transacao.setClienteDestinatarioId(dto.getClienteDestinatarioId());
         transacao.setClienteRemetenteId(dto.getClienteRemetenteId());

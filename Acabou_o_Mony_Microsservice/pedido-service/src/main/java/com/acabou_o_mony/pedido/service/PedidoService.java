@@ -22,6 +22,7 @@ import org.springframework.web.reactive.function.client.WebClientResponseExcepti
 
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -49,7 +50,7 @@ public class PedidoService {
 
     private static final Logger logger = LoggerFactory.getLogger(PedidoService.class);
 
-    /*public PedidoResponseDTO buscarPedido(long id) {
+    public PedidoResponseDTO buscarPedido(long id) {
         Optional<Pedido> pedidoOptional = pedidoRepository.findById(id);
         if (pedidoOptional.isEmpty()) {
             throw new RuntimeException("Pedido com ID " + id + " não encontrado.");
@@ -64,7 +65,7 @@ public class PedidoService {
                 throw new RuntimeException("O nome do produto está vazio ou nulo no pedido.");
             }
 
-            client.get()
+            webProduto.get()
                     .uri(uriBuilder -> uriBuilder
                             .scheme("http")
                             .host("localhost")
@@ -88,14 +89,14 @@ public class PedidoService {
                 pedido.getDataPedido(),
                 pedido.getStatus()
         );
-    }*/
+    }
 
     public PedidoCartaoProdutoDTO cadastrarPedido(String nomeProduto, BuscarEmailPedidoDTO dto) throws JsonProcessingException {
         if (dto == null || dto.getPedido() == null) {
             throw new RuntimeException("Pedido não pode ser nulo");
         }
 
-        /*String url = "/clientes/" + dto.getLogin();
+        String url = "/clientes/email?email=" + dto.getLogin();
 
         try {
             ClienteDto cliente = webClient.get()
@@ -108,13 +109,14 @@ public class PedidoService {
             throw new RuntimeException("Email: " + dto.getLogin() + " não encontrado.");
         }
 
-        String urlProduto = "/produtos/" + nomeProduto;
+        String urlProduto = "/produtos/nome?nome=" + nomeProduto;
 
         try {
-             ProdutoResponseDTO produto = webProduto.get()
+            List<ProdutoResponseDTO> produtos = webProduto.get()
                     .uri(urlProduto)
                     .retrieve()
-                    .bodyToMono(ProdutoResponseDTO.class)
+                    .bodyToFlux(ProdutoResponseDTO.class)
+                    .collectList()
                     .block();
         } catch (WebClientResponseException.NotFound e) {
             throw new RuntimeException("Produto: " + nomeProduto + " não encontrado");
@@ -130,35 +132,39 @@ public class PedidoService {
                     .block();
         } catch (WebClientResponseException.NotFound e) {
             throw new RuntimeException("Cartão com ID " + dto.getPedido().getCartao() + " não encontrado.");
-        }*/
+        }
 
         TransacaoRequestDTO transacaoRequest = new TransacaoRequestDTO();
         transacaoRequest.setTipoTransacao("DEBITO");
         transacaoRequest.setValor(dto.getPedido().getValorTotal());
-        transacaoRequest.setDthora(LocalDateTime.now());
         transacaoRequest.setStatus(StatusTransacao.SUCESSO);
         transacaoRequest.setClienteRemetenteId(dto.getClienteRemetenteId());
         transacaoRequest.setClienteDestinatarioId(dto.getClienteDestinatarioId());
         transacaoRequest.setCartaoId(dto.getPedido().getCartao());
 
-        /*String urlTransacao = "/transacao" + transacaoRequest;
+        System.out.println(new ObjectMapper().writeValueAsString(transacaoRequest));
+
+        String urlTransacao = "/transacao"; // apenas o endpoint, sem concatenar o objeto
 
         try {
-            TransacaoResponseDTO transacao = webTransacao.get()
+
+            TransacaoResponseDTO transacao = webTransacao.post()
                     .uri(urlTransacao)
+                    .bodyValue(transacaoRequest) // envia no corpo
                     .retrieve()
                     .bodyToMono(TransacaoResponseDTO.class)
                     .block();
+
         } catch (WebClientResponseException e) {
-            throw new RuntimeException("Erro ao consultar transação: " + e.getMessage());
-        }*/
+            throw new RuntimeException("Erro ao cadastrar transação: " + e.getMessage(), e);
+        }
 
         Pedido pedido = mapperPedido.toEntity(dto.getPedido());
         pedido.setProduto(nomeProduto);
         pedido.setDataPedido(new Date());
         pedido.setCartao(dto.getPedido().getCartao());
 
-        if (transacaoRequest != null && "APROVADA".equalsIgnoreCase(transacaoRequest.getTipoTransacao())) {
+        if (transacaoRequest != null && transacaoRequest.getStatus().equals(StatusTransacao.SUCESSO)) {
             pedido.setStatus(StatusPedido.APROVADO);
         } else {
             pedido.setStatus(StatusPedido.RECUSADO);

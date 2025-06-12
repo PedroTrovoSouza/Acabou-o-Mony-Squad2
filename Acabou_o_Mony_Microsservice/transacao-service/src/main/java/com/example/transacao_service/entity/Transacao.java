@@ -3,15 +3,15 @@ package com.example.transacao_service.entity;
 import com.example.transacao_service.enums.StatusTransacao;
 import com.example.transacao_service.enums.TipoTransacao;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@Setter
 @Data
 public class Transacao {
 

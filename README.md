@@ -119,7 +119,7 @@ O projeto visa atender pequenas e grandes empresas, com foco especial em integra
 
 ## 👨‍💻 Equipe Técnica
 
-- [**Fabio Azevedo**](https://github.com/FabioPojects) 
-- [**Fernando Amorim**](https://github.com/FernandoAmoriim) 
-- [**João Rossi**](https://github.com/JoaoRossii)
-- [**Pedro Trovo**](https://github.com/PedroTrovoSouza)
+- [**Fabio Azevedo**](https://github.com/FabioPojects) -> Microsserviço de produtos e Mensageria(RabbitMQ)
+- [**Fernando Amorim**](https://github.com/FernandoAmoriim) -> Microsserviço de Contas, Mensageria(RabbitMQ) e JWT
+- [**João Rossi**](https://github.com/JoaoRossii) -> Microsserviço de Transação, WebClient e JWT
+- [**Pedro Trovo**](https://github.com/PedroTrovoSouza) -> Microsserviço de Pedido, JWT e WebClient

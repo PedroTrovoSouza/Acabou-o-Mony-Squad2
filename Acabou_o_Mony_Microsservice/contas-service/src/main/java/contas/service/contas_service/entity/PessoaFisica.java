@@ -32,7 +32,12 @@ public class PessoaFisica extends Cliente{
         this.genero = dto.genero();
     }
 
-
+    public PessoaFisica(String nome, String email, String senha, PerfilEconomico perfilEconomico, String cpf, LocalDate dataNascimento, Genero genero) {
+        super(nome, email, senha, perfilEconomico);
+        this.cpf = cpf;
+        this.dataNascimento = dataNascimento;
+        this.genero = genero;
+    }
 
     public PessoaFisica(String nome, String login, String password, LocalDate dataNascimento, Genero genero) {
         super(nome, login, password);

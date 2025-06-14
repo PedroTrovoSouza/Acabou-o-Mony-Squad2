@@ -117,7 +117,7 @@ class ClienteControllerTest {
 
         mockMvc.perform(get("/clientes/pf/{id}",pessoaFisica.getId()))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.email").value(saved.getEmail()));
+                .andExpect(jsonPath("$.email").value(saved.getLogin()));
     }
 
     @Test
@@ -127,14 +127,14 @@ class ClienteControllerTest {
 
         mockMvc.perform(get("/clientes/pj/{id}",pessoaJuridica.getId()))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.email").value(saved.getEmail()));
+                .andExpect(jsonPath("$.email").value(saved.getLogin()));
     }
 
     @Test
     @DisplayName("Deve atualizar a Pessoa Fisica com sucesso")
     void deveAtualizarPessoaFisicaComSucesso() throws Exception {
         FisicaAtualizacaoDto atualizacaoDto = new FisicaAtualizacaoDto
-                ("Fernando", "bomprogramador@gmail.com", LocalDate.of(2005,10,02),
+                ("Fernando", "bomprogramador@gmail.com", "senha", LocalDate.of(2005,10,02),
                         Genero.MASCULINO);
         clienteService.cadastrarPessoaFisica(pessoaFisica);
 

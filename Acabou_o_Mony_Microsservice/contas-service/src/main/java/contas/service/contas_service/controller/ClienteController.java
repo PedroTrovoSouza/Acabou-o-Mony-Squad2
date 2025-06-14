@@ -24,7 +24,8 @@ public class ClienteController {
     @PostMapping("/cadastro/pf")
     public ResponseEntity<FisicaResponseDto> cadastrarPessoaFisica(@RequestBody @Valid FisicaRequestDto dtoCadastro){
         try {
-            PessoaFisica clienteCadastrado = clienteService.cadastrarPessoaFisica(dtoCadastro);
+            PessoaFisica pessoaParaCadastrar = ClienteMapper.toEntity(dtoCadastro);
+            PessoaFisica clienteCadastrado = clienteService.cadastrarPessoaFisica(pessoaParaCadastrar);
             FisicaResponseDto response = ClienteMapper.toResponseDto(clienteCadastrado);
             return ResponseEntity.status(201).body(response);
         } catch (Exception e) {

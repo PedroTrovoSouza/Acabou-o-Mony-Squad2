@@ -94,15 +94,14 @@ public class ClienteService {
         throw new ClienteNaoEncontradoException("Cliente não encontrado;");
     }
 
-    public PessoaFisica cadastrarPessoaFisica(FisicaRequestDto fisica){
-        if (fisicaRepository.existsByCpf(fisica.cpf())){
+    public PessoaFisica cadastrarPessoaFisica(PessoaFisica fisica){
+        if (fisicaRepository.existsByCpf(fisica.getCpf())){
             throw new ClienteConflitoException("CPF já cadastrado.");
         }
-        String senhaCriptografada = passwordEncoder.encode(fisica.senha());
-        var fisica1 = new PessoaFisica(fisica);
-        fisica1.setPassword(senhaCriptografada);
+        String senhaCriptografada = passwordEncoder.encode(fisica.getPassword());
+        fisica.setPassword(senhaCriptografada);
 
-        return  fisicaRepository.save(fisica1);
+        return  fisicaRepository.save(fisica);
     }
 
     public PessoaJuridica cadastrarPessoaJuridica(PessoaJuridica juridica){
